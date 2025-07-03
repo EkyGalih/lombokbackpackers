@@ -3,25 +3,24 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\CategoryResource\Pages;
-use App\Filament\Resources\CategoryResource\RelationManagers;
 use App\Models\Category;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Illuminate\Support\Str;
 
 class CategoryResource extends Resource
 {
     protected static ?string $model = Category::class;
 
+    protected static ?string $navigationGroup = 'Menu';
     protected static ?string $navigationIcon = 'heroicon-o-map';
     protected static ?string $navigationLabel = 'Kategori Wisata';
-    protected static ?string $navigationGroup = 'Data Master';
     protected static ?string $modelLabel = 'Kategori';
     protected static ?string $pluralModelLabel = 'Kategori Wisata';
+    protected static ?int $navigationSort = 1;
 
     public static function form(Form $form): Form
     {
@@ -29,7 +28,7 @@ class CategoryResource extends Resource
             Forms\Components\TextInput::make('name')
                 ->required()
                 ->live(onBlur: true)
-                ->afterStateUpdated(fn($state, $set) => $set('slug', \Str::slug($state))),
+                ->afterStateUpdated(fn($state, $set) => $set('slug', Str::slug($state))),
             Forms\Components\TextInput::make('slug')->required(),
         ]);
     }

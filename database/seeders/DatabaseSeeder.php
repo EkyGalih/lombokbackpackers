@@ -17,6 +17,8 @@ class DatabaseSeeder extends Seeder
             UserSeeder::class,
             CategorySeeder::class,
             TourSeeder::class,
+            MenuSeeder::class,
+            WebsiteSettingsSeeder::class
         ]);
     }
 }

@@ -1,5 +1,4 @@
 <div x-data="menuBuilder()" x-init="init()">
-    <h1 class="text-xl font-bold mb-4">Menu Builder</h1>
 
     <div id="menu-list" class="space-y-2">
         @foreach ($menus as $menu)
@@ -9,7 +8,7 @@
                 @if ($menu->children->count())
                     <div class="submenu ml-4 space-y-1">
                         @foreach ($menu->children as $child)
-                            <div class="menu-item p-1 bg-gray-50 rounded" data-id="{{ $child->id }}">
+                            <div class="menu-item p-2 bg-gray-600 rounded" data-id="{{ $child->id }}">
                                 {{ $child->title }}
                             </div>
                         @endforeach

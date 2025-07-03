@@ -10,9 +10,11 @@ return new class extends Migration
     {
         Schema::create('menus', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('parent_id')->nullable()->constrained('menus')->onDelete('cascade');
             $table->string('title');
+            $table->string('url');
             $table->integer('sort_order')->default(0);
+            $table->foreignId('parent_id')->nullable()->constrained('menus')->onDelete('cascade');
+            $table->boolean('active')->default(true);
             $table->timestamps();
         });
     }

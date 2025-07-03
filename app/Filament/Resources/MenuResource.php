@@ -18,8 +18,9 @@ class MenuResource extends Resource
     protected static ?string $model = Menu::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-bars-3';
-    protected static ?string $navigationLabel = 'Menus';
-    protected static ?string $pluralModelLabel = 'Menus';
+    protected static ?string $navigationGroup = 'Settings';
+    protected static ?string $navigationLabel = 'Navigations';
+    protected static ?string $pluralModelLabel = 'Navigations';
 
     public static function form(Form $form): Form
     {

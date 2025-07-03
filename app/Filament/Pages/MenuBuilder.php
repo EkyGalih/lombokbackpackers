@@ -10,4 +10,5 @@ class MenuBuilder extends Page
     protected static string $view = 'filament.pages.menu-builder';
     protected static ?string $title = 'Menu Builder';
     protected static ?int $navigationSort = 2;
+    protected static ?string $navigationGroup = 'Settings';
 }
