@@ -13,6 +13,13 @@
                 <p class="text-3xl mt-2">Rp
                     {{ number_format(auth()->user()->bookings()->sum('total_price'), 0, ',', '.') }}</p>
             </div>
+
+            {{-- @if ($booking->status === 'approved')
+                <a href="{{ route('invoice.download', $booking->id) }}" class="text-sm text-indigo-600 hover:underline">
+                    Download Invoice
+                </a>
+            @endif --}}
+
         </div>
     </div>
 </x-app-layout>

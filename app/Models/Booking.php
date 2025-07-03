@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\BookingStatus;
 use App\Traits\HasUuid;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -16,6 +17,11 @@ class Booking extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    protected $casts = [
+        'booking_date' => 'date',
+        'status' => BookingStatus::class,
+    ];
 
     public function tour()
     {

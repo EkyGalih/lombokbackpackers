@@ -17,7 +17,10 @@ return new class extends Migration
             $table->uuid('tour_id');
             $table->date('booking_date');
             $table->decimal('total_price', 12, 2);
-            $table->enum('status', ['pending', 'paid', 'cancelled'])->default('pending');
+            $table->string('status')->default('pending');
+            $table->string('payment_method')->nullable(); // BCA, BNI, dll
+            $table->string('payment_proof')->nullable();  // path bukti transfer
+            $table->timestamp('paid_at')->nullable();     // waktu pembayaran
             $table->timestamps();
 
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');

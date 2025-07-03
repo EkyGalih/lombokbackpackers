@@ -1,46 +1,71 @@
 <x-app-layout>
-    <x-slot name="header">
-        <h2 class="text-xl font-semibold leading-tight">
-            Daftar Booking Saya
-        </h2>
-    </x-slot>
+    <div class="max-w-7xl mx-auto py-10">
+        <h2 class="text-2xl font-bold mb-6">Daftar Booking Anda</h2>
 
-    <div class="py-6">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-
-            <div class="overflow-x-auto bg-white shadow-md rounded-xl">
-                <table class="w-full text-sm text-left text-gray-700">
-                    <thead class="bg-gray-100 text-xs text-gray-600 uppercase">
-                        <tr>
-                            <th class="px-6 py-3">Paket Tour</th>
-                            <th class="px-6 py-3">Tanggal</th>
-                            <th class="px-6 py-3">Status</th>
-                            <th class="px-6 py-3">Total</th>
-                            <th class="px-6 py-3">Aksi</th>
+        @if ($bookings->count())
+            <div class="overflow-x-auto bg-white shadow rounded-lg">
+                <table class="min-w-full table-auto border border-gray-200">
+                    <thead>
+                        <tr class="bg-gray-100 text-left text-sm text-gray-600">
+                            <th class="p-4">Tour</th>
+                            <th class="p-4">Tanggal</th>
+                            <th class="p-4">Status</th>
+                            <th class="p-4">Pembayaran</th>
+                            <th class="p-4">Invoice</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @forelse ($bookings as $booking)
-                            <tr class="border-b hover:bg-gray-50">
-                                <td class="px-6 py-4">{{ $booking->tour->title }}</td>
-                                <td class="px-6 py-4">
-                                    {{ \Carbon\Carbon::parse($booking->booking_date)->format('d M Y') }}</td>
-                                <td class="px-6 py-4">{{ ucfirst($booking->status) }}</td>
-                                <td class="px-6 py-4">Rp {{ number_format($booking->total_price, 0, ',', '.') }}</td>
-                                <td class="px-6 py-4">
-                                    <a href="{{ route('bookings.show', $booking->id) }}"
-                                        class="text-blue-600 hover:underline">Lihat</a>
+                        @foreach ($bookings as $booking)
+                            <tr class="border-t text-sm text-gray-700">
+                                <td class="p-4">{{ $booking->tour->title }}</td>
+                                <td class="p-4">{{ \Carbon\Carbon::parse($booking->booking_date)->format('d M Y') }}
+                                </td>
+                                <td class="p-4">
+                                    <span
+                                        class="px-2 py-1 rounded text-white text-xs
+                                            @switch($booking->status)
+                                                @case('approved') bg-green-600 @break
+                                                @case('pending') bg-yellow-500 @break
+                                                @case('waiting') bg-gray-600 @break
+                                                @case('rejected') bg-red-600 @break
+                                                @default bg-gray-400
+                                            @endswitch
+                                        ">
+                                        {{ $booking->status->label() }}
+                                    </span>
+                                </td>
+                                <td class="p-4">
+                                    @if ($booking->payment)
+                                        <span class="text-green-600 font-semibold">Sudah Bayar</span>
+                                    @else
+                                        <span class="text-gray-500 italic">Belum</span>
+                                    @endif
+                                </td>
+                                <td class="p-4">
+                                    @if ($booking->payment)
+                                        <span class="text-green-600 font-semibold">Sudah Bayar</span>
+                                    @else
+                                        @if ($booking->status === App\Enums\BookingStatus::Pending)
+                                            <button onclick="payNow('{{ $booking->id }}')"
+                                                class="bg-indigo-600 text-white px-3 py-1 text-sm rounded hover:bg-indigo-700">
+                                                Bayar Sekarang
+                                            </button>
+                                        @else
+                                            <span class="text-gray-500 italic">Belum</span>
+                                        @endif
+                                    @endif
                                 </td>
                             </tr>
-                        @empty
-                            <tr>
-                                <td colspan="5" class="text-center py-4 text-gray-500">Belum ada booking.</td>
-                            </tr>
-                        @endforelse
+                        @endforeach
                     </tbody>
                 </table>
             </div>
 
-        </div>
+            <div class="mt-6">
+                {{ $bookings->links() }}
+            </div>
+        @else
+            <p class="text-gray-500">Anda belum memiliki booking.</p>
+        @endif
     </div>
 </x-app-layout>

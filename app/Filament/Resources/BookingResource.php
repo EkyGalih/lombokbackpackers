@@ -2,16 +2,14 @@
 
 namespace App\Filament\Resources;
 
+use App\Enums\BookingStatus;
 use App\Filament\Resources\BookingResource\Pages;
-use App\Filament\Resources\BookingResource\RelationManagers;
 use App\Models\Booking;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class BookingResource extends Resource
 {
@@ -47,12 +45,14 @@ class BookingResource extends Resource
                 ->required(),
 
             Forms\Components\Select::make('status')
-                ->options([
-                    'pending' => 'Pending',
-                    'paid' => 'Lunas',
-                    'cancelled' => 'Dibatalkan',
-                ])
+                ->options(BookingStatus::class)
                 ->required(),
+
+            Forms\Components\ViewField::make('proof_image')
+                ->label('Bukti Pembayaran')
+                ->view('filament.components.payment-proof')
+                ->columnSpan(1),
+
         ]);
     }
 
@@ -65,9 +65,13 @@ class BookingResource extends Resource
                 Tables\Columns\TextColumn::make('booking_date')->label('Tanggal'),
                 Tables\Columns\TextColumn::make('total_price')->label('Total')->money('IDR', true),
                 Tables\Columns\BadgeColumn::make('status')->colors([
-                    'primary' => 'pending',
-                    'success' => 'paid',
-                    'danger' => 'cancelled',
+                    'gray'    => 'pending',
+                    'warning' => 'waiting',
+                    'success' => 'approved',
+                    'danger'  => 'rejected',
+                    'secondary' => 'cancelled',
+                    'gray'    => 'expired',
+                    'info'    => 'refunded',
                 ]),
             ])
             ->filters([

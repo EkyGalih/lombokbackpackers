@@ -14,12 +14,16 @@ return new class extends Migration
         Schema::create('payments', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->uuid('booking_id');
+            $table->unsignedBigInteger('user_id');
+            $table->string('method');
             $table->date('payment_date');
             $table->decimal('amount', 12, 2);
             $table->string('proof_image')->nullable();
-            $table->enum('status', ['waiting', 'confirmed', 'rejected'])->default('waiting');
+            $table->string('status')->default('pending');
+            $table->uuid('transaction_id')->unique();
             $table->timestamps();
 
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->foreign('booking_id')->references('id')->on('bookings')->onDelete('cascade');
         });
     }
