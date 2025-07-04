@@ -20,6 +20,9 @@ export default {
                 'fade-in-up': 'fadeInUp 0.6s ease-out',
                 'fade-slide-up': 'fade-slide-up 0.5s ease-out forwards',
             },
+            borderRadius: {
+                'br-custom': '1500px',
+            },
             keyframes: {
                 fadeInDown: {
                     '0%': { opacity: 0, transform: 'translateY(-20px)' },

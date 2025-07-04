@@ -1,4 +1,4 @@
-<x-guest-layout>
+<x-guest-layout title="Tour - {{ config('app.name') }}">
     <section class="bg-gray-50 py-12">
         <div class="max-w-5xl mx-auto px-4">
 
@@ -33,7 +33,7 @@
                 <div class="bg-white rounded-lg shadow p-4 text-center">
                     <p class="text-sm text-gray-500">Harga</p>
                     @if ($tour->discount && $tour->discount > 0)
-                        <p class="text-sm text-gray-400" style="text-decoration: line-through; color: #9ca3af;">
+                        <p class="text-sm text-gray-400 line-through">
                             Rp
                             {{ number_format($tour->price, 0, ',', '.') }}
                         </p>

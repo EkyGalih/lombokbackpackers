@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>{{ $title ?? 'Login' }} - {{ config('app.name') }}</title>
+    <title>{{ $title ?? '' . config('app.name') }}</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <style>
@@ -91,6 +91,11 @@
                     <a href="{{ route('login') }}"
                         class="bg-indigo-600 text-white px-5 py-2 rounded-lg shadow hover:bg-indigo-700 transition-colors duration-200 ml-2">
                         Masuk
+                    </a>
+                @else
+                    <a href="{{ route('profile.edit') }}"
+                        class="bg-indigo-600 text-white px-5 py-2 rounded-lg shadow hover:bg-indigo-700 transition-colors duration-200 ml-2">
+                        My Account
                     </a>
                 @endguest
             </div>
