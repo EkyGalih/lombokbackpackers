@@ -47,10 +47,31 @@
         </div>
     </div>
     {{-- Animasi boat loading --}}
-    <header x-data="{ open: false }" class="bg-white shadow-md fixed w-full z-50 top-0">
+
+    <!-- TOP BAR -->
+    <div class="bg-transparent text-xl text-white py-4 px-6 fixed w-full top-0 z-50">
+        <div class="container mx-auto flex justify-between items-center">
+            <div class="space-x-4">
+                <span>✉️ {{ app(\App\Settings\WebsiteSettings::class)->contact_email ?? 'info@travelnesia.com' }}</span>
+                <span>📞 {{ app(\App\Settings\WebsiteSettings::class)->contact_phone ?? '0812-3456-7890' }}</span>
+            </div>
+            <div class="space-x-3 text-indigo-300">
+                <a href="#" class="hover:underline">Facebook</a>
+                <a href="#" class="hover:underline">Instagram</a>
+                <a href="#" class="hover:underline">Twitter</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- GARIS PEMISAH -->
+    <div class="fixed top-[50px] w-full border-t border-white opacity-10 z-40"></div>
+
+    <!-- HEADER -->
+    <header x-data="{ open: false }" class="bg-transparent shadow-none fixed w-full z-30 top-[45px]">
         <div class="container mx-auto flex justify-between items-center px-6 py-4">
-            <a href="{{ url('/') }}"
-                class="text-2xl font-bold text-indigo-600">{{ app(\App\Settings\WebsiteSettings::class)->site_name }}</a>
+            <a href="{{ url('/') }}" class="text-2xl font-bold text-white">
+                {{ app(\App\Settings\WebsiteSettings::class)->site_name }}
+            </a>
 
             <div class="hidden md:flex space-x-8 items-center">
                 @php
@@ -62,7 +83,7 @@
                 @foreach ($menus as $menu)
                     <div class="relative group">
                         <a href="{{ $menu->url }}"
-                            class="text-gray-700 hover:text-indigo-600 transition-colors duration-200 px-2 py-1 rounded-lg flex items-center">
+                            class="text-white font-bold hover:text-indigo-600 transition-colors duration-200 px-2 py-1 rounded-lg flex items-center">
                             {{ $menu->title }}
                             @if ($menu->children->count())
                                 <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" stroke-width="2"
@@ -85,8 +106,9 @@
                     </div>
                 @endforeach
                 <a href="#paket"
-                    class="text-gray-700 hover:text-indigo-600 transition-colors duration-200 px-2 py-1 rounded-lg">Paket
-                    Tour</a>
+                    class="text-white font-bold hover:text-indigo-600 transition-colors duration-200 px-2 py-1 rounded-lg">
+                    Paket Tour
+                </a>
                 @guest
                     <a href="{{ route('login') }}"
                         class="bg-indigo-600 text-white px-5 py-2 rounded-lg shadow hover:bg-indigo-700 transition-colors duration-200 ml-2">
@@ -112,10 +134,13 @@
         <div x-show="open" @click.away="open = false"
             class="md:hidden px-6 pb-4 pt-2 space-y-2 bg-white rounded-b-lg shadow">
             <a href="#paket"
-                class="block text-gray-700 py-2 px-3 rounded-lg hover:bg-indigo-50 hover:text-indigo-600 transition-colors duration-200">Paket
-                Tour</a>
+                class="block text-gray-700 py-2 px-3 rounded-lg hover:bg-indigo-50 hover:text-indigo-600 transition-colors duration-200">
+                Paket Tour
+            </a>
             <a href="{{ route('login') }}"
-                class="block text-gray-700 py-2 px-3 rounded-lg hover:bg-indigo-50 hover:text-indigo-600 transition-colors duration-200">Masuk</a>
+                class="block text-gray-700 py-2 px-3 rounded-lg hover:bg-indigo-50 hover:text-indigo-600 transition-colors duration-200">
+                Masuk
+            </a>
             <a href="{{ route('register') }}"
                 class="block bg-indigo-600 text-white px-5 py-2 rounded-lg mt-2 hover:bg-indigo-700 text-center shadow transition-colors duration-200">
                 Daftar

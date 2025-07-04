@@ -24,7 +24,7 @@
                 <div class="flex justify-center space-x-4">
                     <a href="{{ route('login') }}"
                         class="bg-white text-indigo-600 font-semibold px-6 py-3 rounded-lg shadow hover:bg-gray-100 transition">
-                        Travel
+                        Explore
                     </a>
                 </div>
             @endguest
