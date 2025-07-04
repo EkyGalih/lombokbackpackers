@@ -1,48 +1,78 @@
-<x-guest-layout>
-    <form method="POST" action="{{ route('register') }}">
-        @csrf
+<!DOCTYPE html>
+<html lang="id">
 
-        <div class="mb-4">
-            <label for="name" class="block text-sm font-medium text-gray-700">Nama</label>
-            <input id="name" class="mt-1 w-full rounded border-gray-300 shadow-sm" type="text" name="name"
-                required autofocus />
-            @error('name')
-                <p class="text-sm text-red-600">{{ $message }}</p>
-            @enderror
-        </div>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daftar - {{ app(\App\Settings\WebsiteSettings::class)->site_name }}</title>
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
+</head>
 
-        <div class="mb-4">
-            <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
-            <input id="email" class="mt-1 w-full rounded border-gray-300 shadow-sm" type="email" name="email"
-                required />
-            @error('email')
-                <p class="text-sm text-red-600">{{ $message }}</p>
-            @enderror
-        </div>
+<body class="bg-gray-100 min-h-screen flex flex-col justify-center items-center">
 
-        <div class="mb-4">
-            <label for="password" class="block text-sm font-medium text-gray-700">Password</label>
-            <input id="password" class="mt-1 w-full rounded border-gray-300 shadow-sm" type="password" name="password"
-                required />
-            @error('password')
-                <p class="text-sm text-red-600">{{ $message }}</p>
-            @enderror
-        </div>
+    <div class="w-full max-w-md bg-white shadow-md rounded-lg p-6">
+        <h1 class="text-2xl font-bold text-center text-indigo-600 mb-6">
+            Daftar di {{ app(\App\Settings\WebsiteSettings::class)->site_name }}
+        </h1>
 
-        <div class="mb-6">
-            <label for="password_confirmation" class="block text-sm font-medium text-gray-700">Konfirmasi
-                Password</label>
-            <input id="password_confirmation" class="mt-1 w-full rounded border-gray-300 shadow-sm" type="password"
-                name="password_confirmation" required />
-        </div>
+        <form method="POST" action="{{ route('register') }}">
+            @csrf
 
-        <button type="submit" class="w-full bg-indigo-600 text-white py-2 px-4 rounded hover:bg-indigo-700">
-            Daftar
-        </button>
+            <!-- Name -->
+            <div class="mb-4">
+                <label for="name" class="block text-sm font-medium text-gray-700">Nama</label>
+                <input id="name" type="text" name="name" value="{{ old('name') }}" required autofocus
+                    class="mt-1 w-full rounded-md border-gray-300 shadow-sm focus:ring focus:ring-indigo-200 focus:border-indigo-500" />
+                @error('name')
+                    <p class="text-sm text-red-600 mt-1">{{ $message }}</p>
+                @enderror
+            </div>
 
-        <p class="mt-6 text-sm text-center text-gray-600">
-            Sudah punya akun?
-            <a href="{{ route('login') }}" class="text-blue-600 hover:underline">Masuk di sini</a>
-        </p>
-    </form>
-</x-guest-layout>
+            <!-- Email -->
+            <div class="mb-4">
+                <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
+                <input id="email" type="email" name="email" value="{{ old('email') }}" required
+                    class="mt-1 w-full rounded-md border-gray-300 shadow-sm focus:ring focus:ring-indigo-200 focus:border-indigo-500" />
+                @error('email')
+                    <p class="text-sm text-red-600 mt-1">{{ $message }}</p>
+                @enderror
+            </div>
+
+            <!-- Password -->
+            <div class="mb-4">
+                <label for="password" class="block text-sm font-medium text-gray-700">Password</label>
+                <input id="password" type="password" name="password" required
+                    class="mt-1 w-full rounded-md border-gray-300 shadow-sm focus:ring focus:ring-indigo-200 focus:border-indigo-500" />
+                @error('password')
+                    <p class="text-sm text-red-600 mt-1">{{ $message }}</p>
+                @enderror
+            </div>
+
+            <!-- Confirm Password -->
+            <div class="mb-6">
+                <label for="password_confirmation" class="block text-sm font-medium text-gray-700">
+                    Konfirmasi Password
+                </label>
+                <input id="password_confirmation" type="password" name="password_confirmation" required
+                    class="mt-1 w-full rounded-md border-gray-300 shadow-sm focus:ring focus:ring-indigo-200 focus:border-indigo-500" />
+            </div>
+
+            <button type="submit"
+                class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-2 px-4 rounded-md shadow-sm transition">
+                Daftar
+            </button>
+
+            <p class="mt-6 text-sm text-center text-gray-600">
+                Sudah punya akun?
+                <a href="{{ route('login') }}" class="text-indigo-600 hover:underline">Masuk di sini</a>
+            </p>
+        </form>
+    </div>
+
+    <p class="mt-6 text-xs text-gray-400">
+        &copy; {{ now()->year }} {{ app(\App\Settings\WebsiteSettings::class)->site_name }}. All rights reserved.
+    </p>
+
+</body>
+
+</html>

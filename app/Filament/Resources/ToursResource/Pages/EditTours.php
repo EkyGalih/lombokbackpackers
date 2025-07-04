@@ -21,4 +21,15 @@ class EditTours extends EditRecord
     {
         return $this->getResource()::getUrl('index');
     }
+
+    protected function mutateFormDataBeforeFill(array $data): array
+    {
+        $data = parent::mutateFormDataBeforeFill($data);
+
+        if ($this->record->seoMeta) {
+            $data['seoMeta'] = $this->record->seoMeta->toArray();
+        }
+
+        return $data;
+    }
 }

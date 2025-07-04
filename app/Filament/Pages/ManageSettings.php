@@ -2,20 +2,17 @@
 
 namespace App\Filament\Pages;
 
-use App\Settings\WebsiteSettings as WebsiteSettingsModel;
+use App\Settings\WebsiteSettings;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Pages\SettingsPage;
 
-class WebsiteSettings extends SettingsPage
+class ManageSettings extends SettingsPage
 {
     protected static ?string $navigationIcon = 'heroicon-o-cog-6-tooth';
 
-    protected static string $settings = WebsiteSettingsModel::class;
-
+    protected static string $settings = WebsiteSettings::class;
     protected static ?string $navigationGroup = 'Settings';
-
-    protected static ?string $title = 'Website Settings';
 
     public function form(Form $form): Form
     {

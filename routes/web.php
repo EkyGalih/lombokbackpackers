@@ -5,7 +5,6 @@ use App\Http\Controllers\Frontend\InvoiceController;
 use App\Http\Controllers\Frontend\PaymentController;
 use App\Http\Controllers\Frontend\TourController;
 use App\Http\Controllers\ProfileController;
-use App\Livewire\MenuBuilder;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -37,5 +36,6 @@ Route::middleware('auth')->group(function () {
 // Route::middleware('auth')->get('/midtrans/token/{booking}', [SnapController::class, 'token']);
 // Route::post('/payment/notify', [MidtransWebhookController::class, 'handle']);
 Route::get('/tours/{slug}', [TourController::class, 'show'])->name('tours.show');
+Route::post('/tours/rate/{tour}', [TourController::class, 'rate'])->name('tours.rate')->middleware('auth');
 
 require __DIR__ . '/auth.php';

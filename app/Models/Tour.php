@@ -18,6 +18,15 @@ class Tour extends Model
         return $this->belongsTo(Category::class);
     }
 
+    public function seoMeta()
+    {
+        return $this->morphOne(\App\Models\SeoMeta::class, 'seoable');
+    }
+
+    public function ratings()
+    {
+        return $this->hasMany(Ratings::class);
+    }
 
     protected static function booted(): void
     {
