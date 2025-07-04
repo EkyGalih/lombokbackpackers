@@ -1,15 +1,23 @@
-<x-guest-layout title="Tour - {{ config('app.name') }}">
+@section('seoMeta')
+    <x-seo-meta :meta="$seoMeta" />
+@endsection
+
+<x-guest-layout>
+    <section
+        class="min-h-[500px] flex items-center justify-center bg-gradient-to-br from-indigo-600 to-blue-500 text-white relative overflow-hidden">
+        @if ($tour->thumbnail)
+            <img src="{{ asset('storage/' . $tour->thumbnail) }}" alt="{{ $tour->title }}"
+                class="absolute inset-0 w-full h-full object-cover opacity-90 z-0">
+        @endif
+
+        {{-- Optional Background Illustration --}}
+        <div
+            class="absolute inset-0 bg-[url('https://source.unsplash.com/featured/?travel')] bg-cover bg-center opacity-80">
+        </div>
+    </section>
+
     <section class="bg-gray-50 py-12">
         <div class="max-w-5xl mx-auto px-4">
-
-            {{-- Hero Image --}}
-            @if ($tour->thumbnail)
-                <div class="overflow-hidden rounded-lg shadow-md mb-8 mt-8">
-                    <img src="{{ asset('storage/' . $tour->thumbnail) }}" alt="{{ $tour->title }}"
-                        class="w-full h-64 md:h-96 object-cover">
-                </div>
-            @endif
-
             {{-- Title & Status --}}
             <div class="mb-4 flex flex-col md:flex-row justify-between items-start md:items-center">
                 <h1 class="text-3xl md:text-4xl font-extrabold text-gray-800 mb-2 md:mb-0">

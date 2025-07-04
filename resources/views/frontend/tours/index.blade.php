@@ -1,49 +1,33 @@
 <x-guest-layout>
-    {{-- Hero Section --}}
     @php
         $headerImage = app(\App\Settings\WebsiteSettings::class)->header_image;
-        $headerTitle = app(\App\Settings\WebsiteSettings::class)->header_title;
-        $headerSubTitle = app(\App\Settings\WebsiteSettings::class)->header_sub_title;
     @endphp
     <section
-        class="h-screen flex items-center justify-center bg-gradient-to-br from-indigo-600 to-blue-500 text-white relative overflow-hidden">
+        class="min-h-[300px] flex items-center justify-center bg-gradient-to-br from-indigo-600 to-blue-500 text-white relative overflow-hidden">
         @if ($headerImage)
             <img src="{{ asset('storage/' . $headerImage) }}" alt="Header Image"
-                class="absolute inset-0 w-full h-full object-cover opacity-30 z-0">
+                class="absolute inset-0 w-full h-full object-cover opacity-5 z-0">
         @endif
         <div class="text-center z-10 px-4 max-w-2xl">
             <h1
                 class="text-4xl md:text-6xl font-bold mb-4 animate-fade-in-down
            bg-gradient-to-r from-white to-yellow-300 bg-clip-text text-transparent">
-                {{ $headerTitle }}
+                Paket Tour
             </h1>
-            <p class="text-lg md:text-xl mb-8 animate-fade-in-up">
-                {{ $headerSubTitle }}
-            </p>
-            @guest
-                <div class="flex justify-center space-x-4">
-                    <a href="{{ route('login') }}"
-                        class="bg-white text-indigo-600 font-semibold px-6 py-3 rounded-lg shadow hover:bg-gray-100 transition">
-                        Explore
-                    </a>
-                </div>
-            @endguest
         </div>
 
         {{-- Optional Background Illustration --}}
         <div
-            class="absolute inset-0 bg-[url('https://source.unsplash.com/featured/?travel')] bg-cover bg-center opacity-20">
+            class="absolute inset-0 bg-[url('https://source.unsplash.com/featured/?travel')] bg-cover bg-center opacity-80">
         </div>
     </section>
-
     {{-- Paket Tour Section --}}
     <section class="bg-gray-100 py-16">
         <div class="container mx-auto px-6 text-center">
-            <h2 class="text-3xl font-bold mb-8 text-gray-800">Paket Tour Unggulan</h2>
 
             @if (\App\Models\Tour::count())
-                <div class="grid gap-6 md:grid-cols-3" id="paket">
-                    @foreach (\App\Models\Tour::take(3)->get() as $tour)
+                <div class="grid gap-6 md:grid-cols-4" id="paket">
+                    @foreach (\App\Models\Tour::get() as $tour)
                         <div class="group relative bg-white rounded-lg overflow-hidden shadow-lg transform transition-all ease-in-out duration-300 hover:shadow-none hover:custom-rounded-br"
                             style="--tw-rounded-br: 60px;">
 
@@ -90,14 +74,6 @@
                             </div>
                         </div>
                     @endforeach
-                </div>
-
-                {{-- Tambahkan tombol di bawah --}}
-                <div class="mt-10">
-                    <a href="{{ route('tours.index') }}"
-                        class="inline-block bg-indigo-600 text-white px-6 py-3 rounded-lg shadow hover:bg-indigo-700 transition">
-                        Explore All Destinations
-                    </a>
                 </div>
             @else
                 <p class="text-gray-500">Belum ada paket tour tersedia.</p>

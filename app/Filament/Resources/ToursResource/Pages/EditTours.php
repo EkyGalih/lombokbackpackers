@@ -3,24 +3,11 @@
 namespace App\Filament\Resources\ToursResource\Pages;
 
 use App\Filament\Resources\ToursResource;
-use Filament\Actions;
 use Filament\Resources\Pages\EditRecord;
 
 class EditTours extends EditRecord
 {
     protected static string $resource = ToursResource::class;
-
-    protected function getHeaderActions(): array
-    {
-        return [
-            Actions\DeleteAction::make(),
-        ];
-    }
-
-    protected function getRedirectUrl(): string
-    {
-        return $this->getResource()::getUrl('index');
-    }
 
     protected function mutateFormDataBeforeFill(array $data): array
     {
@@ -31,5 +18,20 @@ class EditTours extends EditRecord
         }
 
         return $data;
+    }
+
+    protected function mutateFormDataBeforeSave(array $data): array
+    {
+        // Buang seoMeta supaya tidak dikirim ke tabel tours
+        unset($data['seoMeta']);
+        return $data;
+    }
+
+    protected function afterSave(): void
+    {
+        $seoData = $this->form->getState()['seoMeta'] ?? [];
+        if ($seoData) {
+            $this->record->seoMeta()->updateOrCreate([], $seoData);
+        }
     }
 }

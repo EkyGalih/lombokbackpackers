@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <title>{{ $title ?? '' . config('app.name') }}</title>
+    @yield('seoMeta')
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <style>
@@ -48,14 +49,17 @@
     </div>
     {{-- Animasi boat loading --}}
 
-    <!-- TOP BAR -->
-    <div class="bg-transparent text-xl text-white py-4 px-6 fixed w-full top-0 z-50">
+    {{-- TOP BAR --}}
+    <div x-data="{ scrolled: false }" x-init="window.addEventListener('scroll', () => scrolled = window.scrollY > 50)"
+        :class="scrolled ? 'bg-white text-gray-800' : 'bg-transparent text-white'"
+        class="text-sm py-2 px-6 w-full top-0 z-50 fixed transition-colors duration-300">
+
         <div class="container mx-auto flex justify-between items-center">
             <div class="space-x-4">
                 <span>✉️ {{ app(\App\Settings\WebsiteSettings::class)->contact_email ?? 'info@travelnesia.com' }}</span>
                 <span>📞 {{ app(\App\Settings\WebsiteSettings::class)->contact_phone ?? '0812-3456-7890' }}</span>
             </div>
-            <div class="space-x-3 text-indigo-300">
+            <div class="space-x-3">
                 <a href="#" class="hover:underline">Facebook</a>
                 <a href="#" class="hover:underline">Instagram</a>
                 <a href="#" class="hover:underline">Twitter</a>
@@ -67,12 +71,17 @@
     <div class="fixed top-[50px] w-full border-t border-white opacity-10 z-40"></div>
 
     <!-- HEADER -->
-    <header x-data="{ open: false }" class="bg-transparent shadow-none fixed w-full z-30 top-[45px]">
+    <header x-data="{ open: false, scrolled: false }" x-init="window.addEventListener('scroll', () => scrolled = window.scrollY > 50)"
+        :class="scrolled ? 'bg-white text-gray-800 shadow' : 'bg-transparent text-white'"
+        class="w-full z-30 top-[36px] fixed transition-colors duration-300">
+
         <div class="container mx-auto flex justify-between items-center px-6 py-4">
-            <a href="{{ url('/') }}" class="text-2xl font-bold text-white">
+            {{-- Logo --}}
+            <a href="{{ url('/') }}" class="text-2xl font-bold">
                 {{ app(\App\Settings\WebsiteSettings::class)->site_name }}
             </a>
 
+            {{-- Menu Desktop --}}
             <div class="hidden md:flex space-x-8 items-center">
                 @php
                     $menus = \App\Models\Menu::whereNull('parent_id')
@@ -80,10 +89,11 @@
                         ->orderBy('sort_order')
                         ->get();
                 @endphp
+
                 @foreach ($menus as $menu)
                     <div class="relative group">
                         <a href="{{ $menu->url }}"
-                            class="text-white font-bold hover:text-indigo-600 transition-colors duration-200 px-2 py-1 rounded-lg flex items-center">
+                            class="font-bold hover:text-indigo-600 transition px-2 py-1 rounded-lg flex items-center">
                             {{ $menu->title }}
                             @if ($menu->children->count())
                                 <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" stroke-width="2"
@@ -97,7 +107,7 @@
                                 class="absolute left-0 mt-2 w-40 bg-white border rounded-lg shadow-lg opacity-0 group-hover:opacity-100 group-hover:visible invisible transition-opacity duration-200 z-50">
                                 @foreach ($menu->children as $child)
                                     <a href="{{ $child->url }}"
-                                        class="block px-4 py-2 text-gray-700 hover:bg-indigo-50 hover:text-indigo-600 rounded-lg transition-colors duration-200">
+                                        class="block px-4 py-2 text-gray-700 hover:bg-indigo-50 hover:text-indigo-600 rounded-lg transition">
                                         {{ $child->title }}
                                     </a>
                                 @endforeach
@@ -105,44 +115,43 @@
                         @endif
                     </div>
                 @endforeach
-                <a href="#paket"
-                    class="text-white font-bold hover:text-indigo-600 transition-colors duration-200 px-2 py-1 rounded-lg">
-                    Paket Tour
-                </a>
+
                 @guest
                     <a href="{{ route('login') }}"
-                        class="bg-indigo-600 text-white px-5 py-2 rounded-lg shadow hover:bg-indigo-700 transition-colors duration-200 ml-2">
+                        class="bg-indigo-600 text-white px-5 py-2 rounded-lg shadow hover:bg-indigo-700 transition ml-2">
                         Masuk
                     </a>
                 @else
                     <a href="{{ route('profile.edit') }}"
-                        class="bg-indigo-600 text-white px-5 py-2 rounded-lg shadow hover:bg-indigo-700 transition-colors duration-200 ml-2">
+                        class="bg-indigo-600 text-white px-5 py-2 rounded-lg shadow hover:bg-indigo-700 transition ml-2">
                         My Account
                     </a>
                 @endguest
             </div>
 
-            <!-- Mobile menu button -->
-            <button @click="open = !open" class="md:hidden text-gray-700 focus:outline-none ml-2">
+            {{-- Mobile Menu Button --}}
+            <button @click="open = !open" class="md:hidden focus:outline-none ml-2">
                 <svg class="w-7 h-7" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" />
                 </svg>
             </button>
         </div>
 
-        <!-- Mobile menu -->
-        <div x-show="open" @click.away="open = false"
-            class="md:hidden px-6 pb-4 pt-2 space-y-2 bg-white rounded-b-lg shadow">
-            <a href="#paket"
-                class="block text-gray-700 py-2 px-3 rounded-lg hover:bg-indigo-50 hover:text-indigo-600 transition-colors duration-200">
+        {{-- Mobile Menu --}}
+        <div x-show="open" x-transition @click.away="open = false"
+            class="md:hidden px-6 pb-4 pt-2 space-y-2 bg-white text-gray-800 rounded-b-lg shadow">
+
+            <a href="#paket" class="block py-2 px-3 rounded-lg hover:bg-indigo-50 hover:text-indigo-600 transition">
                 Paket Tour
             </a>
+
             <a href="{{ route('login') }}"
-                class="block text-gray-700 py-2 px-3 rounded-lg hover:bg-indigo-50 hover:text-indigo-600 transition-colors duration-200">
+                class="block py-2 px-3 rounded-lg hover:bg-indigo-50 hover:text-indigo-600 transition">
                 Masuk
             </a>
+
             <a href="{{ route('register') }}"
-                class="block bg-indigo-600 text-white px-5 py-2 rounded-lg mt-2 hover:bg-indigo-700 text-center shadow transition-colors duration-200">
+                class="block bg-indigo-600 text-white px-5 py-2 rounded-lg mt-2 hover:bg-indigo-700 text-center shadow transition">
                 Daftar
             </a>
         </div>

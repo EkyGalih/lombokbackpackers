@@ -9,10 +9,20 @@ use Illuminate\Http\Request;
 
 class TourController extends Controller
 {
+    public function index()
+    {
+        $tours = Tour::all();
+        return view('frontend.tours.index', compact('tours'));
+    }
+
     public function show($slug)
     {
-        $tour = Tour::with(['ratings.user'])->where('slug', $slug)->firstOrFail();
-        return view('frontend.tours.show', compact('tour'));
+        $tour = Tour::with(['ratings.user', 'seoMeta'])->where('slug', $slug)->firstOrFail();
+
+        return view('frontend.tours.show', [
+            'tour' => $tour,
+            'seoMeta' => $tour->seoMeta,
+        ]);
     }
 
     public function rate(Request $request)
