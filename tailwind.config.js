@@ -19,6 +19,7 @@ export default {
                 'fade-in-down': 'fadeInDown 0.6s ease-out',
                 'fade-in-up': 'fadeInUp 0.6s ease-out',
                 'fade-slide-up': 'fade-slide-up 0.5s ease-out forwards',
+                'spin-fade': 'spinFade 0.6s ease-out',
             },
             borderRadius: {
                 'br-custom': '1500px',
@@ -35,6 +36,10 @@ export default {
                 'fade-slide-up': {
                     '0%': { opacity: '0', transform: 'translateY(1rem)' },
                     '100%': { opacity: '1', transform: 'translateY(0)' },
+                },
+                spinFade: {
+                    '0%': { opacity: '0', transform: 'scale(0.5) rotate(-180deg)' },
+                    '100%': { opacity: '1', transform: 'scale(1) rotate(0)' },
                 },
             }
         },

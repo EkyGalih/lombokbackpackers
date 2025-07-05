@@ -5,3 +5,5 @@
 .hover\:custom-rounded-br:hover {
   border-bottom-right-radius: var(--tw-rounded-br);
 }
+.font-montserrat { font-family: 'Montserrat', sans-serif; }
+.font-playfair { font-family: 'Playfair Display', serif; }

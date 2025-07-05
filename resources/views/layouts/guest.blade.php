@@ -34,14 +34,17 @@
             }
         }
     </style>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500&family=Playfair+Display:wght@700&display=swap"
+        rel="stylesheet">
 </head>
 
-<body class="bg-white text-gray-800 antialiased">
+<body class="bg-white text-gray-800 antialiased font-playfair">
     {{-- Animasi boat loading --}}
     <div x-data="{ loaded: false }" x-init="window.addEventListener('load', () => loaded = true)" x-show="!loaded" x-transition.opacity.duration.2500ms
         class="fixed inset-0 bg-white z-50 flex justify-center items-center">
         <div class="boat-container">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" width="80" fill="#4F46E5">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" width="80" fill="#67e8f9">
                 <path
                     d="M572.7 403.8c3.4 8.7-.7 18.6-9.5 22l-80 32c-2.6 1-5.3 1.6-8 1.6H100.8c-2.7 0-5.4-.5-8-1.6l-80-32c-8.7-3.4-12.9-13.3-9.5-22s13.3-12.9 22-9.5l76.2 30.5H474l76.2-30.5c8.7-3.4 18.6.8 22 9.5zM288 32c8.8 0 16 7.2 16 16v152h80c9.2 0 16.5 8.3 15.7 17.4l-16 176c-.8 8.5-7.9 14.6-16.3 14.6H208.6c-8.4 0-15.4-6.1-16.3-14.6l-16-176c-.9-9.1 6.5-17.4 15.7-17.4h80V48c0-8.8 7.2-16 16-16z" />
             </svg>
@@ -93,7 +96,7 @@
                 @foreach ($menus as $menu)
                     <div class="relative group">
                         <a href="{{ $menu->url }}"
-                            class="font-bold hover:text-indigo-600 transition px-2 py-1 rounded-lg flex items-center">
+                            class="font-bold hover:text-cyan-200 transition px-2 py-1 rounded-lg flex items-center">
                             {{ $menu->title }}
                             @if ($menu->children->count())
                                 <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" stroke-width="2"
@@ -107,7 +110,7 @@
                                 class="absolute left-0 mt-2 w-40 bg-white border rounded-lg shadow-lg opacity-0 group-hover:opacity-100 group-hover:visible invisible transition-opacity duration-200 z-50">
                                 @foreach ($menu->children as $child)
                                     <a href="{{ $child->url }}"
-                                        class="block px-4 py-2 text-gray-700 hover:bg-indigo-50 hover:text-indigo-600 rounded-lg transition">
+                                        class="block px-4 py-2 text-gray-700 hover:bg-cyan-200 hover:text-cyan-600 rounded-lg transition">
                                         {{ $child->title }}
                                     </a>
                                 @endforeach
@@ -118,12 +121,12 @@
 
                 @guest
                     <a href="{{ route('login') }}"
-                        class="bg-indigo-600 text-white px-5 py-2 rounded-lg shadow hover:bg-indigo-700 transition ml-2">
+                        class="bg-orange-400 font-bold text-slate-900 px-5 py-2 rounded-lg shadow hover:bg-orange-300 transition ml-2">
                         Masuk
                     </a>
                 @else
                     <a href="{{ route('profile.edit') }}"
-                        class="bg-indigo-600 text-white px-5 py-2 rounded-lg shadow hover:bg-indigo-700 transition ml-2">
+                        class="bg-orange-400 font-bold text-slate-900 px-5 py-2 rounded-lg shadow hover:bg-orange-300 transition ml-2">
                         My Account
                     </a>
                 @endguest
@@ -141,17 +144,17 @@
         <div x-show="open" x-transition @click.away="open = false"
             class="md:hidden px-6 pb-4 pt-2 space-y-2 bg-white text-gray-800 rounded-b-lg shadow">
 
-            <a href="#paket" class="block py-2 px-3 rounded-lg hover:bg-indigo-50 hover:text-indigo-600 transition">
+            <a href="#paket" class="block py-2 px-3 rounded-lg hover:bg-cyan-600 hover:text-cyan-200 transition">
                 Paket Tour
             </a>
 
             <a href="{{ route('login') }}"
-                class="block py-2 px-3 rounded-lg hover:bg-indigo-50 hover:text-indigo-600 transition">
+                class="block py-2 px-3 rounded-lg hover:bg-cyan-600 hover:text-cyan-200 transition">
                 Masuk
             </a>
 
             <a href="{{ route('register') }}"
-                class="block bg-indigo-600 text-white px-5 py-2 rounded-lg mt-2 hover:bg-indigo-700 text-center shadow transition">
+                class="block bg-cyan-300 text-orange-950 px-5 py-2 rounded-lg mt-2 hover:bg-cyan-600 text-center shadow transition">
                 Daftar
             </a>
         </div>
