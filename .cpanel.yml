@@ -1,7 +1,5 @@
 ---
 deployment:
   tasks:
-    - echo "Deploying at $(date)"
     - export RELEASE_DIR="${DEPLOYMENT_SOURCE}"
     - /bin/cp -R ${RELEASE_DIR}/public/* /home/lombokb6/public_html/
-    - echo "Deployment finished successfully."
