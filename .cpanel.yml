@@ -1,5 +1,14 @@
 ---
 deployment:
   tasks:
+    - /bin/echo "🚀 Deploy started at $(date)"
     - export RELEASE_DIR="${DEPLOYMENT_SOURCE}"
-    - /bin/cp -R ${RELEASE_DIR}/public/* /home/lombokb6/public_html/
+    - export DEPLOY_DIR="/home/lombokb6/public_html"
+    - /bin/rm -rf $DEPLOY_DIR/*
+    - /bin/cp -R $RELEASE_DIR/public/* $DEPLOY_DIR/
+    - cd $RELEASE_DIR
+    - /opt/alt/php83/usr/bin/php artisan storage:link || true
+    - /opt/alt/php83/usr/bin/php artisan config:cache || true
+    - /opt/alt/php83/usr/bin/php artisan view:cache || true
+    - /opt/alt/php83/usr/bin/php artisan migrate --force || true
+    - /bin/echo "✅ Deploy finished at $(date)"
