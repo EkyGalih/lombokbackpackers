@@ -67,7 +67,7 @@
 
             @if ($headerImage)
                 <img src="{{ asset('storage/' . $headerImage) }}" alt="Header Image"
-                    class="absolute inset-0 w-full h-full object-cover opacity-30 z-0">
+                    class="absolute inset-0 w-full h-full object-cover opacity-30 z-0 bg-cover bg-center">
             @endif
 
             <div class="text-center z-10 px-4 max-w-3xl">
@@ -121,9 +121,9 @@
             </div>
 
             {{-- Optional Background Illustration --}}
-            <div class="absolute inset-0 bg-cover bg-center opacity-20"
+            {{-- <div class="absolute inset-0 bg-cover bg-center opacity-20"
                 style="background-image: url('https://images.unsplash.com/photo-1506748686214-e9df14d4d9d0?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80');">
-            </div>
+            </div> --}}
         </section>
     </div>
 
@@ -191,7 +191,7 @@
                 {{-- Tambahkan tombol di bawah --}}
                 <div class="mt-10">
                     <a href="{{ route('tours.index') }}"
-                        class="inline-block font-bold bg-cyan-300 text-orange-950 px-6 py-3 rounded-lg shadow hover:bg-cyan-600 transition">
+                        class="inline-block font-bold bg-orange-400 text-slate-900 px-6 py-3 rounded-lg shadow hover:bg-orange-300 transition">
                         Explore All Destinations
                     </a>
                 </div>
@@ -202,6 +202,6 @@
         </div>
     </section>
 
-    
+
     </div>
 </x-guest-layout>

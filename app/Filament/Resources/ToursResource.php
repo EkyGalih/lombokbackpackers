@@ -34,7 +34,7 @@ class ToursResource extends Resource
             Tabs::make()
                 ->columnSpanFull()
                 ->tabs([
-                    Tab::make('Tour')->schema([
+                    Tab::make('Description')->schema([
                         Hidden::make('user_id')->default(auth()->id()),
                         TextInput::make('title')->required(),
                         Textarea::make('description')->rows(2)->label('Deskripsi'),
