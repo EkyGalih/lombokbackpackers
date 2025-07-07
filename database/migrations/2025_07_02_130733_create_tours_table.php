@@ -17,17 +17,19 @@ return new class extends Migration
             $table->unsignedBigInteger('user_id');
             $table->string('title');
             $table->text('description')->nullable();
+            $table->text('notes')->nullable();
+            $table->text('include')->nullable();
+            $table->text('exclude')->nullable();
             $table->string('slug')->unique();
-            $table->decimal('price', 12, 2);
             $table->integer('duration');
-            $table->integer('package_person_count')->comment('Jumlah orang per paket');
+            $table->string('packet');
+            $table->text('itinerary')->nullable();
             $table->bigInteger('discount')->nullable();
-            $table->boolean('is_published')->default(false);
+            $table->enum('status', ['available', 'not available'])->default('available');
             $table->date('discount_start')->nullable();
             $table->date('discount_end')->nullable();
             $table->decimal('rating', 3, 2)->default(0);
             $table->integer('reviews_count')->default(0);
-            $table->string('thumbnail')->nullable();
             $table->softDeletes();
             $table->timestamps();
 

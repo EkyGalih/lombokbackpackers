@@ -4,6 +4,7 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\ToursResource\Pages;
 use App\Models\Tour;
+use Awcodes\Curator\Components\Forms\CuratorPicker;
 use Filament\Forms;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\FileUpload;
@@ -62,8 +63,10 @@ class ToursResource extends Resource
                             DatePicker::make('discount_end')
                                 ->label('End')->columnSpan(4),
                         ]),
-                        FileUpload::make('thumbnail')
-                            ->image()->directory('tours')->label('Gambar'),
+                        CuratorPicker::make('media')
+                            ->label('Thumbnail')
+                            ->relationship('media', 'id')
+                            ->multiple()
                     ]),
                     Tab::make('SEO')->schema([
                         TextInput::make('seoMeta.meta_title')->label('Meta Title'),
@@ -79,8 +82,10 @@ class ToursResource extends Resource
     public static function table(Table $table): Table
     {
         return $table->columns([
-            Tables\Columns\ImageColumn::make('thumbnail')
-                ->disk('public')->size(60),
+            Tables\Columns\ImageColumn::make('media.0.path')
+                ->label('Thumbnail')
+                ->disk('public')
+                ->size(60),
             Tables\Columns\TextColumn::make('title')->sortable()->searchable(),
             Tables\Columns\TextColumn::make('category.name')->label('Kategori')->sortable(),
             Tables\Columns\TextColumn::make('price')->money('IDR', true),

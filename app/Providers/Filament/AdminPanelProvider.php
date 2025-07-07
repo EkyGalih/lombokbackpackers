@@ -2,6 +2,7 @@
 
 namespace App\Providers\Filament;
 
+use Awcodes\Curator\CuratorPlugin;
 use Hasnayeen\Themes\ThemesPlugin;
 use Hasnayeen\Themes\Http\Middleware\SetTheme;
 use Filament\Http\Middleware\Authenticate;
@@ -66,6 +67,12 @@ class AdminPanelProvider extends PanelProvider
             ])
             ->plugins([
                 ThemesPlugin::make(),
+                CuratorPlugin::make()
+                    ->label('Media Library')
+                    ->pluralLabel('Media Library')
+                    ->navigationIcon('heroicon-o-photo')
+                    ->navigationGroup('Menu')
+                    ->navigationSort(6),
             ]);
     }
 }

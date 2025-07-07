@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Traits\HasUuid;
+use Awcodes\Curator\Models\Media;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
@@ -33,5 +34,9 @@ class Tour extends Model
         static::creating(function ($tour) {
             $tour->slug = Str::slug($tour->title) . '-' . Str::random(5);
         });
+    }
+
+    public function media() {
+        return $this->morphToMany(Media::class, 'model', 'media_relationships');
     }
 }
