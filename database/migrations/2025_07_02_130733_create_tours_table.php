@@ -16,12 +16,12 @@ return new class extends Migration
             $table->uuid('category_id');
             $table->unsignedBigInteger('user_id');
             $table->string('title');
-            $table->text('description')->nullable();
+            $table->text('description');
             $table->text('notes')->nullable();
             $table->text('include')->nullable();
             $table->text('exclude')->nullable();
             $table->string('slug')->unique();
-            $table->integer('duration');
+            $table->string('duration');
             $table->string('packet');
             $table->text('itinerary')->nullable();
             $table->bigInteger('discount')->nullable();

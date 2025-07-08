@@ -10,6 +10,7 @@ use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Grid;
 use Filament\Forms\Components\Hidden;
+use Filament\Forms\Components\RichEditor;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Tabs;
 use Filament\Forms\Components\Tabs\Tab;
@@ -35,38 +36,54 @@ class ToursResource extends Resource
             Tabs::make()
                 ->columnSpanFull()
                 ->tabs([
-                    Tab::make('Description')->schema([
+                    Tab::make('General')->schema([
                         Hidden::make('user_id')->default(auth()->id()),
                         TextInput::make('title')->required(),
-                        Textarea::make('description')->rows(2)->label('Deskripsi'),
                         Grid::make(12)->schema([
                             Select::make('category_id')
-                                ->relationship('category', 'name')
-                                ->required()->label('Kategori')
-                                ->columnSpan(6),
-
-                            TextInput::make('price')
-                                ->numeric()->required()->prefix('Rp')
-                                ->columnSpan(3),
-
-                            TextInput::make('package_person_count')
-                                ->numeric()->required()->label('Per Person')
-                                ->columnSpan(3),
+                            ->relationship('category', 'name')
+                            ->required()->label('Category')
+                            ->columnSpan(6),
+                            TextInput::make('duration')->required()->label('Duration (days and nights)')
+                            ->placeholder('e.g., 3 days 2 nights')
+                            ->columnSpan(6),
                         ]),
-                        TextInput::make('duration')->numeric()->required()->label('Durasi (hari)'),
+                        RichEditor::make('description')
+                            ->columnSpanFull()
+                            ->required()
+                            ->label('Description'),
+                        RichEditor::make('notes')
+                            ->columnSpanFull()
+                            ->label('Notes'),
+                        CuratorPicker::make('media')
+                            ->label('Thumbnail')
+                            ->relationship('media', 'id')
+                            ->multiple()
+                    ]),
+                    Tab::make('Packet')->schema([
+                        TextInput::make('packet')
+                            ->label('Packet (Price & Person)')
+                            ->required(),
                         Grid::make(12)->schema([
                             TextInput::make('discount')
-                                ->numeric()->prefix('Rp')->label('Diskon')
+                                ->numeric()->prefix('Rp')->label('Discount')
                                 ->columnSpan(4),
                             DatePicker::make('discount_start')
                                 ->label('Start')->columnSpan(4),
                             DatePicker::make('discount_end')
                                 ->label('End')->columnSpan(4),
                         ]),
-                        CuratorPicker::make('media')
-                            ->label('Thumbnail')
-                            ->relationship('media', 'id')
-                            ->multiple()
+                        Grid::make(12)->schema([
+                            RichEditor::make('include')
+                                ->label('Include')
+                                ->columnSpan(6),
+                            RichEditor::make('exclude')
+                                ->label('Exclude')
+                                ->columnSpan(6),
+                        ]),
+                        RichEditor::make('itinerary')
+                            ->label('Itinerary')
+                            ->columnSpanFull()
                     ]),
                     Tab::make('SEO')->schema([
                         TextInput::make('seoMeta.meta_title')->label('Meta Title'),
