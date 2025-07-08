@@ -7,12 +7,24 @@ use Awcodes\Curator\Models\Media;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
+use Spatie\Translatable\HasTranslations;
 
 class Tour extends Model
 {
-    use HasFactory, HasUuid;
+    use HasFactory, HasUuid, HasTranslations;
 
     protected $guarded = [];
+
+    protected $casts = [
+        'duration' => 'array',
+        'description' => 'array',
+        'notes' => 'array',
+        'include' => 'array',
+        'exclude' => 'array',
+        'itinerary' => 'array',
+        'slug' => 'string',
+        'packet' => 'array',
+    ];
 
     public function category()
     {
@@ -36,7 +48,8 @@ class Tour extends Model
         });
     }
 
-    public function media() {
+    public function media()
+    {
         return $this->morphToMany(Media::class, 'model', 'media_relationships');
     }
 }
