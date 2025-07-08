@@ -12,13 +12,10 @@ use Illuminate\Support\Str;
 
 class TourSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     */
     public function run(): void
     {
-        $admin = User::where('email', 'admin@admin.com')->first();
-        $category = Category::inRandomOrder()->first();
+        $admin = User::where('email', 'admin@admin.com')->firstOrFail();
+        $category = Category::inRandomOrder()->firstOrFail();
 
         $users = User::where('id', '!=', $admin->id)->get(); // semua user kecuali admin
 
@@ -26,65 +23,77 @@ class TourSeeder extends Seeder
             [
                 'title' => 'Explore Gili Trawangan 3 Hari',
                 'description' => 'Nikmati keindahan pantai dan budaya Gili Trawangan selama 3 hari 2 malam.',
-                'price' => 1_500_000,
-                'package_person_count' => 1,
+                'notes' => 'Bawa perlengkapan snorkeling pribadi jika ada.',
+                'include' => 'Transport, makan, tiket masuk',
+                'exclude' => 'Pengeluaran pribadi, tip guide',
+                'itinerary' => 'Hari 1: Kedatangan & check-in. Hari 2: Snorkeling & tur. Hari 3: Free & pulang.',
+                'packet' => '1-2 orang Rp. 1.500.000, 3-5 orang Rp. 3.000.000',
                 'duration' => 3,
                 'discount' => 100_000,
                 'discount_start' => Carbon::now()->startOfMonth(),
                 'discount_end' => Carbon::now()->endOfMonth(),
-                'is_published' => true,
-                'thumbnail' => 'tours/default1.jpg',
+                'status' => 'available',
                 'rating' => 4.5,
                 'reviews_count' => 12,
+                'status' => 'available',
             ],
             [
                 'title' => 'Tour Gili Meno',
                 'description' => 'Petualangan menyaksikan matahari terbit dari Gili Meno.',
-                'price' => 850_000,
-                'package_person_count' => 1,
+                'notes' => 'Cocok untuk pasangan honeymoon.',
+                'include' => 'Transport, tiket kapal, guide',
+                'exclude' => 'Makan malam',
+                'itinerary' => 'Hari 1: Sunset cruise. Hari 2: Pulang.',
+                'packet' => '1-2 orang Rp. 850.000, 3-5 orang Rp. 1.500.000',
                 'duration' => 2,
                 'discount' => null,
                 'discount_start' => null,
                 'discount_end' => null,
-                'is_published' => true,
-                'thumbnail' => 'tours/default2.jpg',
+                'status' => 'available',
                 'rating' => 4.0,
                 'reviews_count' => 8,
+                'status' => 'available',
             ],
             [
                 'title' => 'Wisata Gili Air',
                 'description' => 'Jelajahi bawah laut, snorkeling, dan kuliner khas ikan.',
-                'price' => 1_200_000,
-                'package_person_count' => 1,
+                'notes' => 'Perlu booking minimal 3 hari sebelumnya.',
+                'include' => 'Transport, tiket snorkeling',
+                'exclude' => 'Makan siang',
+                'itinerary' => 'Hari 1: Check-in & snorkeling. Hari 2: City tour.',
+                'packet' => '1-2 orang Rp. 1.200.000, 3-5 orang Rp. 2.000.000',
                 'duration' => 3,
                 'discount' => 50_000,
                 'discount_start' => Carbon::now()->addDays(5),
                 'discount_end' => Carbon::now()->addDays(15),
-                'is_published' => false,
-                'thumbnail' => 'tours/default3.jpg',
+                'status' => 'not available',
                 'rating' => 0,
                 'reviews_count' => 0,
+                'status' => 'not available',
             ],
         ];
 
         foreach ($tours as $data) {
             $tour = Tour::create([
                 'id' => Str::uuid(),
+                'user_id' => $admin->id,
+                'category_id' => $category->id,
                 'title' => $data['title'],
                 'slug' => Str::slug($data['title']) . '-' . Str::random(5),
                 'description' => $data['description'],
-                'price' => $data['price'],
+                'notes' => $data['notes'],
+                'include' => $data['include'],
+                'exclude' => $data['exclude'],
+                'itinerary' => $data['itinerary'],
+                'packet' => $data['packet'],
                 'duration' => $data['duration'],
-                'package_person_count' => $data['package_person_count'],
                 'discount' => $data['discount'],
                 'discount_start' => $data['discount_start'],
                 'discount_end' => $data['discount_end'],
-                'is_published' => $data['is_published'],
-                'thumbnail' => $data['thumbnail'],
+                'status' => $data['status'],
                 'rating' => $data['rating'],
                 'reviews_count' => $data['reviews_count'],
-                'user_id' => $admin->id,
-                'category_id' => $category->id,
+                'status' => $data['status'],
             ]);
 
             $tour->seoMeta()->create([

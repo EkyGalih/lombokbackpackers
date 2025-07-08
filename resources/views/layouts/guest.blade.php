@@ -87,37 +87,29 @@
             {{-- Menu Desktop --}}
             <div class="hidden md:flex space-x-8 items-center">
                 @php
-                    $menus = \App\Models\Menu::whereNull('parent_id')
-                        ->where('active', true)
-                        ->orderBy('sort_order')
+                    $navigation = \App\Models\Navigations::where('handle', 'main-menu')
+                        ->first()
+                        ?->items()
+                        ->with('children')
                         ->get();
                 @endphp
 
-                @foreach ($menus as $menu)
-                    <div class="relative group">
-                        <a href="{{ $menu->url }}"
-                            class="font-bold hover:text-cyan-200 transition px-2 py-1 rounded-lg flex items-center">
-                            {{ $menu->title }}
-                            @if ($menu->children->count())
-                                <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" stroke-width="2"
-                                    viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
-                                </svg>
-                            @endif
-                        </a>
-                        @if ($menu->children->count())
-                            <div
-                                class="absolute left-0 mt-2 w-40 bg-white border rounded-lg shadow-lg opacity-0 group-hover:opacity-100 group-hover:visible invisible transition-opacity duration-200 z-50">
-                                @foreach ($menu->children as $child)
-                                    <a href="{{ $child->url }}"
-                                        class="block px-4 py-2 text-gray-700 hover:bg-cyan-200 hover:text-cyan-600 rounded-lg transition">
-                                        {{ $child->title }}
-                                    </a>
-                                @endforeach
-                            </div>
-                        @endif
-                    </div>
-                @endforeach
+                @if ($navigation)
+                    <ul>
+                        @foreach ($navigation as $item)
+                            <li>
+                                <a href="{{ $item->url }}">{{ $item->title }}</a>
+                                @if ($item->children->isNotEmpty())
+                                    <ul>
+                                        @foreach ($item->children as $child)
+                                            <li><a href="{{ $child->url }}">{{ $child->title }}</a></li>
+                                        @endforeach
+                                    </ul>
+                                @endif
+                            </li>
+                        @endforeach
+                    </ul>
+                @endif
 
                 @guest
                     <a href="{{ route('login') }}"
