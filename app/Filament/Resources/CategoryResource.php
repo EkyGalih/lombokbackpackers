@@ -4,12 +4,15 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\CategoryResource\Pages;
 use App\Models\Category;
+use Filament\Facades\Filament;
 use Filament\Forms;
+use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Support\Str;
+use Stichoza\GoogleTranslate\GoogleTranslate;
 
 class CategoryResource extends Resource
 {
@@ -25,11 +28,30 @@ class CategoryResource extends Resource
     public static function form(Form $form): Form
     {
         return $form->schema([
-            Forms\Components\TextInput::make('name')
+            TextInput::make('name')
                 ->required()
                 ->live(onBlur: true)
-                ->afterStateUpdated(fn($state, $set) => $set('slug', Str::slug($state))),
-            Forms\Components\TextInput::make('slug')->required(),
+                ->afterStateUpdated(function ($state, $set) {
+                    $currentLocale = app()->getLocale();
+                    $targetLocale = $currentLocale === 'en' ? 'id' : 'en';
+
+                    $translations = [
+                        $currentLocale => $state,
+                        $targetLocale => GoogleTranslate::trans($state, $targetLocale, $currentLocale),
+                    ];
+
+                    $set('name', $translations);
+
+                    // slug hanya dari default locale
+                    if ($currentLocale === config('app.locale')) {
+                        $slug = Str::slug($state);
+                        $set('slug', $slug);
+                    }
+                }),
+
+            TextInput::make('slug')
+                ->required()
+                ->unique(ignoreRecord: true),
         ]);
     }
 

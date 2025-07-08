@@ -38,7 +38,9 @@ class ToursResource extends Resource
                 ->tabs([
                     Tab::make('General')->schema([
                         Hidden::make('user_id')->default(auth()->id()),
-                        TextInput::make('title')->required(),
+                        TextInput::make('title')
+                        ->required()
+                        ->translatable(),
                         Grid::make(12)->schema([
                             Select::make('category_id')
                             ->relationship('category', 'name')

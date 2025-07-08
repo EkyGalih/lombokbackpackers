@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('navigations', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
+            $table->json('name');
             $table->string('handle')->unique();
             $table->string('url')->nullable();
             $table->foreignId('parent_id')->nullable()->constrained('navigations')->onDelete('cascade');

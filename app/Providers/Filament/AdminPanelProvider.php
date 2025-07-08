@@ -2,6 +2,7 @@
 
 namespace App\Providers\Filament;
 
+use App\Filament\Widgets\LanguageSwitcher;
 use Awcodes\Curator\CuratorPlugin;
 use Hasnayeen\Themes\ThemesPlugin;
 use Hasnayeen\Themes\Http\Middleware\SetTheme;
@@ -9,6 +10,7 @@ use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\AuthenticateSession;
 use Filament\Http\Middleware\DisableBladeIconComponents;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
+use Filament\Navigation\MenuItem;
 use Filament\Pages;
 use Filament\Panel;
 use Filament\PanelProvider;
@@ -75,5 +77,17 @@ class AdminPanelProvider extends PanelProvider
                     ->navigationGroup('Menu')
                     ->navigationSort(6),
             ]);
+    }
+
+    protected function userMenu(): array
+    {
+        $locale = app()->getLocale();
+        $label = $locale === 'en' ? 'Bahasa Indonesia' : 'English';
+
+        return [
+            MenuItem::make($label)
+                ->url('/filament/language-switch')
+                ->icon('heroicon-m-language'),
+        ];
     }
 }

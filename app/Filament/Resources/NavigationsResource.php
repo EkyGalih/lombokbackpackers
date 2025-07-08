@@ -25,8 +25,8 @@ class NavigationsResource extends Resource
             ->schema([
                 TextInput::make('name')
                     ->required()
+                    ->translatable()
                     ->maxLength(255),
-
                 TextInput::make('handle')
                     ->required()
                     ->unique(ignoreRecord: true)

@@ -31,6 +31,7 @@ Route::middleware('auth')->group(function () {
         ->name('invoice.download');
 
     Route::post('/bookings/{booking}/upload-proof', [BookingController::class, 'uploadProof'])->name('bookings.uploadProof');
+
 });
 // Route::middleware('auth')->get('/midtrans/token/{booking}', [SnapController::class, 'token']);
 // Route::post('/payment/notify', [MidtransWebhookController::class, 'handle']);
@@ -38,4 +39,12 @@ Route::get('/tours', [TourController::class, 'index'])->name('tours.index');
 Route::get('/tours/{slug}', [TourController::class, 'show'])->name('tours.show');
 Route::post('/tours/rate/{tour}', [TourController::class, 'rate'])->name('tours.rate')->middleware('auth');
 
+Route::get('/filament/language-switch', function () {
+    $locale = app()->getLocale() === 'en' ? 'id' : 'en';
+
+    session(['locale' => $locale]);
+    app()->setLocale($locale);
+
+    return redirect()->back();
+})->name('filament.language.switch')->middleware(['web', 'auth']);
 require __DIR__ . '/auth.php';
