@@ -87,26 +87,16 @@
             {{-- Menu Desktop --}}
             <div class="hidden md:flex space-x-8 items-center">
                 @php
-                    $navigation = \App\Models\Navigations::where('handle', 'main-menu')
-                        ->first()
-                        ?->items()
-                        ->with('children')
+                    $menu = \App\Models\Navigations::whereNull('parent_id')
+                        ->with(['childrenRecursive', 'parent'])
+                        ->orderBy('order')
                         ->get();
                 @endphp
 
-                @if ($navigation)
-                    <ul>
-                        @foreach ($navigation as $item)
-                            <li>
-                                <a href="{{ $item->url }}">{{ $item->title }}</a>
-                                @if ($item->children->isNotEmpty())
-                                    <ul>
-                                        @foreach ($item->children as $child)
-                                            <li><a href="{{ $child->url }}">{{ $child->title }}</a></li>
-                                        @endforeach
-                                    </ul>
-                                @endif
-                            </li>
+                @if ($menu->isNotEmpty())
+                    <ul class="flex space-x-4">
+                        @foreach ($menu as $item)
+                            <x-menu-item :item="$item" :depth="0" />
                         @endforeach
                     </ul>
                 @endif

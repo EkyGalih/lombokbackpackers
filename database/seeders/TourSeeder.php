@@ -6,8 +6,10 @@ use App\Models\Category;
 use App\Models\Tour;
 use App\Models\User;
 use App\Models\Ratings;
+use Awcodes\Curator\Models\Media;
 use Carbon\Carbon;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
 class TourSeeder extends Seeder
@@ -36,6 +38,7 @@ class TourSeeder extends Seeder
                 'rating' => 4.5,
                 'reviews_count' => 12,
                 'status' => 'available',
+                'image' => 'defaults/tours/default1.jpg',
             ],
             [
                 'title' => 'Tour Gili Meno',
@@ -53,6 +56,7 @@ class TourSeeder extends Seeder
                 'rating' => 4.0,
                 'reviews_count' => 8,
                 'status' => 'available',
+                'image' => 'defaults/tours/default2.jpg',
             ],
             [
                 'title' => 'Wisata Gili Air',
@@ -70,6 +74,7 @@ class TourSeeder extends Seeder
                 'rating' => 0,
                 'reviews_count' => 0,
                 'status' => 'not available',
+                'image' => 'defaults/tours/default3.jpg',
             ],
         ];
 
@@ -95,6 +100,32 @@ class TourSeeder extends Seeder
                 'reviews_count' => $data['reviews_count'],
                 'status' => $data['status'],
             ]);
+
+            // buat record media (kalau belum ada)
+            $fullPath = public_path($data['image']);
+            $filename = basename($fullPath);
+
+            $media = Media::create([
+                'disk' => 'public',
+                'directory' => 'media',
+                'visibility' => 'public',
+                'name' => pathinfo($filename, PATHINFO_FILENAME),
+                'path' => $data['image'],
+                'width' => null,
+                'height' => null,
+                'size' => filesize($fullPath),
+                'type' => 'image',
+                'ext' => pathinfo($filename, PATHINFO_EXTENSION),
+                'alt' => $data['title'],
+                'title' => $data['title'],
+                'description' => null,
+                'caption' => null,
+                'exif' => null,
+                'curations' => null,
+            ]);
+
+            // hubungkan media ke tour
+            $tour->media()->attach($media->id);
 
             $tour->seoMeta()->create([
                 'meta_title' => 'Paket Tour: ' . $tour->title,

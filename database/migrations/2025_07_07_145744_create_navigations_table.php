@@ -15,6 +15,9 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('handle')->unique();
+            $table->string('url')->nullable();
+            $table->foreignId('parent_id')->nullable()->constrained('navigations')->onDelete('cascade');
+            $table->integer('order')->default(0);
             $table->timestamps();
         });
     }

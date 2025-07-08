@@ -39,6 +39,7 @@ class AdminPanelProvider extends PanelProvider
                 Pages\Dashboard::class,
             ])
             ->navigationGroups([
+                'Catalog',
                 'Menu',
                 'Media',
                 'Transaksi',

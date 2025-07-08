@@ -2,9 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Models\NavigationItems;
 use App\Models\Navigations;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 class NavigationSeeder extends Seeder
@@ -14,41 +12,40 @@ class NavigationSeeder extends Seeder
      */
     public function run(): void
     {
-        $nav = Navigations::create([
-            'name' => 'Main Menu',
-            'handle' => 'main-menu',
-        ]);
 
-        $home = NavigationItems::create([
-            'navigations_id' => $nav->id,
-            'title' => 'Home',
+        $home = Navigations::create([
+            'name' => 'Home',
+            'handle' => 'Home',
+            'order' => 1,
             'url' => '/',
         ]);
 
-        $about = NavigationItems::create([
-            'navigations_id' => $nav->id,
-            'title' => 'About',
+        $about = Navigations::create([
+            'name' => 'About',
+            'handle' => 'About-Us',
+            'order' => 3,
             'url' => '/about',
         ]);
 
-        $services = NavigationItems::create([
-            'navigations_id' => $nav->id,
-            'title' => 'Services',
+        $services = Navigations::create([
+            'name' => 'Services',
+            'handle' => 'Services',
+            'order' => 2,
             'url' => '/services',
         ]);
 
-        NavigationItems::create([
-            'navigations_id' => $nav->id,
-            'title' => 'Web Development',
-            'url' => '/services/web',
-            'parent_id' => $services->id,
+        Navigations::create([
+            'name' => 'Web Development',
+            'handle' => 'Web-Development',
+            'order' => 4,
+            'url' => '/services/web'
         ]);
 
-        NavigationItems::create([
-            'navigations_id' => $nav->id,
-            'title' => 'Mobile Apps',
-            'url' => '/services/mobile',
-            'parent_id' => $services->id,
+        Navigations::create([
+            'name' => 'Mobile Apps',
+            'handle' => 'Mobile-Apps',
+            'order' => 5,
+            'url' => '/services/mobile'
         ]);
     }
 }

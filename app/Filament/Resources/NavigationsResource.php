@@ -3,16 +3,14 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\NavigationsResource\Pages;
-use App\Filament\Resources\NavigationsResource\RelationManagers;
-use App\Models\Navigations; 
+use App\Models\Navigations;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Filament\Forms\Components\TextInput;
 use Filament\Tables\Columns\TextColumn;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class NavigationsResource extends Resource
 {
@@ -25,8 +23,22 @@ class NavigationsResource extends Resource
     {
         return $form
             ->schema([
-                TextInput::make('name')->required(),
-                TextInput::make('handle')->required(),
+                TextInput::make('name')
+                    ->required()
+                    ->maxLength(255),
+
+                TextInput::make('handle')
+                    ->required()
+                    ->unique(ignoreRecord: true)
+                    ->maxLength(255),
+
+                TextInput::make('url')
+                    ->maxLength(255),
+
+                Select::make('parent_id')
+                    ->label('Parent')
+                    ->options(Navigations::pluck('name', 'id'))
+                    ->nullable(),
             ]);
     }
 
@@ -34,27 +46,24 @@ class NavigationsResource extends Resource
     {
         return $table
             ->columns([
-                TextColumn::make('name'),
+                TextColumn::make('name')
+                    ->label('Name')
+                    ->formatStateUsing(fn ($state, $record) => str_repeat('— ', $record->depth) . $state),
+
                 TextColumn::make('handle'),
+                TextColumn::make('url'),
             ])
-            ->filters([
-                //
-            ])
+            ->defaultSort('order')
+            ->paginated(false)
+            ->recordAction(null)
+            ->reorderable('order')
             ->actions([
                 Tables\Actions\EditAction::make(),
+                Tables\Actions\DeleteAction::make(),
             ])
             ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
-                ]),
+                Tables\Actions\DeleteBulkAction::make(),
             ]);
-    }
-
-    public static function getRelations(): array
-    {
-        return [
-            //
-        ];
     }
 
     public static function getPages(): array
