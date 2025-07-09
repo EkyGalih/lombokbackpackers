@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Traits\AutoTranslateOnSave;
 use App\Traits\HasUuid;
+use Awcodes\Curator\Models\Media;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -15,7 +16,7 @@ class Category extends Model
     use HasFactory, HasUuid, HasTranslations, AutoTranslateOnSave;
 
     protected $guarded = [];
-    public $translatable = ['name'];
+    public $translatable = ['name', 'description'];
 
     public static function booted(): void
     {
@@ -38,5 +39,10 @@ class Category extends Model
     public function tours(): HasMany
     {
         return $this->hasMany(Tour::class);
+    }
+
+    public function media()
+    {
+        return $this->morphToMany(Media::class, 'model', 'media_relationships');
     }
 }

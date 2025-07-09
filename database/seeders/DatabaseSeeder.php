@@ -18,7 +18,8 @@ class DatabaseSeeder extends Seeder
             CategorySeeder::class,
             TourSeeder::class,
             NavigationSeeder::class,
-            WebsiteSettingsSeeder::class
+            WebsiteSettingsSeeder::class,
+            FeaturesSeeder::class,
         ]);
     }
 }

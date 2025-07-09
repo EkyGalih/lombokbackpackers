@@ -6,6 +6,7 @@ use App\Filament\Resources\CategoryResource\Pages;
 use App\Models\Category;
 use Filament\Facades\Filament;
 use Filament\Forms;
+use Filament\Forms\Components\RichEditor;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -30,6 +31,16 @@ class CategoryResource extends Resource
     {
         return $form->schema([
             TextInput::make('name')
+                ->columnSpanFull()
+                ->formatStateUsing(function ($state) {
+                    if (is_array($state)) {
+                        return $state[app()->getLocale()] ?? '';
+                    }
+                    return $state;
+                })
+                ->required()
+                ->live(onBlur: false),
+            RichEditor::make('description')
                 ->columnSpanFull()
                 ->formatStateUsing(function ($state) {
                     if (is_array($state)) {

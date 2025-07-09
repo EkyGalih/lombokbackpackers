@@ -13,13 +13,53 @@ class CategorySeeder extends Seeder
      */
     public function run(): void
     {
-        $categories = ['Gili Trawangan', 'Gili Air', 'Gili Meno'];
+        $categories = [
+            [
+                'name' => [
+                    'en' => 'Mountain Rinjani',
+                    'id' => 'Gunung Rinjani',
+                ],
+                'description' => [
+                    'en' => 'Famous mountain in Lombok',
+                    'id' => 'Gunung terkenal di Lombok',
+                ],
+            ],
+            [
+                'name' => [
+                    'en' => 'Sembalun',
+                    'id' => 'Sembalun',
+                ],
+                'description' => [
+                    'en' => 'Village at the foot of Mount Rinjani',
+                    'id' => 'Desa di kaki Gunung Rinjani',
+                ],
+            ],
+            [
+                'name' => [
+                    'en' => 'Mandalika',
+                    'id' => 'Mandalika',
+                ],
+                'description' => [
+                    'en' => 'Tourism area in Lombok',
+                    'id' => 'Kawasan wisata di Lombok',
+                ],
+            ],
+            [
+                'name' => [
+                    'en' => 'Gili Trawangan',
+                    'id' => 'Gili Trawangan',
+                ],
+                'description' => [
+                    'en' => 'Popular island near Lombok',
+                    'id' => 'Pulau populer di dekat Lombok',
+                ],
+            ],
+        ];
 
-        foreach ($categories as $name) {
+        foreach ($categories as $data) {
             Category::create([
-                'id' => Str::uuid(),
-                'name' => $name,
-                'slug' => Str::slug($name),
+                'name' => $data['name'],           // array
+                'description' => $data['description'], // array
             ]);
         }
     }

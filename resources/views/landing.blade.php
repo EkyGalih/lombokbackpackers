@@ -1,10 +1,4 @@
 <x-guest-layout>
-    {{-- Hero Section --}}
-    @php
-        $headerImage = app(\App\Settings\WebsiteSettings::class)->header_image;
-        $headerTitle = app(\App\Settings\WebsiteSettings::class)->header_title;
-        $headerSubTitle = app(\App\Settings\WebsiteSettings::class)->header_sub_title;
-    @endphp
     <div x-data="{
         activeTab: 'adventure',
         showModal: false,
@@ -137,46 +131,39 @@
                 Pilih Paket Perjalananmu
             </h2>
 
-            @if (\App\Models\Tour::count())
+            @if ($categories->count())
                 <div class="grid gap-6 md:grid-cols-4" id="paket">
-                    @foreach (\App\Models\Tour::take(4)->get() as $tour)
+                    @foreach ($categories as $category)
                         <div class="group relative bg-white rounded-lg overflow-hidden shadow-lg transform transition-all ease-in-out duration-300 hover:shadow-none hover:custom-rounded-br"
                             style="--tw-rounded-br: 60px;">
 
                             {{-- Gambar full --}}
-                            <div class="overflow-hidden"> {{-- Tambahkan pembungkus supaya crop gambar ketika zoom --}}
-                                <img src="{{ $tour->media?->first()->url }}" alt="{{ $tour->title }}"
+                            <div class="overflow-hidden">
+                                <img src="{{ $category->media->first()->url ?? asset('defaults/tours/default1.jpg') }}"
+                                    alt="{{ $category->title }}"
                                     class="w-full h-96 object-cover transform transition-transform duration-500 ease-in-out group-hover:scale-110">
                             </div>
 
-                            {{-- Overlay tulisan di bawah --}}
+                            {{-- Overlay tulisan --}}
                             <div
                                 class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-4 z-20">
-                                <div class="transition-transform duration-300 ease-out group-hover:scale-105">
-                                    <h3 class="text-lg font-semibold text-white">
-                                        {{ $tour->title }}
+                                <div
+                                    class="transition-transform duration-500 ease-in-out transform group-hover:-translate-y-8">
+                                    <h3 class="text-lg font-bold text-white hover:text-lime-300 transition">
+                                        {{ $category->name }}
                                     </h3>
 
-                                    @if ($tour->discount && $tour->discount > 0)
-                                        <p class="text-sm text-gray-300 line-through">
-                                            Rp {{ number_format($tour->lowest_price, 0, ',', '.') }}
-                                        </p>
-                                        <p class="text-xl text-red-400 font-bold">
-                                            Rp {{ number_format($tour->lowest_price - $tour->discount, 0, ',', '.') }}
-                                        </p>
-                                    @else
-                                        <p class="text-xl font-semibold text-lime-400">
-                                            Rp {{ number_format($tour->lowest_price, 0, ',', '.') }}
-                                        </p>
-                                    @endif
+                                    <p class="text-sm font-semibold text-white">
+                                        {!! $category->description !!}
+                                    </p>
                                 </div>
                             </div>
 
-                            {{-- Tombol Book Now tampil saat hover --}}
+                            {{-- Tombol Browse Trips muncul dari bawah --}}
                             <div
-                                class="absolute inset-0 flex justify-center items-center opacity-0 group-hover:opacity-100 bg-black bg-opacity-50 transition duration-300 z-10">
-                                <a href="{{ route('tours.show', $tour->slug) }}"
-                                    class="text-white text-lg font-bold underline hover:text-white transition">
+                                class="absolute bottom-4 left-0 right-0 flex justify-center opacity-0 group-hover:opacity-100 transform translate-y-6 group-hover:translate-y-0 transition-all duration-500 ease-in-out z-30">
+                                <a href="#"
+                                    class="bg-transparent px-4 py-2 rounded text-white text-sm font-semibold shadow underline hover:underline-offset-1 transition">
                                     Browse Trips
                                 </a>
                             </div>
@@ -207,9 +194,7 @@
             <h2 class="text-5xl font-black mb-8 text-cyan-950 leading-tight tracking-tight">
                 Pengalaman Perjalanan Terbaik
             </h2>
-            @php
-                $features = \App\Models\Features::limit(6)->get();
-            @endphp
+
             <section class="grid grid-cols-1 md:grid-cols-2 gap-8 p-8">
                 {{-- Fitur kiri --}}
                 <div class="space-y-4">
@@ -257,36 +242,12 @@
                 <div>
                     <div class="swiper">
                         <div class="swiper-wrapper">
-                            @foreach ([
-        [
-            'image' => 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
-            'title' => 'Pantai Indah',
-            'description' => 'Liburan di pantai tropis.',
-            'start_date' => now(),
-            'end_date' => now()->addDays(7),
-        ],
-        [
-            'image' => 'https://images.unsplash.com/photo-1501785888041-af3ef285b470?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
-            'title' => 'Gunung Megah',
-            'description' => 'Pendakian penuh petualangan.',
-            'start_date' => now(),
-            'end_date' => now()->addDays(7),
-        ],
-        [
-            'image' => 'https://images.unsplash.com/photo-1470770841072-f978cf4d019e?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
-            'title' => 'Kota Bersejarah',
-            'description' => 'Wisata budaya & sejarah.',
-            'start_date' => now(),
-            'end_date' => now()->addDays(7),
-        ],
-    ] as $slide)
+                            @foreach ($slides as $slide)
                                 <div class="swiper-slide relative">
-                                    <img src="{{ $slide['image'] }}" class="w-full h-80 object-cover rounded-lg h-96">
+                                    <img src="{{ $slide->media?->first()->url }}" class="w-full object-cover rounded-lg h-96">
                                     <div class="absolute bottom-4 left-4 text-white">
-                                        <h2 class="text-2xl font-bold">{{ $slide['title'] }}</h2>
-                                        <p>{{ $slide['description'] }}</p>
-                                        <p>{{ $slide['start_date']->format('d M') }} -
-                                            {{ $slide['end_date']->format('d M') }}</p>
+                                        <h2 class="text-2xl font-bold">{{ $slide->title }}</h2>
+                                        <p>{!! $slide->description !!}</p>
                                     </div>
                                 </div>
                             @endforeach
@@ -298,7 +259,7 @@
         </div>
     </section>
 
-    <section class="py-12 bg-white">
+    <section class="py-12 bg-sky-100">
         <div class="container mx-auto px-4">
             <h2 class="text-3xl font-bold text-center text-teal-800 mb-10">
                 Wisata Populer
@@ -306,109 +267,54 @@
 
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
 
-                <!-- Card 1 -->
-                <a href="https://wdtletsgo.wpengine.com/blog/wdt_packages/egypt-pyramids-tour/"
-                    class="relative rounded-lg overflow-hidden shadow-lg group">
-                    <img src="https://wdtletsgo.wpengine.com/wp-content/uploads/2024/07/egypt-3.jpg" alt=""
-                        class="w-full h-64 object-cover transition-transform group-hover:scale-105">
-                    <div class="absolute inset-0 bg-black/50 flex flex-col justify-end p-4">
+                <!-- Card Popular Tour -->
+                @foreach ($popularTours as $item)
+                    <a href="https://wdtletsgo.wpengine.com/blog/wdt_packages/egypt-pyramids-tour/"
+                        class="relative rounded-lg overflow-hidden shadow-lg group">
+                        <img src="https://wdtletsgo.wpengine.com/wp-content/uploads/2024/07/egypt-3.jpg" alt=""
+                            class="w-full h-64 object-cover transition-transform group-hover:scale-105">
+                        <div class="absolute inset-0 bg-black/50 flex flex-col justify-end p-4">
 
-                        <!-- Info -->
-                        <div class="transition-all duration-300 group-hover:-translate-y-6">
-                            <h3 class="text-lg font-semibold text-white">Egypt Pyramids Tour</h3>
-                            <ul class="text-sm text-gray-200 space-y-1">
-                                <li>Starts from - $39.00</li>
-                                <li>6 Days - 4 Nights</li>
-                                <li>All New Year (Mar - May)</li>
-                            </ul>
+                            <!-- Info -->
+                            <div class="transition-all duration-300 group-hover:-translate-y-6">
+                                <h3 class="text-lg font-semibold text-white">{{ $item->title }}</h3>
+                                <ul class="text-sm text-gray-200 space-y-1">
+                                    <li>
+                                        @if ($item->lowest_price)
+                                            Rp {{ number_format($item->lowest_price, 0, ',', '.') }}
+                                        @else
+                                            Rp. 0
+                                        @endif
+                                    </li>
+                                    <li>{{ $item->duration }}</li>
+                                    <li>
+                                        @foreach ($item->ratings as $rating)
+                                            <div class="flex gap-1">
+                                                @for ($i = 1; $i <= 5; $i++)
+                                                    @if ($i <= $rating['rating'])
+                                                        <span class="text-yellow-400">★</span>
+                                                    @else
+                                                        <span class="text-gray-300">★</span>
+                                                    @endif
+                                                @endfor
+                                            </div>
+                                        @endforeach
+                                    </li>
+                                </ul>
+                            </div>
+
+                            <!-- Tombol muncul saat hover -->
+                            <span
+                                class="opacity-0 translate-y-4 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300 inline-block mt-1">
+                                <button
+                                    class="px-3 py-1 text-sm bg-teal-700 text-white rounded hover:bg-teal-300 hover:text-teal-900 transition-colors">
+                                    Explore Trip →
+                                </button>
+                            </span>
+
                         </div>
-
-                        <!-- Tombol muncul saat hover -->
-                        <span
-                            class="opacity-0 translate-y-4 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300 inline-block mt-1">
-                            <button class="px-3 py-1 text-sm bg-teal-600 text-white rounded hover:bg-teal-700">
-                                Explore Trip →
-                            </button>
-                        </span>
-
-                    </div>
-                </a>
-
-                <!-- Card 2 -->
-                <a href="https://wdtletsgo.wpengine.com/blog/wdt_packages/usa-grand-explorer/"
-                    class="relative rounded-lg overflow-hidden shadow-lg group">
-                    <img src="https://wdtletsgo.wpengine.com/wp-content/uploads/2024/07/usa-1.jpg" alt=""
-                        class="w-full h-64 object-cover transition-transform group-hover:scale-105">
-                    <div class="absolute inset-0 bg-black/50 flex flex-col justify-end p-4">
-                        <h3 class="text-lg font-semibold text-white">USA Grand Explorer</h3>
-                        <ul class="text-sm text-gray-200 space-y-1">
-                            <li>Starts from - $29.00</li>
-                            <li>7 Days - 5 Nights</li>
-                            <li>Spring Season (Nov - Jan)</li>
-                        </ul>
-                    </div>
-                </a>
-
-                <!-- Card 3 -->
-                <a href="https://wdtletsgo.wpengine.com/blog/wdt_packages/luxury-usa-tour/"
-                    class="relative rounded-lg overflow-hidden shadow-lg group">
-                    <img src="https://wdtletsgo.wpengine.com/wp-content/uploads/2024/07/usa-3.jpg" alt=""
-                        class="w-full h-64 object-cover transition-transform group-hover:scale-105">
-                    <div class="absolute inset-0 bg-black/50 flex flex-col justify-end p-4">
-                        <h3 class="text-lg font-semibold text-white">Luxury USA Tour</h3>
-                        <ul class="text-sm text-gray-200 space-y-1">
-                            <li>Starts from - $19.00</li>
-                            <li>2 Days - 1 Nights</li>
-                            <li>Sightseeing (Feb- Apr)</li>
-                        </ul>
-                    </div>
-                </a>
-
-                <!-- Card 4 -->
-                <a href="https://wdtletsgo.wpengine.com/blog/wdt_packages/turkey-spiritual-heritage/"
-                    class="relative rounded-lg overflow-hidden shadow-lg group">
-                    <img src="https://wdtletsgo.wpengine.com/wp-content/uploads/2024/07/turkey-3.jpg" alt=""
-                        class="w-full h-64 object-cover transition-transform group-hover:scale-105">
-                    <div class="absolute inset-0 bg-black/50 flex flex-col justify-end p-4">
-                        <h3 class="text-lg font-semibold text-white">Turkey Spiritual Heritage</h3>
-                        <ul class="text-sm text-gray-200 space-y-1">
-                            <li>Starts from - $19.00</li>
-                            <li>2 Days - 2 Nights</li>
-                            <li>All New Year (Dec - Mar)</li>
-                        </ul>
-                    </div>
-                </a>
-
-                <!-- Card 5 -->
-                <a href="https://wdtletsgo.wpengine.com/blog/wdt_packages/exclusive-thailand-tour/"
-                    class="relative rounded-lg overflow-hidden shadow-lg group">
-                    <img src="https://wdtletsgo.wpengine.com/wp-content/uploads/2024/07/thailand-3.jpg" alt=""
-                        class="w-full h-64 object-cover transition-transform group-hover:scale-105">
-                    <div class="absolute inset-0 bg-black/50 flex flex-col justify-end p-4">
-                        <h3 class="text-lg font-semibold text-white">Exclusive Thailand Tour</h3>
-                        <ul class="text-sm text-gray-200 space-y-1">
-                            <li>Starts from - $9.00</li>
-                            <li>3 Days - 2 Nights</li>
-                            <li>Winter Tours (Dec - Feb)</li>
-                        </ul>
-                    </div>
-                </a>
-
-                <!-- Card 6 -->
-                <a href="https://wdtletsgo.wpengine.com/blog/wdt_packages/turkey-beyond-beach-tour/"
-                    class="relative rounded-lg overflow-hidden shadow-lg group">
-                    <img src="https://wdtletsgo.wpengine.com/wp-content/uploads/2024/07/turkey-2.jpg" alt=""
-                        class="w-full h-64 object-cover transition-transform group-hover:scale-105">
-                    <div class="absolute inset-0 bg-black/50 flex flex-col justify-end p-4">
-                        <h3 class="text-lg font-semibold text-white">Turkey Beyond Beach Tour</h3>
-                        <ul class="text-sm text-gray-200 space-y-1">
-                            <li>Starts from - $32.00</li>
-                            <li>3 Days - 2 Nights</li>
-                            <li>All New Year (Sep- Dec)</li>
-                        </ul>
-                    </div>
-                </a>
-
+                    </a>
+                @endforeach
             </div>
         </div>
     </section>
