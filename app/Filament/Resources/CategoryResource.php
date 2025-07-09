@@ -11,6 +11,7 @@ use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 use Stichoza\GoogleTranslate\GoogleTranslate;
 
@@ -29,29 +30,15 @@ class CategoryResource extends Resource
     {
         return $form->schema([
             TextInput::make('name')
-                ->required()
-                ->live(onBlur: true)
-                ->afterStateUpdated(function ($state, $set) {
-                    $currentLocale = app()->getLocale();
-                    $targetLocale = $currentLocale === 'en' ? 'id' : 'en';
-
-                    $translations = [
-                        $currentLocale => $state,
-                        $targetLocale => GoogleTranslate::trans($state, $targetLocale, $currentLocale),
-                    ];
-
-                    $set('name', $translations);
-
-                    // slug hanya dari default locale
-                    if ($currentLocale === config('app.locale')) {
-                        $slug = Str::slug($state);
-                        $set('slug', $slug);
+                ->columnSpanFull()
+                ->formatStateUsing(function ($state) {
+                    if (is_array($state)) {
+                        return $state[app()->getLocale()] ?? '';
                     }
-                }),
-
-            TextInput::make('slug')
+                    return $state;
+                })
                 ->required()
-                ->unique(ignoreRecord: true),
+                ->live(onBlur: false),
         ]);
     }
 

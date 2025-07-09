@@ -16,9 +16,9 @@ return new class extends Migration
             $table->string('seoable_type');
             $table->uuid('seoable_id');
 
-            $table->string('meta_title')->nullable();
-            $table->text('meta_description')->nullable();
-            $table->string('keywords')->nullable();
+            $table->json('meta_title')->nullable();
+            $table->json('meta_description')->nullable();
+            $table->json('keywords')->nullable();
             $table->string('canonical_url')->nullable();
             $table->string('og_image')->nullable();
             $table->string('robots')->nullable();

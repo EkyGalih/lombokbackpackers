@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Traits\AutoTranslateOnSave;
 use App\Traits\HasUuid;
 use Awcodes\Curator\Models\Media;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -11,19 +12,30 @@ use Spatie\Translatable\HasTranslations;
 
 class Tour extends Model
 {
-    use HasFactory, HasUuid, HasTranslations;
+    use HasFactory, HasUuid, HasTranslations, AutoTranslateOnSave;
 
     protected $guarded = [];
 
     protected $casts = [
-        'duration' => 'array',
         'description' => 'array',
         'notes' => 'array',
         'include' => 'array',
         'exclude' => 'array',
-        'itinerary' => 'array',
         'slug' => 'string',
+        'duration' => 'array',
         'packet' => 'array',
+        'itinerary' => 'array',
+    ];
+
+    protected $translatable = [
+        'title',
+        'description',
+        'notes',
+        'include',
+        'exclude',
+        'duration',
+        'packet',
+        'itinerary',
     ];
 
     public function category()
@@ -44,7 +56,18 @@ class Tour extends Model
     protected static function booted(): void
     {
         static::creating(function ($tour) {
-            $tour->slug = Str::slug($tour->title) . '-' . Str::random(5);
+            // slug hanya pakai locale default
+            $currentLocale = app()->getLocale();
+            $title = $tour->title;
+
+            // kalau title translatable, ambil default locale value
+            if (is_array($title) && isset($title[$currentLocale])) {
+                $titleForSlug = $title[$currentLocale];
+            } else {
+                $titleForSlug = $title;
+            }
+
+            $tour->slug = Str::slug($titleForSlug) . '-' . Str::random(5);
         });
     }
 

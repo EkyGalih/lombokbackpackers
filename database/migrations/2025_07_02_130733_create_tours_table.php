@@ -15,7 +15,7 @@ return new class extends Migration
             $table->uuid('id')->primary();
             $table->uuid('category_id');
             $table->unsignedBigInteger('user_id');
-            $table->string('title');
+            $table->json('title');
             $table->json('description');
             $table->json('notes')->nullable();
             $table->json('include')->nullable();

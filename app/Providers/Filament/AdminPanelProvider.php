@@ -2,7 +2,6 @@
 
 namespace App\Providers\Filament;
 
-use App\Filament\Widgets\LanguageSwitcher;
 use Awcodes\Curator\CuratorPlugin;
 use Hasnayeen\Themes\ThemesPlugin;
 use Hasnayeen\Themes\Http\Middleware\SetTheme;
@@ -10,7 +9,7 @@ use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\AuthenticateSession;
 use Filament\Http\Middleware\DisableBladeIconComponents;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
-use Filament\Navigation\MenuItem;
+use Filament\Navigation\UserMenuItem;
 use Filament\Pages;
 use Filament\Panel;
 use Filament\PanelProvider;
@@ -21,6 +20,7 @@ use Illuminate\Cookie\Middleware\EncryptCookies;
 use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
 use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Session\Middleware\StartSession;
+use Illuminate\Support\Facades\View;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
 
 class AdminPanelProvider extends PanelProvider
@@ -34,6 +34,27 @@ class AdminPanelProvider extends PanelProvider
             ->login()
             ->colors([
                 'primary' => Color::Amber,
+            ])
+            ->userMenuItems([
+                // Locale sekarang (hanya label)
+                UserMenuItem::make()
+                    ->label('🌐: ' . strtoupper(app()->getLocale()))
+                    ->icon('heroicon-o-language')
+                    ->url('#'),
+
+                // // Link ke ID (hanya kalau bukan ID)
+                // UserMenuItem::make()
+                //     ->label('🇮🇩 ID')
+                //     ->url('/locale/id')
+                //     ->visible(fn() => app()->getLocale() !== 'id')
+                //     ->icon('heroicon-o-arrow-path'),
+
+                // // Link ke EN (hanya kalau bukan EN)
+                // UserMenuItem::make()
+                //     ->label('en EN')
+                //     ->url('/locale/en')
+                //     ->visible(fn() => app()->getLocale() !== 'en')
+                //     ->icon('heroicon-o-arrow-path'),
             ])
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')
             ->discoverPages(in: app_path('Filament/Pages'), for: 'App\\Filament\\Pages')
@@ -80,15 +101,10 @@ class AdminPanelProvider extends PanelProvider
             ]);
     }
 
-    protected function userMenu(): array
+    public function boot(): void
     {
-        $locale = app()->getLocale();
-        $label = $locale === 'en' ? 'Bahasa Indonesia' : 'English';
-
-        return [
-            MenuItem::make($label)
-                ->url('/filament/language-switch')
-                ->icon('heroicon-m-language'),
-        ];
+        View::composer('filament::layouts.app.topbar.end', function ($view) {
+            $view->with('localeSwitcher', view('components.locale-switcher'));
+        });
     }
 }
