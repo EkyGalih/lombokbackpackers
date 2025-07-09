@@ -33,6 +33,19 @@
                 transform: translateY(0px) rotate(0deg);
             }
         }
+
+        .swiper-pagination-bullet {
+            width: 12px;
+            height: 12px;
+            background: rgba(255, 255, 255, 0.5);
+            border-radius: 0;
+            /* 👈 ini bikin jadi kotak */
+            margin: 0 4px;
+        }
+
+        .swiper-pagination-bullet-active {
+            background: #fff;
+        }
     </style>
     <link
         href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500&family=Playfair+Display:wght@700&display=swap"
@@ -144,12 +157,47 @@
 
     {{ $slot }}
 
-    <footer class="bg-white py-6 text-center text-gray-500 text-sm mt-16">
-        &copy; {{ now()->year }} {{ app(\App\Settings\WebsiteSettings::class)->site_name }}. All rights reserved.
+    <footer class="bg-teal-900 text-white py-6">
+        <div class="container mx-auto px-4 flex flex-col md:flex-row md:justify-between md:items-center">
+            <!-- Kolom kiri: Gambar -->
+            <div class="mb-4 md:mb-0">
+                <img src="https://via.placeholder.com/150x50?text=Logo" alt="Logo" class="h-12">
+            </div>
+
+            <!-- Kolom kanan: Informasi -->
+            <div class="text-sm space-y-1">
+                <p>&copy; 2025 {{ app(\App\Settings\WebsiteSettings::class)->site_name }}. All rights reserved.</p>
+                <p>
+                    <a href="#" class="hover:underline">Privacy Policy</a> |
+                    <a href="#" class="hover:underline">Terms of Service</a>
+                </p>
+                <p>Contact: {{ app(\App\Settings\WebsiteSettings::class)->contact_email }} |
+                    {{ app(\App\Settings\WebsiteSettings::class)->contact_phone }}</p>
+            </div>
+        </div>
     </footer>
+
 
 </body>
 <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.css" />
+<script src="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        new Swiper('.swiper', {
+            loop: true,
+            autoplay: {
+                delay: 3000,
+                disableOnInteraction: false
+            },
+            pagination: {
+                el: '.swiper-pagination',
+                clickable: true
+            }
+        });
+    });
+</script>
+
 @if (session('success'))
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>

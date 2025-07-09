@@ -12,6 +12,7 @@ use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
+use Filament\Tables\Columns\ImageColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 
@@ -33,15 +34,26 @@ class FeatureResource extends Resource
                         TextInput::make('title')
                             ->label('Title')
                             ->columnSpan(6)
+                            ->formatStateUsing(function ($state) {
+                                if (is_array($state)) {
+                                    return $state[app()->getLocale()] ?? '';
+                                }
+                                return $state;
+                            })
                             ->required(),
-                        CuratorPicker::make('media')
-                            ->label('Thumbnail')
-                            ->relationship('media', 'id')
+                        RichEditor::make('description')
                             ->columnSpan(6)
+                            ->formatStateUsing(function ($state) {
+                                if (is_array($state)) {
+                                    return $state[app()->getLocale()] ?? '';
+                                }
+                                return $state;
+                            })
+                            ->label('Description'),
                     ]),
-                RichEditor::make('description')
-                    ->columnSpanFull()
-                    ->label('Description'),
+                CuratorPicker::make('media')
+                    ->label('Thumbnail')
+                    ->multiple(),
             ]);
     }
 
@@ -49,6 +61,11 @@ class FeatureResource extends Resource
     {
         return $table
             ->columns([
+                ImageColumn::make('media.0.path')
+                    ->label('Thumbnail')
+                    ->circular()
+                    ->size(50)
+                    ->default('https://via.placeholder.com/50'),
                 TextColumn::make('title')
                     ->label('Title')
                     ->searchable()
@@ -56,6 +73,7 @@ class FeatureResource extends Resource
                 TextColumn::make('description')
                     ->label('Description')
                     ->limit(50)
+                    ->html()
                     ->searchable()
                     ->sortable(),
             ])

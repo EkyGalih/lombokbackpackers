@@ -128,7 +128,7 @@
     </div>
 
     {{-- Paket Tour Section --}}
-    <section class="bg-gray-100 py-16">
+    <section class="bg-sky-100 py-16">
         <div class="container mx-auto px-6 text-center">
             <h2 class="text-sm font-semibold tracking-widest text-cyan-950 uppercase mb-2">
                 Paket Tour Unggulan
@@ -198,6 +198,220 @@
         </div>
     </section>
 
+    {{-- Why Us Section --}}
+    <section class="bg-white py-16">
+        <div class="container mx-auto px-6 text-center">
+            <h2 class="text-sm font-semibold tracking-widest text-cyan-950 uppercase mb-2">
+                Kenapa Memilih Kami
+            </h2>
+            <h2 class="text-5xl font-black mb-8 text-cyan-950 leading-tight tracking-tight">
+                Pengalaman Perjalanan Terbaik
+            </h2>
+            @php
+                $features = \App\Models\Features::limit(6)->get();
+            @endphp
+            <section class="grid grid-cols-1 md:grid-cols-2 gap-8 p-8">
+                {{-- Fitur kiri --}}
+                <div class="space-y-4">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        @foreach ($features as $feature)
+                            <div
+                                class="relative group text-white p-4 rounded overflow-hidden bg-teal-900 hover:bg-lime-500 rounded-br-lg hover:rounded-br-3xl hover:rounded-tl-3xl transition-all duration-500 ease-in-out min-h-64">
+
+                                {{-- Background --}}
+                                <div class="absolute inset-0 bg-cover bg-center opacity-0 group-hover:opacity-30
+                transition-all duration-500 ease-in-out scale-105 group-hover:scale-100"
+                                    style="background-image: url('{{ $feature->media->first()->url }}');">
+                                </div>
+
+                                {{-- Content --}}
+                                <div
+                                    class="relative z-10 flex flex-col justify-center h-full transition-all duration-500 ease-in-out group-hover:-translate-y-1">
+
+                                    {{-- ICON --}}
+                                    <div
+                                        class="text-3xl mb-4 transition-all duration-500 ease-in-out opacity-100 group-hover:opacity-50">
+                                        <img class="w-24 h-24 object-cover rounded-full mx-auto mb-2 border-2 border-lime-300 shadow-lg"
+                                            src="{{ $feature->media?->first()->url }}" alt="{{ $feature['title'] }}">
+                                    </div>
+
+                                    {{-- Title --}}
+                                    <h3
+                                        class="font-bold text-lg transition-all duration-500 ease-in-out group-hover:text-white group-hover:scale-105">
+                                        {{ $feature['title'] }}
+                                    </h3>
+
+                                    {{-- Description --}}
+                                    <p
+                                        class="text-sm transition-all duration-500 ease-in-out group-hover:text-gray-100 group-hover:scale-105">
+                                        {!! $feature['description'] !!}
+                                    </p>
+                                </div>
+                            </div>
+                        @endforeach
+
+                    </div>
+                </div>
+
+                {{-- Slider kanan --}}
+                <div>
+                    <div class="swiper">
+                        <div class="swiper-wrapper">
+                            @foreach ([
+        [
+            'image' => 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+            'title' => 'Pantai Indah',
+            'description' => 'Liburan di pantai tropis.',
+            'start_date' => now(),
+            'end_date' => now()->addDays(7),
+        ],
+        [
+            'image' => 'https://images.unsplash.com/photo-1501785888041-af3ef285b470?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+            'title' => 'Gunung Megah',
+            'description' => 'Pendakian penuh petualangan.',
+            'start_date' => now(),
+            'end_date' => now()->addDays(7),
+        ],
+        [
+            'image' => 'https://images.unsplash.com/photo-1470770841072-f978cf4d019e?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+            'title' => 'Kota Bersejarah',
+            'description' => 'Wisata budaya & sejarah.',
+            'start_date' => now(),
+            'end_date' => now()->addDays(7),
+        ],
+    ] as $slide)
+                                <div class="swiper-slide relative">
+                                    <img src="{{ $slide['image'] }}" class="w-full h-80 object-cover rounded-lg h-96">
+                                    <div class="absolute bottom-4 left-4 text-white">
+                                        <h2 class="text-2xl font-bold">{{ $slide['title'] }}</h2>
+                                        <p>{{ $slide['description'] }}</p>
+                                        <p>{{ $slide['start_date']->format('d M') }} -
+                                            {{ $slide['end_date']->format('d M') }}</p>
+                                    </div>
+                                </div>
+                            @endforeach
+                        </div>
+                        <div class="swiper-pagination absolute top-2 right-2 z-10"></div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </section>
+
+    <section class="py-12 bg-white">
+        <div class="container mx-auto px-4">
+            <h2 class="text-3xl font-bold text-center text-teal-800 mb-10">
+                Wisata Populer
+            </h2>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+
+                <!-- Card 1 -->
+                <a href="https://wdtletsgo.wpengine.com/blog/wdt_packages/egypt-pyramids-tour/"
+                    class="relative rounded-lg overflow-hidden shadow-lg group">
+                    <img src="https://wdtletsgo.wpengine.com/wp-content/uploads/2024/07/egypt-3.jpg" alt=""
+                        class="w-full h-64 object-cover transition-transform group-hover:scale-105">
+                    <div class="absolute inset-0 bg-black/50 flex flex-col justify-end p-4">
+
+                        <!-- Info -->
+                        <div class="transition-all duration-300 group-hover:-translate-y-6">
+                            <h3 class="text-lg font-semibold text-white">Egypt Pyramids Tour</h3>
+                            <ul class="text-sm text-gray-200 space-y-1">
+                                <li>Starts from - $39.00</li>
+                                <li>6 Days - 4 Nights</li>
+                                <li>All New Year (Mar - May)</li>
+                            </ul>
+                        </div>
+
+                        <!-- Tombol muncul saat hover -->
+                        <span
+                            class="opacity-0 translate-y-4 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300 inline-block mt-1">
+                            <button class="px-3 py-1 text-sm bg-teal-600 text-white rounded hover:bg-teal-700">
+                                Explore Trip →
+                            </button>
+                        </span>
+
+                    </div>
+                </a>
+
+                <!-- Card 2 -->
+                <a href="https://wdtletsgo.wpengine.com/blog/wdt_packages/usa-grand-explorer/"
+                    class="relative rounded-lg overflow-hidden shadow-lg group">
+                    <img src="https://wdtletsgo.wpengine.com/wp-content/uploads/2024/07/usa-1.jpg" alt=""
+                        class="w-full h-64 object-cover transition-transform group-hover:scale-105">
+                    <div class="absolute inset-0 bg-black/50 flex flex-col justify-end p-4">
+                        <h3 class="text-lg font-semibold text-white">USA Grand Explorer</h3>
+                        <ul class="text-sm text-gray-200 space-y-1">
+                            <li>Starts from - $29.00</li>
+                            <li>7 Days - 5 Nights</li>
+                            <li>Spring Season (Nov - Jan)</li>
+                        </ul>
+                    </div>
+                </a>
+
+                <!-- Card 3 -->
+                <a href="https://wdtletsgo.wpengine.com/blog/wdt_packages/luxury-usa-tour/"
+                    class="relative rounded-lg overflow-hidden shadow-lg group">
+                    <img src="https://wdtletsgo.wpengine.com/wp-content/uploads/2024/07/usa-3.jpg" alt=""
+                        class="w-full h-64 object-cover transition-transform group-hover:scale-105">
+                    <div class="absolute inset-0 bg-black/50 flex flex-col justify-end p-4">
+                        <h3 class="text-lg font-semibold text-white">Luxury USA Tour</h3>
+                        <ul class="text-sm text-gray-200 space-y-1">
+                            <li>Starts from - $19.00</li>
+                            <li>2 Days - 1 Nights</li>
+                            <li>Sightseeing (Feb- Apr)</li>
+                        </ul>
+                    </div>
+                </a>
+
+                <!-- Card 4 -->
+                <a href="https://wdtletsgo.wpengine.com/blog/wdt_packages/turkey-spiritual-heritage/"
+                    class="relative rounded-lg overflow-hidden shadow-lg group">
+                    <img src="https://wdtletsgo.wpengine.com/wp-content/uploads/2024/07/turkey-3.jpg" alt=""
+                        class="w-full h-64 object-cover transition-transform group-hover:scale-105">
+                    <div class="absolute inset-0 bg-black/50 flex flex-col justify-end p-4">
+                        <h3 class="text-lg font-semibold text-white">Turkey Spiritual Heritage</h3>
+                        <ul class="text-sm text-gray-200 space-y-1">
+                            <li>Starts from - $19.00</li>
+                            <li>2 Days - 2 Nights</li>
+                            <li>All New Year (Dec - Mar)</li>
+                        </ul>
+                    </div>
+                </a>
+
+                <!-- Card 5 -->
+                <a href="https://wdtletsgo.wpengine.com/blog/wdt_packages/exclusive-thailand-tour/"
+                    class="relative rounded-lg overflow-hidden shadow-lg group">
+                    <img src="https://wdtletsgo.wpengine.com/wp-content/uploads/2024/07/thailand-3.jpg" alt=""
+                        class="w-full h-64 object-cover transition-transform group-hover:scale-105">
+                    <div class="absolute inset-0 bg-black/50 flex flex-col justify-end p-4">
+                        <h3 class="text-lg font-semibold text-white">Exclusive Thailand Tour</h3>
+                        <ul class="text-sm text-gray-200 space-y-1">
+                            <li>Starts from - $9.00</li>
+                            <li>3 Days - 2 Nights</li>
+                            <li>Winter Tours (Dec - Feb)</li>
+                        </ul>
+                    </div>
+                </a>
+
+                <!-- Card 6 -->
+                <a href="https://wdtletsgo.wpengine.com/blog/wdt_packages/turkey-beyond-beach-tour/"
+                    class="relative rounded-lg overflow-hidden shadow-lg group">
+                    <img src="https://wdtletsgo.wpengine.com/wp-content/uploads/2024/07/turkey-2.jpg" alt=""
+                        class="w-full h-64 object-cover transition-transform group-hover:scale-105">
+                    <div class="absolute inset-0 bg-black/50 flex flex-col justify-end p-4">
+                        <h3 class="text-lg font-semibold text-white">Turkey Beyond Beach Tour</h3>
+                        <ul class="text-sm text-gray-200 space-y-1">
+                            <li>Starts from - $32.00</li>
+                            <li>3 Days - 2 Nights</li>
+                            <li>All New Year (Sep- Dec)</li>
+                        </ul>
+                    </div>
+                </a>
+
+            </div>
+        </div>
+    </section>
 
     </div>
 </x-guest-layout>
