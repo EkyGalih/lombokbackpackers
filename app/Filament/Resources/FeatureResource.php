@@ -28,22 +28,20 @@ class FeatureResource extends Resource
     {
         return $form
             ->schema([
-                TextInput::make('title')
-                    ->label('Title')
-                    ->required(),
-                CuratorPicker::make('media')
-                    ->label('Icon')
-                    ->relationship('media', 'id'),
                 Grid::make(12)
                     ->schema([
-                        RichEditor::make('description')
+                        TextInput::make('title')
+                            ->label('Title')
                             ->columnSpan(6)
-                            ->label('Description'),
+                            ->required(),
                         CuratorPicker::make('media')
                             ->label('Thumbnail')
-                            ->columnSpan(6)
                             ->relationship('media', 'id')
+                            ->columnSpan(6)
                     ]),
+                RichEditor::make('description')
+                    ->columnSpanFull()
+                    ->label('Description'),
             ]);
     }
 
@@ -51,10 +49,6 @@ class FeatureResource extends Resource
     {
         return $table
             ->columns([
-                TextColumn::make('icon')
-                    ->label('Icon')
-                    ->searchable()
-                    ->sortable(),
                 TextColumn::make('title')
                     ->label('Title')
                     ->searchable()
