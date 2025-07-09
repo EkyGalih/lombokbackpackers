@@ -4,9 +4,10 @@
 
 <x-guest-layout>
     <section
-        class="min-h-[500px] flex items-center justify-center bg-gradient-to-br from-indigo-600 to-blue-500 text-white relative overflow-hidden">
-        @if ($tour->thumbnail)
-            <img src="{{ asset('storage/' . $tour->thumbnail) }}" alt="{{ $tour->title }}"
+        class="min-h-[500px] flex items-center justify-center bg-gradient-to-br from-lime-600 to-lime-500 text-white relative overflow-hidden">
+        @if ($tour->media?->first())
+            {{-- Tour Image --}}
+            <img src="{{ $tour->media?->first()->url }}" alt="{{ $tour->title }}"
                 class="absolute inset-0 w-full h-full object-cover opacity-90 z-0">
         @endif
 
@@ -33,14 +34,19 @@
                 </div>
             </div>
 
-            {{-- Description --}}
-            <p class="text-gray-600 text-lg mb-8">{{ $tour->description }}</p>
-
             {{-- Info Cards --}}
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
                 <div class="bg-white rounded-lg shadow p-4 text-center">
-                    <p class="text-sm text-gray-500">Harga</p>
-                    @if ($tour->discount && $tour->discount > 0)
+                    <p class="text-sm text-gray-500">Paket</p>
+                    @foreach ($tour->packet as $packet)
+                        <div class="flex flex-col items-center mb-1">
+                            <span
+                                class="inline-block bg-lime-300 text-slate-900 px-2 py-0.5 rounded-full text-sm font-medium mb-0.5 shadow-sm">
+                                {{ $packet['value'] }}
+                            </span>
+                        </div>
+                    @endforeach
+                    {{-- @if ($tour->discount && $tour->discount > 0)
                         <p class="text-sm text-gray-400 line-through">
                             Rp
                             {{ number_format($tour->price, 0, ',', '.') }}
@@ -56,13 +62,13 @@
                             {{ number_format($tour->price, 0, ',', '.') }}
                         </p>
                         <small class="text-gray-500 text-xs">{{ $tour->package_person_count }} Person</small>
-                    @endif
+                    @endif --}}
                 </div>
 
                 <div class="bg-white rounded-lg shadow p-4 text-center">
                     <p class="text-sm text-gray-500">Durasi</p>
-                    <p class="text-2xl font-semibold text-indigo-600">
-                        {{ $tour->duration }} Hari
+                    <p class="text-2xl font-semibold text-lime-600">
+                        {{ $tour->duration }}
                     </p>
                 </div>
 
@@ -74,35 +80,122 @@
                 </div>
             </div>
 
-            {{-- Booking Form --}}
-            <div class="bg-white rounded-lg shadow p-6">
-                @auth
-                    <h2 class="text-xl font-bold text-gray-800 mb-4">Booking Sekarang</h2>
-
-                    <form action="{{ route('bookings.store') }}" method="POST">
-                        @csrf
-                        <input type="hidden" name="tour_id" value="{{ $tour->id }}">
-
-                        <div class="mb-4">
-                            <label for="booking_date" class="block text-sm font-medium text-gray-700 mb-1">
-                                Pilih Tanggal Keberangkatan
-                            </label>
-                            <input type="date" name="booking_date" required
-                                class="border border-gray-300 rounded w-full py-2 px-3 shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
-                        </div>
-
-                        <button type="submit"
-                            class="w-full md:w-auto bg-gradient-to-r from-indigo-500 to-indigo-700 hover:from-indigo-600 hover:to-indigo-800 text-indigo-800 font-semibold py-2 px-6 rounded shadow-md transition">
-                            🚤 Booking Sekarang
+            {{-- detail tabs --}}
+            <div x-data="{ tab: 'overview' }">
+                <div class="border-b mb-4">
+                    <nav class="flex justify-between items-center">
+                        <button
+                            :class="tab === 'overview' ? 'border-b-2 border-lime-500 text-lime-600' : 'text-gray-600'"
+                            class="py-2 px-4 focus:outline-none" @click="tab = 'overview'">
+                            Overview
                         </button>
-                    </form>
-                @else
-                    <p class="text-gray-700 text-center">
-                        <a href="{{ route('login') }}" class="text-indigo-600 hover:underline font-medium">
-                            Login
-                        </a> untuk melakukan booking.
+                        <button
+                            :class="tab === 'inc/exc' ? 'border-b-2 border-lime-500 text-lime-600' : 'text-gray-600'"
+                            class="py-2 px-4 focus:outline-none" @click="tab = 'inc/exc'">
+                            Inc/Exc
+                        </button>
+                        <button
+                            :class="tab === 'itinerary' ? 'border-b-2 border-lime-500 text-lime-600' : 'text-gray-600'"
+                            class="py-2 px-4 focus:outline-none" @click="tab = 'itinerary'">
+                            Itinerary
+                        </button>
+                        {{-- Booking Form --}}
+                        <div class="ml-auto flex items-center">
+                            @auth
+                                <div x-data="{ open: false }">
+                                    <!-- Tombol -->
+                                    <button @click="open = true"
+                                        class="border border-lime-500 font-semibold py-2 px-4 rounded shadow-md transition text-sm ml-2 text-lime-600 hover:bg-lime-50">
+                                        Booking Sekarang
+                                    </button>
+
+                                    <!-- Modal -->
+                                    <div x-show="open" x-cloak
+                                        class="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
+                                        <div @click.away="open = false"
+                                            class="bg-white rounded-lg shadow-lg w-full max-w-md p-6">
+                                            <h2 class="text-xl font-bold text-gray-800 mb-4">Booking Sekarang</h2>
+
+                                            <form action="{{ route('bookings.store') }}" method="POST" class="space-y-4">
+                                                @csrf
+                                                <input type="hidden" name="tour_id" value="{{ $tour->id }}">
+
+                                                <div>
+                                                    <label for="booking_date"
+                                                        class="block text-sm font-medium text-gray-700">Tanggal
+                                                        Booking</label>
+                                                    <input type="date" id="booking_date" name="booking_date" required
+                                                        class="mt-1 block w-full border border-gray-300 rounded py-2 px-3 shadow-sm focus:ring-lime-500 focus:border-lime-500 text-sm">
+                                                </div>
+
+                                                <div class="flex justify-end space-x-2">
+                                                    <button type="button" @click="open = false"
+                                                        class="py-2 px-4 bg-gray-100 text-gray-700 rounded hover:bg-gray-200 text-sm">
+                                                        Batal
+                                                    </button>
+
+                                                    <button type="submit"
+                                                        class="py-2 px-4 bg-lime-500 hover:bg-lime-600 text-white font-semibold rounded shadow text-sm">
+                                                        Booking
+                                                    </button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            @else
+                                <a href="{{ route('register') }}"
+                                    class="border border-lime-500 border-b-1 border-t-1 border-l-1 border-r-1 bg-1 font-semibold py-2 px-4 rounded shadow-md transition text-sm ml-2 text-lime-600 hover:bg-lime-50">
+                                    Booking Sekarang
+                                </a>
+                            @endauth
+                        </div>
+                    </nav>
+                </div>
+
+                <div x-show="tab === 'overview'" x-transition:enter="transition ease-out duration-300"
+                    x-transition:enter-start="opacity-0 translate-y-2"
+                    x-transition:enter-end="opacity-100 translate-y-0"
+                    x-transition:leave="transition ease-in duration-200"
+                    x-transition:leave-start="opacity-100 translate-y-0"
+                    x-transition:leave-end="opacity-0 translate-y-2" x-cloak>
+                    <h4 class="font-bold">Overview:</h4>
+                    <p class="text-slate-900 mb-4">
+                        {!! $tour->description !!}
                     </p>
-                @endauth
+                    <h4 class="font-bold mt-4">Notes:</h4>
+                    <p class="text-slate-900 mb-4">
+                        {!! $tour->notes !!}
+                    </p>
+                </div>
+
+                <div x-show="tab === 'inc/exc'" x-transition:enter="transition ease-out duration-300"
+                    x-transition:enter-start="opacity-0 translate-y-2"
+                    x-transition:enter-end="opacity-100 translate-y-0"
+                    x-transition:leave="transition ease-in duration-200"
+                    x-transition:leave-start="opacity-100 translate-y-0"
+                    x-transition:leave-end="opacity-0 translate-y-2" x-cloak>
+                    <h4 class="font-bold mt-4">Include:</h4>
+                    <p class="text-slate-900 mb-4">
+                        {!! $tour->include !!}
+                    </p>
+                    <h4 class="font-bold mt-4">Exclude:</h4>
+                    <p class="text-slate-900 mb-4">
+                        {!! $tour->exclude !!}
+                    </p>
+                </div>
+
+                <div x-show="tab === 'itinerary'" x-transition:enter="transition ease-out duration-300"
+                    x-transition:enter-start="opacity-0 translate-y-2"
+                    x-transition:enter-end="opacity-100 translate-y-0"
+                    x-transition:leave="transition ease-in duration-200"
+                    x-transition:leave-start="opacity-100 translate-y-0"
+                    x-transition:leave-end="opacity-0 translate-y-2" x-cloak>
+                    <h4 class="font-bold mt-4">Itinerary:</h4>
+                    <p class="text-slate-900 mb-4">
+                        {!! $tour->itinerary !!}
+                    </p>
+                </div>
             </div>
 
             @if ($tour->ratings->count())
@@ -178,11 +271,6 @@
                             </button>
                         </div>
                     </form>
-                @else
-                    <p class="mt-6 text-gray-700">
-                        <a href="{{ route('login') }}" class="text-indigo-600 hover:underline">Login</a> untuk memberi
-                        rating & ulasan.
-                    </p>
             @endif
 
         </div>

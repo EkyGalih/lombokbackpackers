@@ -71,6 +71,26 @@ class Tour extends Model
         });
     }
 
+    public function getLowestPriceAttribute(): ?int
+    {
+        $packets = $this->packet ?? [];
+
+        // Ubah ke collection biar gampang
+        $prices = collect($packets)->map(function ($item) {
+            $value = $item['value'] ?? null;
+
+            if ($value && preg_match('/(\d{1,3}(?:[.,]\d{3})+)/', $value, $matches)) {
+                // Ambil angka & ubah jadi integer
+                return (int) str_replace(['.', ','], '', $matches[1]);
+            }
+
+            return null;
+        })->filter();
+
+        return $prices->min();
+    }
+
+
     public function media()
     {
         return $this->morphToMany(Media::class, 'model', 'media_relationships');

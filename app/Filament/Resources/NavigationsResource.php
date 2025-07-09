@@ -55,7 +55,6 @@ class NavigationsResource extends Resource
             ])
             ->defaultSort('order')
             ->paginated(false)
-            ->recordAction(null)
             ->reorderable('order')
             ->actions([
                 Tables\Actions\EditAction::make(),

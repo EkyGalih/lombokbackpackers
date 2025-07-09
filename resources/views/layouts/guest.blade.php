@@ -103,12 +103,12 @@
 
                 @guest
                     <a href="{{ route('login') }}"
-                        class="bg-orange-400 font-bold text-slate-900 px-5 py-2 rounded-lg shadow hover:bg-orange-300 transition ml-2">
+                        class="bg-lime-300 text-slate-900 px-5 py-2 rounded-br-3xl rounded-lg shadow hover:bg-lime-200 transition ml-2">
                         Masuk
                     </a>
                 @else
                     <a href="{{ route('profile.edit') }}"
-                        class="bg-orange-400 font-bold text-slate-900 px-5 py-2 rounded-lg shadow hover:bg-orange-300 transition ml-2">
+                        class="bg-lime-300 text-slate-900 px-5 py-2 rounded-lg shadow hover:bg-lime-200 transition ml-2">
                         My Account
                     </a>
                 @endguest

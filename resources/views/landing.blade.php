@@ -72,7 +72,7 @@
 
             <div class="text-center z-10 px-4 max-w-3xl">
                 <h1
-                    class="text-4xl md:text-6xl font-bold mb-4 bg-gradient-to-r from-white to-orange-400 bg-clip-text text-transparent">
+                    class="text-4xl md:text-6xl font-bold mb-4 bg-gradient-to-r from-white to-lime-300 bg-clip-text text-transparent">
                     {{ $headerTitle }}
                 </h1>
                 <p class="text-lg md:text-xl mb-8">
@@ -99,7 +99,7 @@
                     </template>
                 </div>
                 <a href="#"
-                    class="bg-orange-400 text-slate-900 font-semibold px-6 py-3 rounded-lg shadow hover:bg-orange-300 transition">
+                    class="bg-lime-300 text-slate-900 font-semibold px-6 py-3 rounded-lg shadow hover:bg-lime-200 transition">
                     Explore More
                 </a>
             </div>
@@ -114,7 +114,7 @@
             ]">
                     <button @click="activeTab = tab.key"
                         :class="activeTab === tab.key ?
-                            'bg-orange-400 text-slate-900' :
+                            'bg-lime-300 text-slate-900' :
                             'bg-white bg-opacity-20 text-white'"
                         class="font-semibold px-8 py-3 rounded w-72 text-center mt-12" x-text="tab.label"></button>
                 </template>
@@ -145,7 +145,7 @@
 
                             {{-- Gambar full --}}
                             <div class="overflow-hidden"> {{-- Tambahkan pembungkus supaya crop gambar ketika zoom --}}
-                                <img src="{{ asset('storage/' . $tour->thumbnail) }}" alt="{{ $tour->title }}"
+                                <img src="{{ $tour->media?->first()->url }}" alt="{{ $tour->title }}"
                                     class="w-full h-96 object-cover transform transition-transform duration-500 ease-in-out group-hover:scale-110">
                             </div>
 
@@ -159,19 +159,15 @@
 
                                     @if ($tour->discount && $tour->discount > 0)
                                         <p class="text-sm text-gray-300 line-through">
-                                            Rp {{ number_format($tour->price, 0, ',', '.') }}
+                                            Rp {{ number_format($tour->lowest_price, 0, ',', '.') }}
                                         </p>
                                         <p class="text-xl text-red-400 font-bold">
-                                            Rp {{ number_format($tour->price - $tour->discount, 0, ',', '.') }}
+                                            Rp {{ number_format($tour->lowest_price - $tour->discount, 0, ',', '.') }}
                                         </p>
-                                        <small class="text-gray-300 text-xs">{{ $tour->package_person_count }}
-                                            Person</small>
                                     @else
-                                        <p class="text-xl font-semibold text-indigo-300">
-                                            Rp {{ number_format($tour->price, 0, ',', '.') }}
+                                        <p class="text-xl font-semibold text-lime-400">
+                                            Rp {{ number_format($tour->lowest_price, 0, ',', '.') }}
                                         </p>
-                                        <small class="text-gray-300 text-xs">{{ $tour->package_person_count }}
-                                            Person</small>
                                     @endif
                                 </div>
                             </div>
@@ -191,7 +187,7 @@
                 {{-- Tambahkan tombol di bawah --}}
                 <div class="mt-10">
                     <a href="{{ route('tours.index') }}"
-                        class="inline-block font-bold bg-orange-400 text-slate-900 px-6 py-3 rounded-lg shadow hover:bg-orange-300 transition">
+                        class="inline-block bg-lime-300 text-slate-900 px-6 py-3 rounded-lg shadow hover:bg-lime-200 transition">
                         Explore All Destinations
                     </a>
                 </div>
