@@ -90,7 +90,6 @@ class Tour extends Model
         return $prices->min();
     }
 
-
     public function media()
     {
         return $this->morphToMany(Media::class, 'model', 'media_relationships');
