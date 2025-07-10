@@ -1,14 +1,14 @@
 <?php
 
-namespace App\Filament\Resources\PostsResource\Pages;
+namespace App\Filament\Resources\ServicesResource\Pages;
 
-use App\Filament\Resources\PostsResource;
+use App\Filament\Resources\ServicesResource;
 use Filament\Actions;
 use Filament\Resources\Pages\EditRecord;
 
-class EditPosts extends EditRecord
+class EditServices extends EditRecord
 {
-    protected static string $resource = PostsResource::class;
+    protected static string $resource = ServicesResource::class;
 
     protected function getHeaderActions(): array
     {
@@ -22,10 +22,6 @@ class EditPosts extends EditRecord
         // ambil media yang sudah dipilih, isi ke form
         $data['media'] = $this->record->media()->pluck('media.id')->toArray();
 
-        if ($this->record->seoMeta) {
-            $data['seoMeta'] = $this->record->seoMeta->toArray();
-        }
-
         return $data;
     }
 
@@ -34,22 +30,13 @@ class EditPosts extends EditRecord
         $this->mediaIds = $data['media'] ?? [];
         unset($data['media']);
 
-        unset($data['seoMeta']); // Buang seoMeta dari $data supaya tidak dikirim ke tabel posts
-
         return $data;
     }
 
     protected function afterSave(): void
     {
-        // sync media
         if (!empty($this->mediaIds)) {
             $this->record->media()->sync($this->mediaIds);
-        }
-
-        // update or create seoMeta
-        $seoData = $this->form->getState()['seoMeta'] ?? [];
-        if ($seoData) {
-            $this->record->seoMeta()->updateOrCreate([], $seoData);
         }
     }
 }

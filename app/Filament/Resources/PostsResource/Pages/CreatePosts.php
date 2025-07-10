@@ -15,7 +15,8 @@ class CreatePosts extends CreateRecord
         // Simpan media_id terpisah
         $this->mediaIds = $data['media'] ?? [];
         unset($data['media']);
-
+        unset($data['seoMeta']); // Buang seoMeta dari $data supaya tidak dikirim ke tabel posts
+        
         return $data;
     }
 
@@ -23,6 +24,12 @@ class CreatePosts extends CreateRecord
     {
         if (!empty($this->mediaIds)) {
             $this->record->media()->sync($this->mediaIds);
+        }
+
+        $seoData = $this->form->getState()['seoMeta'] ?? [];
+        if ($seoData) {
+            // Simpan seoMeta setelah post dibuat
+            $this->record->seoMeta()->create($seoData);
         }
     }
 }

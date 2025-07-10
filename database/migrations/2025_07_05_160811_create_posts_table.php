@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('thumbnail')->nullable();
             $table->json('content');
             $table->enum('status', ['draft', 'published'])->default('draft');
-            $table->json('tags')->nullable();
+            $table->string('tags')->nullable();
             $table->unsignedBigInteger('author_id');
             $table->softDeletes();
             $table->timestamps();

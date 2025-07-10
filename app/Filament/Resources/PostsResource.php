@@ -50,14 +50,17 @@ class PostsResource extends Resource
                             Grid::make(12)
                                 ->schema([
                                     TextInput::make('title')
-                                        ->formatStateUsing(function ($state) {
-                                            if (is_array($state)) {
-                                                return $state[app()->getLocale()] ?? '';
-                                            }
-                                            return $state;
+                                        ->required()
+                                        ->live(onBlur: true)
+                                        ->afterStateUpdated(function ($state, callable $set) {
+                                            // Kalau SEO title masih kosong
+                                            $set('seoMeta.meta_title', $state);
+                                            // Kalau slug masih kosong
+                                            $set('slug', str($state)->slug());
+                                            // set url seo
+                                            $set('seoMeta.canonical_url', url(ENV('APP_URL') . '/posts/' . str($state)->slug()));
                                         })
-                                        ->columnSpan(6)
-                                        ->required(),
+                                        ->columnSpan(6),
                                     TextInput::make('slug')
                                         ->readonly()
                                         ->formatStateUsing(function ($state) {
@@ -70,7 +73,8 @@ class PostsResource extends Resource
                                         ->required()
                                         ->unique(ignoreRecord: true),
                                 ]),
-                            Textarea::make('excerpt')
+                            RichEditor::make('excerpt')
+                                ->hidden()
                                 ->formatStateUsing(function ($state) {
                                     if (is_array($state)) {
                                         return $state[app()->getLocale()] ?? '';
@@ -84,24 +88,28 @@ class PostsResource extends Resource
                                     }
                                     return $state;
                                 })
-                                ->required(),
+                                ->live(onBlur: true)
+                                ->afterStateUpdated(function ($state, callable $set) {
+                                    $plainText = strip_tags($state);
 
-                            Grid::make(12)
-                                ->schema([
-                                    CuratorPicker::make('thumbnail')
-                                        ->label('Thumbnail')
-                                        ->multiple()
-                                        ->columnSpan(6),
-                                    TagsInput::make('tags')
-                                        ->label('Tags')
-                                        ->formatStateUsing(function ($state) {
-                                            if (is_array($state)) {
-                                                return $state[app()->getLocale()] ?? '';
-                                            }
-                                            return $state;
-                                        })
-                                        ->columnSpan(6),
-                                ]),
+                                    $excerpt = str($plainText)->limit(100);
+                                    $seoDesc = str($plainText)->limit(160);
+
+                                    // ambil kata2
+                                    $words = str($plainText)
+                                    ->lower()
+                                    ->explode(' ')
+                                    ->map(fn ($word) => trim(preg_replace('/[^a-z0-9]/', '', $word)))
+                                    ->filter(fn ($word) => strlen($word) > 3) // minimal panjang kata
+                                    ->unique()
+                                    ->take(10)
+                                    ->implode(', ');
+
+                                    $set('excerpt', $excerpt);
+                                    $set('seoMeta.meta_description', $seoDesc);
+                                    $set('seoMeta.keywords', $words);
+                                })
+                                ->required(),
 
                             Grid::make(12)
                                 ->schema([
@@ -116,6 +124,19 @@ class PostsResource extends Resource
                                             'draft' => 'Draft',
                                             'published' => 'Published',
                                         ])->default('draft'),
+                                ]),
+
+                            Grid::make(12)
+                                ->schema([
+                                    CuratorPicker::make('thumbnail')
+                                        ->label('Thumbnail')
+                                        ->multiple()
+                                        ->columnSpan(6),
+                                    TagsInput::make('tags')
+                                        ->label('Tags')
+                                        ->placeholder('Add tags')
+                                        ->suggestions(['tour', 'travel', 'adventure', 'vacation'])
+                                        ->columnSpan(6),
                                 ]),
                         ]),
                         Tab::make('SEO')->schema([

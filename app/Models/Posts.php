@@ -15,11 +15,13 @@ class Posts extends Model
     use HasFactory, HasUuid, HasTranslations, AutoTranslateOnSave;
 
     protected $guarded = [];
+    protected $casts = [
+        'tags' => 'array',
+    ];
     protected $translatable = [
         'title',
         'excerpt',
         'content',
-        'tags',
     ];
 
     protected static function booted(): void
@@ -38,6 +40,11 @@ class Posts extends Model
 
             $tour->slug = Str::slug($titleForSlug) . '-' . Str::random(5);
         });
+    }
+
+    public function seoMeta()
+    {
+        return $this->morphOne(SeoMeta::class, 'seoable');
     }
 
     public function author()
