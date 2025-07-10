@@ -5,10 +5,16 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\PostsResource\Pages;
 use App\Filament\Resources\PostsResource\RelationManagers;
 use App\Models\Posts;
+use Awcodes\Curator\Components\Forms\CuratorPicker;
 use Filament\Forms;
 use Filament\Forms\Components\DateTimePicker;
 use Filament\Forms\Components\FileUpload;
+use Filament\Forms\Components\Grid;
+use Filament\Forms\Components\RichEditor;
 use Filament\Forms\Components\Select;
+use Filament\Forms\Components\Tabs;
+use Filament\Forms\Components\Tabs\Tab;
+use Filament\Forms\Components\TagsInput;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
@@ -37,30 +43,110 @@ class PostsResource extends Resource
     {
         return $form
             ->schema([
-                TextInput::make('title')->required(),
-                TextInput::make('slug')->required()->unique(ignoreRecord: true),
-                Textarea::make('excerpt'),
-                Textarea::make('content')->required(),
+                Tabs::make()
+                    ->columnSpanFull()
+                    ->tabs([
+                        Tab::make('Detail Posts')->schema([
+                            Grid::make(12)
+                                ->schema([
+                                    TextInput::make('title')
+                                        ->formatStateUsing(function ($state) {
+                                            if (is_array($state)) {
+                                                return $state[app()->getLocale()] ?? '';
+                                            }
+                                            return $state;
+                                        })
+                                        ->columnSpan(6)
+                                        ->required(),
+                                    TextInput::make('slug')
+                                        ->readonly()
+                                        ->formatStateUsing(function ($state) {
+                                            if (is_array($state)) {
+                                                return $state[app()->getLocale()] ?? '';
+                                            }
+                                            return $state;
+                                        })
+                                        ->columnSpan(6)
+                                        ->required()
+                                        ->unique(ignoreRecord: true),
+                                ]),
+                            Textarea::make('excerpt')
+                                ->formatStateUsing(function ($state) {
+                                    if (is_array($state)) {
+                                        return $state[app()->getLocale()] ?? '';
+                                    }
+                                    return $state;
+                                }),
+                            RichEditor::make('content')
+                                ->formatStateUsing(function ($state) {
+                                    if (is_array($state)) {
+                                        return $state[app()->getLocale()] ?? '';
+                                    }
+                                    return $state;
+                                })
+                                ->required(),
 
-                FileUpload::make('thumbnail')->directory('posts'),
+                            Grid::make(12)
+                                ->schema([
+                                    CuratorPicker::make('thumbnail')
+                                        ->label('Thumbnail')
+                                        ->multiple()
+                                        ->columnSpan(6),
+                                    TagsInput::make('tags')
+                                        ->label('Tags')
+                                        ->formatStateUsing(function ($state) {
+                                            if (is_array($state)) {
+                                                return $state[app()->getLocale()] ?? '';
+                                            }
+                                            return $state;
+                                        })
+                                        ->columnSpan(6),
+                                ]),
 
-                Select::make('author_id')
-                    ->relationship('author', 'name')
-                    ->nullable(),
+                            Grid::make(12)
+                                ->schema([
+                                    Select::make('author_id')
+                                        ->relationship('author', 'name')
+                                        ->columnSpan(6)
+                                        ->nullable(),
 
-                Select::make('status')
-                    ->options([
-                        'draft' => 'Draft',
-                        'published' => 'Published',
-                    ])->default('draft'),
-
-                Toggle::make('is_featured')->label('Featured'),
-
-                TextInput::make('meta_title'),
-                Textarea::make('meta_description'),
-                Textarea::make('meta_keywords'),
-
-                DateTimePicker::make('published_at'),
+                                    Select::make('status')
+                                        ->columnSpan(6)
+                                        ->options([
+                                            'draft' => 'Draft',
+                                            'published' => 'Published',
+                                        ])->default('draft'),
+                                ]),
+                        ]),
+                        Tab::make('SEO')->schema([
+                            TextInput::make('seoMeta.meta_title')
+                                ->formatStateUsing(function ($state) {
+                                    if (is_array($state)) {
+                                        return $state[app()->getLocale()] ?? '';
+                                    }
+                                    return $state;
+                                })
+                                ->label('Meta Title'),
+                            Textarea::make('seoMeta.meta_description')
+                                ->formatStateUsing(function ($state) {
+                                    if (is_array($state)) {
+                                        return $state[app()->getLocale()] ?? '';
+                                    }
+                                    return $state;
+                                })
+                                ->label('Meta Description'),
+                            TextInput::make('seoMeta.keywords')
+                                ->formatStateUsing(function ($state) {
+                                    if (is_array($state)) {
+                                        return $state[app()->getLocale()] ?? '';
+                                    }
+                                    return $state;
+                                })
+                                ->label('Keywords'),
+                            TextInput::make('seoMeta.canonical_url')->label('Canonical URL'),
+                            TextInput::make('seoMeta.robots')->label('Robots')->default('index, follow'),
+                        ]),
+                    ]),
             ]);
     }
 
