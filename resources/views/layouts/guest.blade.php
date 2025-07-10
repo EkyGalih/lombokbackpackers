@@ -64,96 +64,7 @@
         </div>
     </div>
     {{-- Animasi boat loading --}}
-
-    {{-- TOP BAR --}}
-    <div x-data="{ scrolled: false }" x-init="window.addEventListener('scroll', () => scrolled = window.scrollY > 50)"
-        :class="scrolled ? 'bg-white text-gray-800' : 'bg-transparent text-white'"
-        class="text-sm py-2 px-6 w-full top-0 z-50 fixed transition-colors duration-300">
-
-        <div class="container mx-auto flex justify-between items-center">
-            <div class="space-x-4">
-                <span>✉️ {{ app(\App\Settings\WebsiteSettings::class)->contact_email ?? 'info@travelnesia.com' }}</span>
-                <span>📞 {{ app(\App\Settings\WebsiteSettings::class)->contact_phone ?? '0812-3456-7890' }}</span>
-            </div>
-            <div class="space-x-3">
-                <a href="#" class="hover:underline">Facebook</a>
-                <a href="#" class="hover:underline">Instagram</a>
-                <a href="#" class="hover:underline">Twitter</a>
-            </div>
-        </div>
-    </div>
-
-    <!-- GARIS PEMISAH -->
-    <div class="fixed top-[50px] w-full border-t border-white opacity-10 z-40"></div>
-
-    <!-- HEADER -->
-    <header x-data="{ open: false, scrolled: false }" x-init="window.addEventListener('scroll', () => scrolled = window.scrollY > 50)"
-        :class="scrolled ? 'bg-white text-gray-800 shadow' : 'bg-transparent text-white'"
-        class="w-full z-30 top-[36px] fixed transition-colors duration-300">
-
-        <div class="container mx-auto flex justify-between items-center px-6 py-4">
-            {{-- Logo --}}
-            <a href="{{ url('/') }}" class="text-2xl font-bold">
-                {{ app(\App\Settings\WebsiteSettings::class)->site_name }}
-            </a>
-
-            {{-- Menu Desktop --}}
-            <div class="hidden md:flex space-x-8 items-center">
-                @php
-                    $menu = \App\Models\Navigations::whereNull('parent_id')
-                        ->with(['childrenRecursive', 'parent'])
-                        ->orderBy('order')
-                        ->get();
-                @endphp
-
-                @if ($menu->isNotEmpty())
-                    <ul class="flex space-x-4">
-                        @foreach ($menu as $item)
-                            <x-menu-item :item="$item" :depth="0" />
-                        @endforeach
-                    </ul>
-                @endif
-
-                @guest
-                    <a href="{{ route('login') }}"
-                        class="bg-lime-300 text-slate-900 px-5 py-2 rounded-br-3xl rounded-lg shadow hover:bg-lime-200 transition ml-2">
-                        Masuk
-                    </a>
-                @else
-                    <a href="{{ route('profile.edit') }}"
-                        class="bg-lime-300 text-slate-900 px-5 py-2 rounded-lg shadow hover:bg-lime-200 transition ml-2">
-                        My Account
-                    </a>
-                @endguest
-            </div>
-
-            {{-- Mobile Menu Button --}}
-            <button @click="open = !open" class="md:hidden focus:outline-none ml-2">
-                <svg class="w-7 h-7" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" />
-                </svg>
-            </button>
-        </div>
-
-        {{-- Mobile Menu --}}
-        <div x-show="open" x-transition @click.away="open = false"
-            class="md:hidden px-6 pb-4 pt-2 space-y-2 bg-white text-gray-800 rounded-b-lg shadow">
-
-            <a href="#paket" class="block py-2 px-3 rounded-lg hover:bg-cyan-600 hover:text-cyan-200 transition">
-                Paket Tour
-            </a>
-
-            <a href="{{ route('login') }}"
-                class="block py-2 px-3 rounded-lg hover:bg-cyan-600 hover:text-cyan-200 transition">
-                Masuk
-            </a>
-
-            <a href="{{ route('register') }}"
-                class="block bg-cyan-300 text-orange-950 px-5 py-2 rounded-lg mt-2 hover:bg-cyan-600 text-center shadow transition">
-                Daftar
-            </a>
-        </div>
-    </header>
+    {{ $nav ?? '' }}
 
     {{ $slot }}
 
@@ -176,7 +87,6 @@
             </div>
         </div>
     </footer>
-
 
 </body>
 <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>

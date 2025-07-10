@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Frontend\BookingController;
+use App\Http\Controllers\Frontend\CategoryController;
 use App\Http\Controllers\Frontend\HomeController;
 use App\Http\Controllers\Frontend\InvoiceController;
 use App\Http\Controllers\Frontend\PaymentController;
@@ -47,8 +48,14 @@ Route::middleware('auth')->group(function () {
 });
 // Route::middleware('auth')->get('/midtrans/token/{booking}', [SnapController::class, 'token']);
 // Route::post('/payment/notify', [MidtransWebhookController::class, 'handle']);
-Route::get('/tours', [TourController::class, 'index'])->name('tours.index');
-Route::get('/tours/{slug}', [TourController::class, 'show'])->name('tours.show');
-Route::post('/tours/rate/{tour}', [TourController::class, 'rate'])->name('tours.rate')->middleware('auth');
+Route::group(['prefix' => 'destinations'], function () {
+    Route::get('/', [CategoryController::class, 'index'])->name('categories.index');
+    Route::get('/{slug}', [CategoryController::class, 'show'])->name('categories.show');
+});
+Route::group(['prefix' => 'tours'], function () {
+    Route::get('/', [TourController::class, 'index'])->name('tours.index');
+    Route::get('/{slug}', [TourController::class, 'show'])->name('tours.show');
+    Route::post('/rate/{tour}', [TourController::class, 'rate'])->name('tours.rate')->middleware('auth');
+});
 
 require __DIR__ . '/auth.php';

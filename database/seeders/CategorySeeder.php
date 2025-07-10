@@ -26,7 +26,7 @@ class CategorySeeder extends Seeder
                     'en' => 'Famous mountain in Lombok',
                     'id' => 'Gunung terkenal di Lombok',
                 ],
-                'image_url' => 'https://images.unsplash.com/photo-1603092242901-40aa10e7dcf2?auto=format&fit=crop&w=800&q=80',
+                'image_url' => 'https://s-light.tiket.photos/t/01E25EBZS3W0FY9GTG6C42E1SE/rsfit19201280gsm/events/2024/01/18/fe5d29db-c715-488a-9797-cfbb32902a6b-1705549059543-e6c749536100cf7f8758860b09cbef03.png',
             ],
             [
                 'name' => [
@@ -37,7 +37,7 @@ class CategorySeeder extends Seeder
                     'en' => 'Village at the foot of Mount Rinjani',
                     'id' => 'Desa di kaki Gunung Rinjani',
                 ],
-                'image_url' => 'https://images.unsplash.com/photo-1602821505409-69d4d4df4e3c?auto=format&fit=crop&w=800&q=80',
+                'image_url' => 'https://www.pelago.com/img/products/ID-Indonesia/full-day-tour-lombok-north-beaches-mountain-waterfalls-and-sembalun/a36c2c26-362c-470e-a72b-19180e121ec6_full-day-tour-lombok-north-beaches-mountain-waterfalls-and-sembalun.jpg',
             ],
             [
                 'name' => [
@@ -48,7 +48,7 @@ class CategorySeeder extends Seeder
                     'en' => 'Tourism area in Lombok',
                     'id' => 'Kawasan wisata di Lombok',
                 ],
-                'image_url' => 'https://images.unsplash.com/photo-1621295403201-66a5bc7e7980?auto=format&fit=crop&w=800&q=80',
+                'image_url' => 'https://asset.kompas.com/crops/GBFIdk6e1b5nwDgtIw0aKjc3R8A=/0x29:1200x829/1200x800/data/photo/2021/09/17/61444b6c6c9e3.png',
             ],
             [
                 'name' => [
@@ -59,7 +59,7 @@ class CategorySeeder extends Seeder
                     'en' => 'Popular island near Lombok',
                     'id' => 'Pulau populer di dekat Lombok',
                 ],
-                'image_url' => 'https://images.unsplash.com/photo-1606152737045-92f1c3bd6bc4?auto=format&fit=crop&w=800&q=80',
+                'image_url' => 'https://assets.promediateknologi.id/crop/0x0:0x0/750x500/webp/photo/2023/05/08/Picsart_23-05-08_14-01-45-655-3116945051.jpg',
             ],
         ];
 
