@@ -15,7 +15,6 @@ return new class extends Migration
             $table->uuid('id')->primary();
             $table->json('title');
             $table->json('description')->nullable();
-            $table->string('image')->nullable();
             $table->enum('type', ['tour', 'features', 'services', 'category'])->default('tour');
             $table->timestamps();
         });

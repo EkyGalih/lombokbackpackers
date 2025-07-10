@@ -10,6 +10,8 @@ use Awcodes\Curator\Models\Media;
 use Carbon\Carbon;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Http;
 
 class TourSeeder extends Seeder
 {
@@ -58,7 +60,7 @@ class TourSeeder extends Seeder
                 'status' => 'available',
                 'rating' => 4.5,
                 'reviews_count' => 12,
-                'image' => 'defaults/tours/default1.jpg',
+                'image_url' => 'https://images.unsplash.com/photo-1578898886200-1bbf0d0061c1?auto=format&fit=crop&w=800&q=80',
             ],
             [
                 'title' => [
@@ -99,15 +101,21 @@ class TourSeeder extends Seeder
                 'status' => 'available',
                 'rating' => 4.0,
                 'reviews_count' => 8,
-                'image' => 'defaults/tours/default2.jpg',
+                'image_url' => 'https://images.unsplash.com/photo-1581291518857-4e27b48ff24e?auto=format&fit=crop&w=800&q=80',
             ]
         ];
 
         $categories = Category::all();
 
-        foreach ($categories as $index => $category) {
-            // tiap kategori kita buat minimal 2 tour
+        foreach ($categories as $category) {
             foreach ($tourTemplates as $template) {
+
+                // Download & simpan ke storage
+                $imageResponse = Http::get($template['image_url']);
+                $imageName = Str::uuid() . '.jpg';
+                $storagePath = 'media/tours/' . $imageName;
+                Storage::disk('public')->put($storagePath, $imageResponse->body());
+
                 $tour = Tour::create([
                     'user_id' => $admin->id,
                     'category_id' => $category->id,
@@ -131,13 +139,13 @@ class TourSeeder extends Seeder
                     'disk' => 'public',
                     'directory' => 'media',
                     'visibility' => 'public',
-                    'name' => pathinfo($template['image'], PATHINFO_FILENAME),
-                    'path' => $template['image'],
+                    'name' => pathinfo($imageName, PATHINFO_FILENAME),
+                    'path' => $storagePath,
                     'width' => null,
                     'height' => null,
-                    'size' => filesize(public_path($template['image'])),
+                    'size' => Storage::disk('public')->size($storagePath),
                     'type' => 'image',
-                    'ext' => pathinfo($template['image'], PATHINFO_EXTENSION),
+                    'ext' => 'jpg',
                     'alt' => $template['title']['en'],
                     'title' => $template['title']['en'],
                 ]);

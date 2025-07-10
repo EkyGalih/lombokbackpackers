@@ -69,7 +69,7 @@ class SlidesSeeder extends Seeder
             // Download image
             $imageContents = Http::get($data['image_url'])->body();
             $uuid = Str::uuid();
-            $directory = 'media/features';
+            $directory = 'media/slides';
             $fileName = "$uuid.jpg";
             $path = "$directory/$fileName";
 
@@ -89,10 +89,10 @@ class SlidesSeeder extends Seeder
                 'size' => Storage::disk('public')->size($path),
                 'type' => 'image',
                 'ext' => 'jpg',
-                'alt' => $slides['title']['en'],
-                'title' => $slides['title']['en'],
-                'description' => $slides['description']['en'],
-                'caption' => $slides['title']['en'],
+                'alt' => $data['title']['en'],
+                'title' => $data['title']['en'],
+                'description' => $data['description']['en'],
+                'caption' => $data['title']['en'],
                 'exif' => json_encode($image->exif() ?: []),
                 'curations' => null,
             ]);
