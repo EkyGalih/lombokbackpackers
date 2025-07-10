@@ -110,47 +110,47 @@
 
                     <!-- Kolom Kiri: Destinasi -->
                     <div class="md:col-span-2 grid md:grid-cols-2 gap-6">
-                        @foreach ($categories as $tour)
-                            <div class="group relative bg-white rounded-lg overflow-hidden shadow-lg transform transition-all ease-in-out duration-300 hover:shadow-none hover:custom-rounded-br"
+                        @foreach ($categories as $category)
+                            <div class="group relative bg-white rounded-lg overflow-hidden shadow-lg transform transition-all ease-in-out duration-1000 hover:shadow-none hover:custom-rounded-br"
                                 style="--tw-rounded-br: 60px;">
                                 {{-- Gambar full --}}
                                 <div class="overflow-hidden"> {{-- Tambahkan pembungkus supaya crop gambar ketika zoom --}}
-                                    <img src="{{ $tour->tours->media?->first()->url }}" alt="{{ $tour->tours->itle }}"
-                                        class="w-full h-96 object-cover transform transition-transform duration-500 ease-in-out group-hover:scale-110">
+                                    <img src="{{ $category->media?->first()->url }}" alt="{{ $category->name }}"
+                                        class="w-full h-[600px] object-cover transform transition-transform duration-1000 ease-in-out group-hover:scale-110">
                                 </div>
 
                                 {{-- Overlay tulisan di bawah --}}
                                 <div
                                     class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-4 z-20">
-                                    <div class="transition-transform duration-300 ease-out group-hover:scale-105">
+                                    <div
+                                        class="transition-transform duration-1000 ease-in-out transform group-hover:-translate-y-8">
                                         <h3 class="text-lg font-semibold text-white">
-                                            {{ $tour->tours->title }}
+                                            {{ $category->name }}
                                         </h3>
 
-                                        @if ($tour->discount && $tour->discount > 0)
+                                        @if ($category->discount && $category->discount > 0)
                                             <p class="text-sm text-gray-300 line-through">
-                                                Rp {{ number_format($tour->price, 0, ',', '.') }}
+                                                Rp {{ number_format($category->toures->lowest_price, 0, ',', '.') }}
                                             </p>
                                             <p class="text-xl text-red-400 font-bold">
-                                                Rp {{ number_format($tour->price - $tour->discount, 0, ',', '.') }}
+                                                Rp
+                                                {{ number_format($category->price - $category->discount, 0, ',', '.') }}
                                             </p>
-                                            <small class="text-gray-300 text-xs">{{ $tour->package_person_count }}
+                                            <small class="text-gray-300 text-xs">{{ $category->package_person_count }}
                                                 Person</small>
                                         @else
                                             <p class="text-xl font-semibold text-indigo-300">
-                                                Rp {{ number_format($tour->lowest_price, 0, ',', '.') }}
+                                                Rp {{ number_format($category->lowest_price, 0, ',', '.') }}
                                             </p>
-                                            <small class="text-gray-300 text-xs">{{ $tour->package_person_count }}
-                                                Person</small>
                                         @endif
                                     </div>
                                 </div>
 
                                 {{-- Tombol Book Now tampil saat hover --}}
                                 <div
-                                    class="absolute inset-0 flex justify-center items-center opacity-0 group-hover:opacity-100 bg-black bg-opacity-50 transition duration-300 z-10">
-                                    <a href="{{ route('tours.show', $tour->slug) }}"
-                                        class="text-indigo-300 text-lg font-bold hover:underline hover:text-white transition">
+                                    class="absolute bottom-4 left-0 right-0 flex justify-center opacity-0 group-hover:opacity-100 transform translate-y-6 group-hover:translate-y-0 transition-all duration-1000 ease-in-out z-30">
+                                    <a href="{{ route('categories.show', $category->slug) }}"
+                                        class="bg-transparent px-4 py-2 rounded text-white text-sm font-semibold shadow underline hover:underline-offset-1 transition">
                                         Browse Trips
                                     </a>
                                 </div>
@@ -159,15 +159,15 @@
                     </div>
 
                     <!-- Kolom Kanan: Sidebar -->
-                    <div class="space-y-6">
+                    <div class="space-y-4 space-x-8">
 
                         <!-- Destinations -->
                         <div class="bg-blue-100 p-4 rounded-lg">
-                            <h4 class="text-lg font-semibold mb-2">Destinations</h4>
+                            <h1 class="font-bold text-left mb-4 text-lg md:text-3xl">Destinations</h1>
                             <div class="flex flex-wrap gap-2">
                                 @foreach ($categories as $dest)
                                     <button
-                                        class="bg-teal-900 text-white text-sm px-3 py-1 rounded-full hover:bg-teal-700">{{ $dest->name }}</button>
+                                        class="bg-teal-900 text-white text-sm px-6 py-2 rounded-lg rounded-br-3xl hover:rounded-br-lg transition-all duration-500 hover:bg-lime-400 hover:text-slate-900">{{ $dest->name }}</button>
                                 @endforeach
                             </div>
                         </div>

@@ -57,4 +57,9 @@ class User extends Authenticatable implements FilamentUser
     {
         return $this->hasMany(\App\Models\Booking::class);
     }
+
+    public function posts()
+    {
+        return $this->hasMany(\App\Models\Posts::class, 'author_id');
+    }
 }

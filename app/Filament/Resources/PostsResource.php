@@ -16,6 +16,7 @@ use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Columns\IconColumn;
+use Filament\Tables\Columns\ImageColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
@@ -43,10 +44,6 @@ class PostsResource extends Resource
 
                 FileUpload::make('thumbnail')->directory('posts'),
 
-                Select::make('category_id')
-                    ->relationship('category', 'name')
-                    ->nullable(),
-
                 Select::make('author_id')
                     ->relationship('author', 'name')
                     ->nullable(),
@@ -70,16 +67,24 @@ class PostsResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
+            ->query(
+                Posts::query() // ⬅️ ini penting: ambil data dari model Post
+                    ->with(['author']) // eager load relasi
+            )
             ->columns([
+                ImageColumn::make('thumbnail')
+                    ->label('Thumbnail')
+                    ->size(50),
                 TextColumn::make('title')->searchable(),
                 TextColumn::make('author.name')->label('Author'),
-                TextColumn::make('category.name')->label('Category'),
-                IconColumn::make('is_featured')->boolean()->label('Featured'),
-                TextColumn::make('status')->badge()->colors([
-                    'draft' => 'gray',
-                    'published' => 'green',
-                ]),
-                TextColumn::make('published_at')->dateTime(),
+                TextColumn::make('status')
+                    ->label('Status')
+                    ->badge()
+                    ->colors([
+                        'draft' => 'secondary',
+                        'published' => 'success',
+                    ]),
+                TextColumn::make('created_at')->label('Published At')->dateTime(),
             ])
             ->filters([
                 //
