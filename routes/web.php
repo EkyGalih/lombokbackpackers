@@ -7,6 +7,7 @@ use App\Http\Controllers\Frontend\InvoiceController;
 use App\Http\Controllers\Frontend\PaymentController;
 use App\Http\Controllers\Frontend\TourController;
 use App\Http\Controllers\ProfileController;
+use App\Models\User;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
@@ -59,3 +60,17 @@ Route::group(['prefix' => 'tours'], function () {
 });
 
 require __DIR__ . '/auth.php';
+
+Route::get('/verify-email/{id}/{hash}', function ($id, $hash) {
+    $user = User::findOrFail($id);
+
+    if (! hash_equals(sha1($user->getEmailForVerification()), $hash)) {
+        abort(403, 'Invalid verification link.');
+    }
+
+    if (! $user->hasVerifiedEmail()) {
+        $user->markEmailAsVerified();
+    }
+
+    return redirect()->route('dashboard')->with('status', 'Email berhasil diverifikasi!');
+})->middleware(['signed'])->name('verification.verify');

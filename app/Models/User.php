@@ -5,11 +5,12 @@ namespace App\Models;
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 
 use Filament\Models\Contracts\FilamentUser;
+use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
-class User extends Authenticatable implements FilamentUser
+class User extends Authenticatable implements FilamentUser, MustVerifyEmail
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasFactory, Notifiable;
@@ -48,6 +49,11 @@ class User extends Authenticatable implements FilamentUser
         ];
     }
 
+    public function sendEmailVerificationNotification()
+    {
+        $this->notify(new \App\Notifications\CustomVerifyEmail);
+    }
+
     public function canAccessPanel(\Filament\Panel $panel): bool
     {
         return $this->role === 'admin';
@@ -61,5 +67,10 @@ class User extends Authenticatable implements FilamentUser
     public function posts()
     {
         return $this->hasMany(\App\Models\Posts::class, 'author_id');
+    }
+
+    public function customer()
+    {
+        return $this->hasOne(\App\Models\Customer::class, 'user_id');
     }
 }

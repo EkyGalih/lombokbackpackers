@@ -186,7 +186,7 @@
                         </a>
                     </div>
                     {{-- TABS --}}
-                    <div class="z-30 flex flex-wrap justify-center mt-12 gap-4 px-4 mb-20">
+                    <div class="z-30 flex flex-wrap justify-center mt-6 gap-4 px-4 mb-36">
                         <template
                             x-for="tab in [
                 {key: 'adventure', label: '01. Adventure'},

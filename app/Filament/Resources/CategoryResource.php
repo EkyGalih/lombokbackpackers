@@ -4,8 +4,10 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\CategoryResource\Pages;
 use App\Models\Category;
+use Awcodes\Curator\Components\Forms\CuratorPicker;
 use Filament\Facades\Filament;
 use Filament\Forms;
+use Filament\Forms\Components\Grid;
 use Filament\Forms\Components\RichEditor;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
@@ -40,16 +42,24 @@ class CategoryResource extends Resource
                 })
                 ->required()
                 ->live(onBlur: false),
-            RichEditor::make('description')
-                ->columnSpanFull()
-                ->formatStateUsing(function ($state) {
-                    if (is_array($state)) {
-                        return $state[app()->getLocale()] ?? '';
-                    }
-                    return $state;
-                })
-                ->required()
-                ->live(onBlur: false),
+            Grid::make(12)
+                ->schema([
+                    RichEditor::make('description')
+                        ->columnSpanFull()
+                        ->formatStateUsing(function ($state) {
+                            if (is_array($state)) {
+                                return $state[app()->getLocale()] ?? '';
+                            }
+                            return $state;
+                        })
+                        ->columnSpan(6)
+                        ->required()
+                        ->live(onBlur: false),
+                    CuratorPicker::make('media')
+                        ->label('Thumbnail')
+                        ->columnSpan(6)
+                        ->multiple(),
+                ])
         ]);
     }
 

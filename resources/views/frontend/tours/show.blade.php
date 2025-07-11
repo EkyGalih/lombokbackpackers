@@ -4,7 +4,7 @@
 
 <x-guest-layout>
     <x-slot name="nav">
-        <x-header title="{{ $tour->title }}" breadcrumb="Destination > {{ $tour->category->name }} > {{ $tour->title }}"
+        <x-header title="{{ $tour->title }}" breadcrumb="Destination > {{ $tour->category->name }}"
             image="{{ $tour->media?->first()->url }}" alt="{{ $tour->name }}" />
     </x-slot>
     <div class="max-w-7xl mx-auto px-4">
@@ -20,7 +20,7 @@
                     </p>
                 </div>
                 <div class="flex items-center gap-4">
-                    <p class="text-gray-800 font-semibold">
+                    <p class="text-gray-800 font-semibold rounded border border-gray-200 px-3 py-2 text-justify" style="border-radius: 0.25rem;">
                         Packet
                         @if (!empty($tour->packet))
                             @foreach ($tour->packet as $item)
