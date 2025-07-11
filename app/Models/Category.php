@@ -45,4 +45,15 @@ class Category extends Model
     {
         return $this->morphToMany(Media::class, 'model', 'media_relationships');
     }
+
+    public function getPriceRangeAttribute(): array
+    {
+        $min = $this->tours->min('lowest_price');
+        $max = $this->tours->max('highest_price');
+
+        return [
+            'min' => $min,
+            'max' => $max,
+        ];
+    }
 }

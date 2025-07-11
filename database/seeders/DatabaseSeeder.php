@@ -21,6 +21,7 @@ class DatabaseSeeder extends Seeder
             TourSeeder::class,
             NavigationSeeder::class,
             FeaturesSeeder::class,
+            ServicesSeeder::class,
             SlidesSeeder::class,
             PostsSeeder::class,
         ]);

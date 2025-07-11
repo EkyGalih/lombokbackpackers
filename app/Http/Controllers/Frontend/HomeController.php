@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Frontend;
 use App\Http\Controllers\Controller;
 use App\Models\Category;
 use App\Models\Features;
+use App\Models\Posts;
 use App\Models\Slides;
 use App\Models\Tour;
 use App\Settings\WebsiteSettings;
@@ -25,9 +26,22 @@ class HomeController extends Controller
         $categories = Category::all();
         $features = Features::all();
         $popularTours = Tour::orderByDesc('rating')->take(6)->get();
-        $slides = Slides::limit(3)->get();
+        $slides = Slides::limit(3)->orderByDesc('updated_at')->get();
+        $features = Features::limit(4)->orderByDesc('updated_at')->get();
+        $posts = Posts::limit(3)->orderByDesc('updated_at')->get();
 
         // Return the landing view with the fetched data
-        return view('landing', compact('tours', 'categories', 'features', 'popularTours', 'headerImage', 'headerTitle', 'headerSubTitle', 'slides'));
+        return view('landing', compact(
+            'tours',
+            'categories',
+            'features',
+            'popularTours',
+            'headerImage',
+            'headerTitle',
+            'headerSubTitle',
+            'slides',
+            'features',
+            'posts'
+        ));
     }
 }

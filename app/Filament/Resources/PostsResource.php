@@ -10,6 +10,7 @@ use Filament\Forms;
 use Filament\Forms\Components\DateTimePicker;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Grid;
+use Filament\Forms\Components\Hidden;
 use Filament\Forms\Components\RichEditor;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Tabs;
@@ -35,7 +36,7 @@ class PostsResource extends Resource
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
     protected static ?string $navigationGroup = 'Menu';
     protected static ?string $navigationLabel = 'Posts';
-    protected static ?string $modelLabel = 'Kategori';
+    protected static ?string $modelLabel = 'Posts';
     protected static ?string $pluralModelLabel = 'Posts';
     protected static ?int $navigationSort = 4;
 
@@ -52,6 +53,12 @@ class PostsResource extends Resource
                                     TextInput::make('title')
                                         ->required()
                                         ->live(onBlur: true)
+                                        ->formatStateUsing(function ($state) {
+                                            if (is_array($state)) {
+                                                return $state[app()->getLocale()] ?? '';
+                                            }
+                                            return $state;
+                                        })
                                         ->afterStateUpdated(function ($state, callable $set) {
                                             // Kalau SEO title masih kosong
                                             $set('seoMeta.meta_title', $state);
@@ -97,13 +104,13 @@ class PostsResource extends Resource
 
                                     // ambil kata2
                                     $words = str($plainText)
-                                    ->lower()
-                                    ->explode(' ')
-                                    ->map(fn ($word) => trim(preg_replace('/[^a-z0-9]/', '', $word)))
-                                    ->filter(fn ($word) => strlen($word) > 3) // minimal panjang kata
-                                    ->unique()
-                                    ->take(10)
-                                    ->implode(', ');
+                                        ->lower()
+                                        ->explode(' ')
+                                        ->map(fn($word) => trim(preg_replace('/[^a-z0-9]/', '', $word)))
+                                        ->filter(fn($word) => strlen($word) > 3) // minimal panjang kata
+                                        ->unique()
+                                        ->take(10)
+                                        ->implode(', ');
 
                                     $set('excerpt', $excerpt);
                                     $set('seoMeta.meta_description', $seoDesc);
@@ -113,31 +120,26 @@ class PostsResource extends Resource
 
                             Grid::make(12)
                                 ->schema([
-                                    Select::make('author_id')
-                                        ->relationship('author', 'name')
-                                        ->columnSpan(6)
-                                        ->nullable(),
-
                                     Select::make('status')
                                         ->columnSpan(6)
                                         ->options([
                                             'draft' => 'Draft',
                                             'published' => 'Published',
                                         ])->default('draft'),
+                                    TagsInput::make('tags')
+                                        ->label('Tags')
+                                        ->dehydrateStateUsing(fn($state) => $state ?? [])
+                                        ->columnSpan(6),
                                 ]),
 
                             Grid::make(12)
                                 ->schema([
-                                    CuratorPicker::make('thumbnail')
+                                    CuratorPicker::make('media')
                                         ->label('Thumbnail')
                                         ->multiple()
                                         ->columnSpan(6),
-                                    TagsInput::make('tags')
-                                        ->label('Tags')
-                                        ->placeholder('Add tags')
-                                        ->suggestions(['tour', 'travel', 'adventure', 'vacation'])
-                                        ->columnSpan(6),
                                 ]),
+                            Hidden::make('author_id')->default(auth()->id()),
                         ]),
                         Tab::make('SEO')->schema([
                             TextInput::make('seoMeta.meta_title')
@@ -179,8 +181,9 @@ class PostsResource extends Resource
                     ->with(['author']) // eager load relasi
             )
             ->columns([
-                ImageColumn::make('thumbnail')
+                ImageColumn::make('media.0.path')
                     ->label('Thumbnail')
+                    ->disk('public')
                     ->size(50),
                 TextColumn::make('title')->searchable(),
                 TextColumn::make('author.name')->label('Author'),

@@ -14,9 +14,13 @@ class CreatePosts extends CreateRecord
     {
         // Simpan media_id terpisah
         $this->mediaIds = $data['media'] ?? [];
+        $data['excerpt'] = str(strip_tags($data['content']))->limit(100);
         unset($data['media']);
         unset($data['seoMeta']); // Buang seoMeta dari $data supaya tidak dikirim ke tabel posts
-        
+
+        // if (isset($data['tags']) && is_array($data['tags'])) {
+        //     $data['tags'] = implode(',', $data['tags']);
+        // }
         return $data;
     }
 

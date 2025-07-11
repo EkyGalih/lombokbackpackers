@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <title>{{ $title ?? '' . config('app.name') }}</title>
+    <link rel="icon" type="image/png" href="{{ app(\App\Settings\WebsiteSettings::class)->favicon }}">
     @yield('seoMeta')
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     @vite(['resources/css/app.css', 'resources/js/app.js'])
@@ -71,8 +72,9 @@
     <footer class="bg-teal-900 text-white py-6">
         <div class="container mx-auto px-4 flex flex-col md:flex-row md:justify-between md:items-center">
             <!-- Kolom kiri: Gambar -->
-            <div class="mb-4 md:mb-0">
-                <img src="https://via.placeholder.com/150x50?text=Logo" alt="Logo" class="h-12">
+            <div class="mb-4 md:mb-0 flex items-center space-x-3">
+                <img src="{{ app(\App\Settings\WebsiteSettings::class)->site_logo }}" alt="{{ app(\App\Settings\WebsiteSettings::class)->site_name ?? ENV('APP_NAME') }}" class="h-10 w-10 object-contain rounded-full bg-white/80 p-1 mr-4 shadow>
+                <span class="font-bold text-lg">{{ app(\App\Settings\WebsiteSettings::class)->site_name ?? env('APP_NAME') }}</span>
             </div>
 
             <!-- Kolom kanan: Informasi -->

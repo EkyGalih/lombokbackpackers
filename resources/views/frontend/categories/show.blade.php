@@ -1,22 +1,8 @@
 <x-guest-layout>
-    <section
-        class="min-h-[300px] flex items-center justify-center bg-gradient-to-br from-teal-900 to-cyan-900 text-white relative overflow-hidden">
-        @if ($category->media?->first()->url)
-            <img src="{{ $category->media->first()->url }}" alt="{{ $category->name }}"
-                class="absolute inset-0 w-full h-full object-cover opacity-5 z-0">
-        @endif
-        <div class="text-center z-10 px-4 max-w-3xl">
-            <h1
-                class="text-4xl md:text-6xl font-bold mb-4 bg-gradient-to-r from-white to-lime-300 bg-clip-text text-transparent">
-                {{ $category->name }}
-            </h1>
-        </div>
-
-        {{-- Optional Background Illustration --}}
-        <div
-            class="absolute inset-0 bg-[url('https://source.unsplash.com/featured/?travel')] bg-cover bg-center opacity-80">
-        </div>
-    </section>
+    <x-slot name="nav">
+        <x-header title="Destinasi Wisata" breadcrumb="Destination > {{ $category->name }}"
+            image="{{ $category->media?->first()->url }}" alt="{{ $category->name }}" />
+    </x-slot>
     {{-- Paket Tour Section --}}
     <section class="bg-gray-100 py-16">
         <div class="container mx-auto px-6 text-center">
@@ -41,22 +27,10 @@
                                         {{ $tour->title }}
                                     </h3>
 
-                                    @if ($tour->discount && $tour->discount > 0)
-                                        <p class="text-sm text-gray-300 line-through">
-                                            Rp {{ number_format($tour->price, 0, ',', '.') }}
-                                        </p>
-                                        <p class="text-xl text-red-400 font-bold">
-                                            Rp {{ number_format($tour->price - $tour->discount, 0, ',', '.') }}
-                                        </p>
-                                        <small class="text-gray-300 text-xs">{{ $tour->package_person_count }}
-                                            Person</small>
-                                    @else
-                                        <p class="text-xl font-semibold text-indigo-300">
-                                            Rp {{ number_format($tour->lowest_price, 0, ',', '.') }}
-                                        </p>
-                                        <small class="text-gray-300 text-xs">{{ $tour->package_person_count }}
-                                            Person</small>
-                                    @endif
+                                    <p class="text-xl font-semibold">
+                                        Harga Mulai (Rp.
+                                        {{ number_format($tour->price_range['min']) . ' - ' . number_format($tour->price_range['max']) }})
+                                    </p>
                                 </div>
                             </div>
 

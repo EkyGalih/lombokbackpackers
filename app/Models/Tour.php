@@ -71,23 +71,46 @@ class Tour extends Model
         });
     }
 
-    public function getLowestPriceAttribute(): ?int
+    public function getPricesAttribute(): array
     {
-        $packets = $this->packet ?? [];
+        $packet = $this->packet;
 
-        // Ubah ke collection biar gampang
-        $prices = collect($packets)->map(function ($item) {
-            $value = $item['value'] ?? null;
+        if (!is_array($packet)) {
+            return [];
+        }
 
-            if ($value && preg_match('/(\d{1,3}(?:[.,]\d{3})+)/', $value, $matches)) {
-                // Ambil angka & ubah jadi integer
-                return (int) str_replace(['.', ','], '', $matches[1]);
+        $prices = collect($packet)->map(function ($item) {
+            if (!isset($item['value'])) {
+                return null;
+            }
+
+            // Ambil angka terakhir dari value
+            preg_match_all('/\d{1,3}(?:[.,]\d{3})+/', $item['value'], $matches);
+
+            if (!empty($matches[0])) {
+                $last = end($matches[0]);
+                return (int) str_replace(['.', ','], '', $last);
             }
 
             return null;
         })->filter();
 
-        return $prices->min();
+        return $prices->values()->toArray();
+    }
+
+
+    public function getLowestPriceAttribute(): ?int
+    {
+        $prices = $this->prices;
+
+        return !empty($prices) ? min($prices) : null;
+    }
+
+    public function getHighestPriceAttribute(): ?int
+    {
+        $prices = $this->prices;
+
+        return !empty($prices) ? max($prices) : null;
     }
 
     public function media()

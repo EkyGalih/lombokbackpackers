@@ -163,7 +163,6 @@ class PostsSeeder extends Seeder
                 'title' => json_encode($post['title']),
                 'slug' => $post['slug'],
                 'excerpt' => json_encode($post['excerpt']),
-                'thumbnail' => $media->path,
                 'content' => json_encode($post['content']),
                 'tags' => json_encode($post['tags']),
                 'status' => $post['status'],

@@ -12,6 +12,7 @@ class CategoryController extends Controller
     public function index()
     {
         $categories = Category::select('id', 'name', 'slug')
+            ->with(['tours'])
             ->withCount('tours')
             ->get();
         return view('frontend.categories.index', compact('categories'));

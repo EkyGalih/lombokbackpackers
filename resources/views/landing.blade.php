@@ -32,8 +32,11 @@
                 {{-- HEADER --}}
                 <header class="w-full bg-transparent text-white transition-colors duration-300">
                     <div class="container mx-auto flex justify-between items-center px-6 py-4">
-                        <a href="{{ url('/') }}" class="text-2xl font-bold text-white">
-                            {{ app(\App\Settings\WebsiteSettings::class)->site_name }}
+                        <a href="{{ url('/') }}" class="flex items-center space-x-3 text-2xl font-bold text-white">
+                            <img src="{{ app(\App\Settings\WebsiteSettings::class)->site_logo ?? asset('defaults/logo.png') }}"
+                                alt="{{ app(\App\Settings\WebsiteSettings::class)->site_name }}"
+                                class="h-10 w-10 object-contain rounded-full bg-white/80 p-1 shadow" />
+                            <span>{{ app(\App\Settings\WebsiteSettings::class)->site_name }}</span>
                         </a>
 
                         {{-- Menu Desktop --}}
@@ -204,6 +207,61 @@
             </div>
         </section>
     </x-slot>
+
+    {{-- services --}}
+    <section class="bg-white py-20">
+        <div class="container mx-auto flex flex-col md:flex-row items-center">
+            <!-- Left: Image -->
+            <div class="md:w-1/2 flex justify-center mb-8 md:mb-0">
+                <img src="https://wdtletsgo.wpengine.com/wp-content/uploads/2025/03/Demo-1-Filler-Image.png"
+                    alt="Traveler" class="max-w-xs md:max-w-sm">
+            </div>
+
+            <!-- Right: Content -->
+            <div class="md:w-1/2 px-6">
+                <p class="text-sm uppercase tracking-widest text-gray-500 mb-2">Dapatkan Pengalaman yang disesuaikan</p>
+                <h1 class="text-4xl font-bold leading-tight mb-6">
+                    <span class="bg-lime-200 px-1">Paspor Anda Menuju <span class="bg-lime-200 px-1">Petualangan</span>
+                        Yang Tak Terlupakan</span><br>
+                </h1>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                    @foreach ($features as $feature)
+                        <div>
+                            <div class="text-2xl mb-4">
+                                <div class="flex items-center justify-start">
+                                    <img src="{{ $feature->media?->first()->url }}" alt="{{ $feature->title }}"
+                                        class="w-12 h-12 rounded-full object-cover mr-3">
+                                </div>
+                            </div>
+                            <h2 class="text-lg font-bold hover:text-lime-400 cursor-pointer mb-4">{{ $feature->title }}
+                            </h2>
+                            <p class="text-gray-600 text-sm">{{ $feature->description }}</p>
+                        </div>
+                    @endforeach
+                </div>
+
+                <a href="#offerings" class="inline-block bg-lime-200 text-gray-800 px-6 py-3 rounded font-semibold">
+                    Discover Our Offerings
+                </a>
+
+                <div class="flex items-center mt-6">
+                    <div class="flex -space-x-2">
+                        <img src="{{ asset('images/client1.jpg') }}"
+                            class="w-10 h-10 rounded-full border-2 border-white" alt="">
+                        <img src="{{ asset('images/client2.jpg') }}"
+                            class="w-10 h-10 rounded-full border-2 border-white" alt="">
+                        <img src="{{ asset('images/client3.jpg') }}"
+                            class="w-10 h-10 rounded-full border-2 border-white" alt="">
+                    </div>
+                    <div class="ml-4 text-sm">
+                        <span class="text-lg font-bold">114K+</span> Happy Clients
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
     {{-- Paket Tour Section --}}
     <section class="bg-sky-100 py-16">
         <div class="container mx-auto px-6 text-center">
@@ -344,6 +402,7 @@
         </div>
     </section>
 
+    {{-- wisata populer --}}
     <section class="py-12 bg-sky-100">
         <div class="container mx-auto px-4">
             <h2 class="text-3xl font-bold text-center text-teal-800 mb-10">
@@ -404,6 +463,120 @@
             </div>
         </div>
     </section>
+
+    {{-- post --}}
+    <section class="bg-white py-16">
+        <div class="max-w-7xl mx-auto px-4">
+            <!-- Header -->
+            <div class="flex flex-col md:flex-row md:items-center md:justify-between mb-12">
+                <div>
+                    <p class="text-sm uppercase tracking-widest text-gray-500 mb-2">News & Trends in Travel</p>
+                    <h2 class="text-4xl font-bold text-gray-900">News, Tips & Destination Stories</h2>
+                </div>
+                <div class="max-w-xl text-gray-600 mt-4 md:mt-0">
+                    Blandit conubia ullamcorper nullam dictum non. Tincidunt augue interdum velit euismod in
+                    pellentesque. Molestie nunc non blandit massa enim.
+                    <br>
+                    <a href="#" class="text-blue-700 underline font-medium">View All Blogs</a>
+                </div>
+            </div>
+
+            <!-- Cards -->
+            <div class="grid gap-6 md:grid-cols-3">
+                <!-- Card -->
+                @foreach ($posts as $post)
+                    <div class="relative rounded overflow-hidden shadow hover:shadow-lg transition group">
+                        <img src="https://images.unsplash.com/photo-1506748686214-e9df14d4d9d0?auto=format&fit=crop&w=800&q=80"
+                            alt=""
+                            class="w-full h-[500px] object-cover transform transition-transform duration-300 ease-in-out group-hover:scale-150">
+
+                        <div class="absolute bottom-0 left-0 right-0 bg-white rounded-t-md p-4 mx-4 mb-4 shadow-md">
+                            <div class="flex items-center text-sm text-gray-500 space-x-4 mb-2">
+                                <span>👤 {{ $post->author->name }}</span>
+                                <span>{{ \Carbon\Carbon::parse($post->created_at)->locale(app()->getLocale())->translatedFormat('l, d F Y') }}</span>
+                            </div>
+                            <h3 class="text-lg font-bold text-gray-900 mb-1">{{ $post->title }}</h3>
+                            <p class="text-gray-600 text-sm mb-2">{!! $post->excerpt !!}</p>
+                            <a href="#" class="text-slate-900 font-medium text-md underline">Read More</a>
+                        </div>
+                    </div>
+                @endforeach
+            </div>
+        </div>
+    </section>
+
+    {{-- contact us --}}
+    <section class="relative bg-gradient-to-r from-teal-100 via-white to-teal-100 py-16 overflow-hidden">
+        <div class="max-w-5xl mx-auto px-4">
+            <div class="text-center mb-12">
+                <h2 class="text-4xl font-bold text-gray-900 mb-4 animate-fade-in-down">Hubungi Kami</h2>
+                <p class="text-gray-600 animate-fade-in-up">
+                    Hubungi kami kapan saja. Berikut cara menghubungi tim kami.
+                </p>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-8 text-lg">
+                <div class="space-y-6">
+                    <div class="flex items-start space-x-4 animate-slide-in-left">
+                        <div class="text-lime-500 text-3xl">📍</div>
+                        <div>
+                            <h4 class="font-semibold text-gray-900">Our Office</h4>
+                            <p class="text-gray-600">
+                                Jl. Merdeka No.123, Jakarta Pusat, Indonesia
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="flex items-start space-x-4 animate-slide-in-right delay-200">
+                        <div class="text-lime-500 text-3xl">🌐</div>
+                        <div>
+                            <h4 class="font-semibold text-gray-900">Follow Us</h4>
+                            <div class="flex space-x-4 mt-2">
+                                <a href="#" class="text-gray-500 hover:text-lime-500 transition">Facebook</a>
+                                <a href="#" class="text-gray-500 hover:text-lime-500 transition">Instagram</a>
+                                <a href="#" class="text-gray-500 hover:text-lime-500 transition">Twitter</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="space-y-6">
+                    <div class="flex items-start space-x-4 animate-slide-in-right">
+                        <div class="text-lime-500 text-3xl">📞</div>
+                        <div>
+                            <h4 class="font-semibold text-gray-900">Phone</h4>
+                            <p class="text-gray-600">+62 812 3456 7890</p>
+                        </div>
+                    </div>
+
+                    <div class="flex items-start space-x-4 animate-slide-in-right delay-100">
+                        <div class="text-lime-500 text-3xl">✉️</div>
+                        <div>
+                            <h4 class="font-semibold text-gray-900">Email</h4>
+                            <p class="text-gray-600">hello@yourcompany.com</p>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <!-- Google Maps -->
+            <div class="w-full h-96 rounded-lg overflow-hidden shadow-lg animate-fade-in-up">
+                <iframe
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d126914.50833836473!2d106.6894306!3d-6.2297282!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e69f1579f63c7fd%3A0xb29f4e22be74e6a1!2sJakarta%20Pusat!5e0!3m2!1sen!2sid!4v1720673000000!5m2!1sen!2sid"
+                    width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy"
+                    referrerpolicy="no-referrer-when-downgrade"></iframe>
+            </div>
+        </div>
+
+        <!-- Decorative shapes -->
+        <div
+            class="absolute -top-10 -left-10 w-40 h-40 bg-lime-100 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-pulse">
+        </div>
+        <div
+            class="absolute -bottom-10 -right-10 w-40 h-40 bg-lime-200 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-pulse delay-200">
+        </div>
+    </section>
+
 
     </div>
 </x-guest-layout>
