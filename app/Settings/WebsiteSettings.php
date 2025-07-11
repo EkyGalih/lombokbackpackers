@@ -15,6 +15,10 @@ class WebsiteSettings extends Settings
     public ?string $contact_email;
     public ?string $contact_phone;
     public ?string $contact_address;
+    public ?string $social_facebook;
+    public ?string $social_instagram;
+    public ?string $social_x;
+    public ?string $social_youtube;
 
     public static function group(): string
     {
@@ -36,6 +40,10 @@ class WebsiteSettings extends Settings
             'contact_email'    => 'info@example.com',
             'contact_phone'    => '+62 812-3456-7890',
             'contact_address'  => 'Jl. Merdeka No. 123, Jakarta',
+            'social_facebook'   => 'lombokbackpackers',
+            'social_instagram'  => 'lombokbackpackers',
+            'social_x'          => 'lombokbackpackers',
+            'social_youtube'    => 'lombokbackpackers',
         ];
     }
 }

@@ -413,10 +413,10 @@
 
                 <!-- Card Popular Tour -->
                 @foreach ($popularTours as $item)
-                    <a href="https://wdtletsgo.wpengine.com/blog/wdt_packages/egypt-pyramids-tour/"
+                    <a href="{{ route('tours.show', $item->slug) }}"
                         class="relative rounded-lg overflow-hidden shadow-lg group">
-                        <img src="https://wdtletsgo.wpengine.com/wp-content/uploads/2024/07/egypt-3.jpg"
-                            alt=""
+                        <img src="{{ $item->media?->first()?->url }}"
+                            alt="{{ $item->titlex }}"
                             class="w-full h-64 object-cover transition-transform group-hover:scale-105">
                         <div class="absolute inset-0 bg-black/50 flex flex-col justify-end p-4">
 
@@ -486,9 +486,9 @@
                 <!-- Card -->
                 @foreach ($posts as $post)
                     <div class="relative rounded overflow-hidden shadow hover:shadow-lg transition group">
-                        <img src="https://images.unsplash.com/photo-1506748686214-e9df14d4d9d0?auto=format&fit=crop&w=800&q=80"
+                        <img src="{{ $post->media?->first()?->url ?? asset('defaults/no-image.jpg') }}"
                             alt=""
-                            class="w-full h-[500px] object-cover transform transition-transform duration-300 ease-in-out group-hover:scale-150">
+                            class="w-full h-[500px] object-cover transform transition-transform duration-700 ease-in-out group-hover:scale-150">
 
                         <div class="absolute bottom-0 left-0 right-0 bg-white rounded-t-md p-4 mx-4 mb-4 shadow-md">
                             <div class="flex items-center text-sm text-gray-500 space-x-4 mb-2">
@@ -497,7 +497,7 @@
                             </div>
                             <h3 class="text-lg font-bold text-gray-900 mb-1">{{ $post->title }}</h3>
                             <p class="text-gray-600 text-sm mb-2">{!! $post->excerpt !!}</p>
-                            <a href="#" class="text-slate-900 font-medium text-md underline">Read More</a>
+                            <a href="{{ route('blog.show', $post->slug) }}" class="text-slate-900 font-medium text-md underline">Read More</a>
                         </div>
                     </div>
                 @endforeach

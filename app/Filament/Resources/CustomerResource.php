@@ -3,21 +3,23 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\CustomerResource\Pages;
-use App\Filament\Resources\CustomerResource\RelationManagers;
 use App\Models\Customer;
-use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
+use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class CustomerResource extends Resource
 {
     protected static ?string $model = Customer::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-user-group';
+    protected static ?string $navigationGroup = 'Menu';
+    protected static ?string $navigationLabel = 'Customer';
+    protected static ?string $modelLabel = 'Customer';
+    protected static ?string $pluralModelLabel = 'Customer';
+    protected static ?int $navigationSort = 8;
 
     public static function form(Form $form): Form
     {
@@ -31,13 +33,43 @@ class CustomerResource extends Resource
     {
         return $table
             ->columns([
-                //
+                TextColumn::make('name')
+                    ->sortable()
+                    ->searchable(),
+                TextColumn::make('email')
+                    ->sortable()
+                    ->searchable(),
+                TextColumn::make('phone')
+                    ->sortable()
+                    ->searchable(),
+                TextColumn::make('address')
+                    ->sortable()
+                    ->searchable(),
+                TextColumn::make('nationality')
+                    ->sortable()
+                    ->searchable(),
+                TextColumn::make('gender')
+                    ->badge()
+                    ->formatStateUsing(function (?string $state) {
+                        return match (strtolower($state)) {
+                            'female' => '👩 Female',
+                            'male' => '👨 Male',
+                            'other' => '🧑 Other',
+                            default => ucfirst($state),
+                        };
+                    })
+                    ->sortable()
+                    ->searchable(),
+
+                TextColumn::make('date_of_birth')
+                    ->sortable()
+                    ->searchable(),
             ])
             ->filters([
                 //
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
+                Tables\Actions\ViewAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
@@ -57,8 +89,9 @@ class CustomerResource extends Resource
     {
         return [
             'index' => Pages\ListCustomers::route('/'),
-            'create' => Pages\CreateCustomer::route('/create'),
-            'edit' => Pages\EditCustomer::route('/{record}/edit'),
+            'view' => Pages\ViewCustomer::route('/{record}'),
+            // 'create' => Pages\CreateCustomer::route('/create'),
+            // 'edit' => Pages\EditCustomer::route('/{record}/edit'),
         ];
     }
 }

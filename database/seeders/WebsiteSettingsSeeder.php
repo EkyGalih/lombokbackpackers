@@ -42,6 +42,26 @@ class WebsiteSettingsSeeder extends Seeder
         );
 
         SettingsProperty::updateOrCreate(
+            ['group' => 'website-settings', 'name' => 'social_facebook'],
+            ['payload' => json_encode('https://facebook.com/yourpage')]
+        );
+
+        SettingsProperty::updateOrCreate(
+            ['group' => 'website-settings', 'name' => 'social_instagram'],
+            ['payload' => json_encode('https://instagram.com/yourprofile')]
+        );
+
+        SettingsProperty::updateOrCreate(
+            ['group' => 'website-settings', 'name' => 'social_x'],
+            ['payload' => json_encode('https://x.com/yourprofile')]
+        );
+
+        SettingsProperty::updateOrCreate(
+            ['group' => 'website-settings', 'name' => 'social_youtube'],
+            ['payload' => json_encode('https://youtube.com/yourchannel')]
+        );
+
+        SettingsProperty::updateOrCreate(
             ['group' => 'website-settings', 'name' => 'site_logo'],
             ['payload' => json_encode($logoMedia?->path)]
         );

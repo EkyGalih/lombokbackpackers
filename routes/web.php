@@ -5,6 +5,7 @@ use App\Http\Controllers\Frontend\CategoryController;
 use App\Http\Controllers\Frontend\HomeController;
 use App\Http\Controllers\Frontend\InvoiceController;
 use App\Http\Controllers\Frontend\PaymentController;
+use App\Http\Controllers\Frontend\PostsController;
 use App\Http\Controllers\Frontend\TourController;
 use App\Http\Controllers\ProfileController;
 use App\Models\User;
@@ -57,6 +58,10 @@ Route::group(['prefix' => 'tours'], function () {
     Route::get('/', [TourController::class, 'index'])->name('tours.index');
     Route::get('/{slug}', [TourController::class, 'show'])->name('tours.show');
     Route::post('/rate/{tour}', [TourController::class, 'rate'])->name('tours.rate')->middleware('auth');
+});
+
+Route::group(['prefix' => 'blog'], function () {
+    Route::get('/{slug}', [PostsController::class, 'show'])->name('blog.show');
 });
 
 require __DIR__ . '/auth.php';
