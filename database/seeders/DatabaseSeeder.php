@@ -18,7 +18,7 @@ class DatabaseSeeder extends Seeder
             UserSeeder::class,
             WebsiteSettingsSeeder::class,
             CategorySeeder::class,
-            TourSeeder::class,
+            // TourSeeder::class,
             NavigationSeeder::class,
             FeaturesSeeder::class,
             ServicesSeeder::class,

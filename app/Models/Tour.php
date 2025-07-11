@@ -25,6 +25,7 @@ class Tour extends Model
         'duration' => 'array',
         'packet' => 'array',
         'itinerary' => 'array',
+        'summary' => 'array'
     ];
 
     protected $translatable = [
@@ -36,6 +37,7 @@ class Tour extends Model
         'duration',
         'packet',
         'itinerary',
+        'summary'
     ];
 
     public function category()
@@ -68,7 +70,50 @@ class Tour extends Model
             }
 
             $tour->slug = Str::slug($titleForSlug) . '-' . Str::random(5);
+
+            $tour->generateSummary();
+
+            static::updating(function ($tour) {
+                $tour->generateSummary();
+            });
         });
+    }
+
+    /**
+     * Helper untuk mengambil nilai terjemahan dari attribute.
+     */
+    public function getTranslatedValue(string $attribute, ?string $locale = null): ?string
+    {
+        $locale = $locale ?: app()->getLocale();
+
+        $value = $this->{$attribute};
+
+        if (is_array($value)) {
+            return $value[$locale] ?? null;
+        }
+
+        return $value;
+    }
+
+public function generateSummary()
+    {
+        $locale = app()->getLocale();
+
+        $parts = [
+            $this->getTranslatedValue('description', $locale),
+            $this->getTranslatedValue('notes', $locale),
+            $this->getTranslatedValue('itinerary', $locale),
+            $this->getTranslatedValue('include', $locale),
+            $this->getTranslatedValue('exclude', $locale),
+        ];
+
+        $summary = collect($parts)
+            ->filter()
+            ->implode("\n\n");
+
+        $this->summary = [
+            $locale => Str::limit(strip_tags($summary), 200),
+        ];
     }
 
     public function getPricesAttribute(): array

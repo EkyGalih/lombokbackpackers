@@ -27,34 +27,28 @@ class TourSeeder extends Seeder
                     'id' => 'Jelajahi Gili Trawangan 3 Hari',
                 ],
                 'description' => [
-                    'en' => '<p>Enjoy the beach and culture of Gili Trawangan for 3 days 2 nights.</p>',
-                    'id' => '<p>Nikmati keindahan pantai dan budaya Gili Trawangan selama 3 hari 2 malam.</p>',
+                    'en' => 'Enjoy the beach and culture of Gili Trawangan for 3 days 2 nights.',
+                    'id' => 'Nikmati keindahan pantai dan budaya Gili Trawangan selama 3 hari 2 malam.',
                 ],
                 'notes' => [
-                    'en' => '<p>Bring your own snorkeling equipment if available.</p>',
-                    'id' => '<p>Bawa perlengkapan snorkeling pribadi jika ada.</p>',
+                    'en' => 'Bring your own snorkeling equipment if available.',
+                    'id' => 'Bawa perlengkapan snorkeling pribadi jika ada.',
                 ],
                 'include' => [
-                    'en' => '<p>Transport, meals, entrance tickets</p>',
-                    'id' => '<p>Transport, makan, tiket masuk</p>',
+                    'en' => 'Transport, meals, entrance tickets',
+                    'id' => 'Transport, makan, tiket masuk',
                 ],
                 'exclude' => [
-                    'en' => '<p>Personal expenses, guide tips</p>',
-                    'id' => '<p>Pengeluaran pribadi, tip guide</p>',
+                    'en' => 'Personal expenses, guide tips',
+                    'id' => 'Pengeluaran pribadi, tip guide',
                 ],
                 'itinerary' => [
                     'en' => 'Day 1: Arrival & check-in. Day 2: Snorkeling & tour. Day 3: Free & departure.',
                     'id' => 'Hari 1: Kedatangan & check-in. Hari 2: Snorkeling & tur. Hari 3: Free & pulang.',
                 ],
                 'packet' => [
-                    'en' => [
-                        ['value' => '1 Person, 900.000'],
-                        ['value' => '2 Person, 1.500.000'],
-                    ],
-                    'id' => [
-                        ['value' => '1 orang, 900.000'],
-                        ['value' => '2 orang, 1.500.000'],
-                    ],
+                    'en' => '1-2 pax Rp. 1.500.000, 3-5 pax Rp. 3.000.000',
+                    'id' => '1-2 orang Rp. 1.500.000, 3-5 orang Rp. 3.000.000',
                 ],
                 'duration' => [
                     'en' => '3 days',
@@ -94,14 +88,8 @@ class TourSeeder extends Seeder
                     'id' => 'Hari 1: Sunset cruise. Hari 2: Pulang.',
                 ],
                 'packet' => [
-                    'en' => [
-                        ['value' => '1 Person, 850.000'],
-                        ['value' => '2 Person, 1.500.000'],
-                    ],
-                    'id' => [
-                        ['value' => '1 orang, 850.000'],
-                        ['value' => '2 orang, 1.500.000'],
-                    ],
+                    'en' => '1-2 pax Rp. 850.000, 3-5 pax Rp. 1.500.000',
+                    'id' => '1-2 orang Rp. 850.000, 3-5 orang Rp. 1.500.000',
                 ],
                 'duration' => [
                     'en' => '2 days',
@@ -121,6 +109,8 @@ class TourSeeder extends Seeder
 
         foreach ($categories as $category) {
             foreach ($tourTemplates as $template) {
+
+                // Download & simpan ke storage
                 $imageResponse = Http::get($template['image_url']);
                 $imageName = Str::uuid() . '.jpg';
                 $storagePath = 'media/tours/' . $imageName;
@@ -164,7 +154,7 @@ class TourSeeder extends Seeder
 
                 $tour->seoMeta()->create([
                     'meta_title' => 'Tour Package: ' . $template['title']['en'],
-                    'meta_description' => Str::limit(strip_tags($template['description']['en']), 160),
+                    'meta_description' => Str::limit($template['description']['en'], 160),
                     'keywords' => 'gili, tour, lombok, ' . $template['title']['en'],
                     'canonical_url' => url('/tours/' . $tour->slug),
                     'robots' => 'index, follow',

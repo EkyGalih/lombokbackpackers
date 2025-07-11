@@ -3,276 +3,242 @@
 @endsection
 
 <x-guest-layout>
-    <section
-        class="min-h-[500px] flex items-center justify-center bg-gradient-to-br from-lime-600 to-lime-500 text-white relative overflow-hidden">
-        @if ($tour->media?->first())
-            {{-- Tour Image --}}
-            <img src="{{ $tour->media?->first()->url }}" alt="{{ $tour->title }}"
-                class="absolute inset-0 w-full h-full object-cover opacity-90 z-0">
-        @endif
-
-        {{-- Optional Background Illustration --}}
-        <div
-            class="absolute inset-0 bg-[url('https://source.unsplash.com/featured/?travel')] bg-cover bg-center opacity-80">
-        </div>
-    </section>
-
-    <section class="bg-gray-50 py-12">
-        <div class="max-w-5xl mx-auto px-4">
-            {{-- Title & Status --}}
-            <div class="mb-4 flex flex-col md:flex-row justify-between items-start md:items-center">
-                <h1 class="text-3xl md:text-4xl font-extrabold text-gray-800 mb-2 md:mb-0">
-                    {{ $tour->title }}
-                </h1>
-
-                {{-- Rating --}}
-                <div class="text-center">
-                    <p class="text-sm text-gray-500">Rating</p>
-                    <p class="text-xl font-semibold text-yellow-500">
-                        ⭐ {{ $tour->rating }} ({{ $tour->reviews_count }} ulasan)
+    <x-slot name="nav">
+        <x-header title="{{ $tour->title }}" breadcrumb="Destination > {{ $tour->category->name }} > {{ $tour->title }}"
+            image="{{ $tour->media?->first()->url }}" alt="{{ $tour->name }}" />
+    </x-slot>
+    <div class="max-w-7xl mx-auto px-4">
+        <section class="py-8">
+            {{-- Title + Price --}}
+            <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+                <div>
+                    <h1 class="text-3xl font-extrabold text-gray-800">
+                        {{ $tour->title }}
+                    </h1>
+                    <p class="text-gray-600 mt-2 max-w-4xl text-justify">
+                        {!! $tour->summary !!}
+                    </p>
+                </div>
+                <div class="flex items-center gap-4">
+                    <p class="text-gray-800 font-semibold">
+                        Packet
+                        @if (!empty($tour->packet))
+                            @foreach ($tour->packet as $item)
+                                <span class="text-sm block">{{ $item['value'] }}</span>
+                            @endforeach
+                        @endif
                     </p>
                 </div>
             </div>
 
-            {{-- Info Cards --}}
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-                <div class="bg-white rounded-lg shadow p-4 text-center">
-                    <p class="text-sm text-gray-500">Paket</p>
-                    @foreach ($tour->packet as $packet)
-                        <div class="flex flex-col items-center mb-1">
-                            <span
-                                class="inline-block bg-lime-300 text-slate-900 px-2 py-0.5 rounded-full text-sm font-medium mb-0.5 shadow-sm">
-                                {{ $packet['value'] }}
-                            </span>
-                        </div>
-                    @endforeach
-                    {{-- @if ($tour->discount && $tour->discount > 0)
-                        <p class="text-sm text-gray-400 line-through">
-                            Rp
-                            {{ number_format($tour->price, 0, ',', '.') }}
-                        </p>
-                        <p class="text-xl font-bold text-red-600">
-                            Rp
-                            {{ number_format($tour->price - $tour->discount, 0, ',', '.') }}
-                        </p>
-                        <small class="text-gray-500 text-xs">{{ $tour->package_person_count }} Person</small>
-                    @else
-                        <p class="text-xl font-semibold text-indigo-600">
-                            Rp
-                            {{ number_format($tour->price, 0, ',', '.') }}
-                        </p>
-                        <small class="text-gray-500 text-xs">{{ $tour->package_person_count }} Person</small>
-                    @endif --}}
+            {{-- Blue Info Box --}}
+            <div
+                class="bg-blue-100 rounded-lg mt-6 p-4 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+                <div class="text-gray-800 text-sm font-medium">
+                    Duration: {{ $tour->duration }}
                 </div>
+                <div class="flex items-center gap-4">
+                    <div class="flex gap-2">
+                        <a href="#"
+                            class="w-8 h-8 flex items-center justify-center rounded-full border text-gray-800 hover:bg-gray-200">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="w-4 h-4"
+                                viewBox="0 0 24 24">
+                                <path
+                                    d="M22,12A10,10,0,1,0,10.93,21.94V14.89H8v-2.9h2.93V9.35c0-2.89,1.72-4.49,4.35-4.49a17.58,17.58,0,0,1,2.57.22v2.83H16.86c-1.46,0-1.92.91-1.92,1.85v2.22h3.27l-.52,2.9H14.94v7.05A10,10,0,0,0,22,12Z" />
+                            </svg>
+                        </a>
+                        <a href="#"
+                            class="w-8 h-8 flex items-center justify-center rounded-full border text-gray-800 hover:bg-gray-200">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="w-4 h-4"
+                                viewBox="0 0 24 24">
+                                <path
+                                    d="M22.46 6c-.77.35-1.6.58-2.46.69A4.27 4.27 0 0021.86 4c-.83.49-1.75.84-2.72 1a4.26 4.26 0 00-7.26 3.89A12.07 12.07 0 013 5.12a4.26 4.26 0 001.32 5.7 4.23 4.23 0 01-1.93-.53v.05a4.27 4.27 0 003.42 4.18 4.3 4.3 0 01-1.92.07 4.27 4.27 0 003.99 2.97A8.57 8.57 0 012 19.54a12.06 12.06 0 006.55 1.92c7.87 0 12.18-6.52 12.18-12.18 0-.19 0-.37-.01-.56A8.72 8.72 0 0024 6.51a8.48 8.48 0 01-2.54.7A4.23 4.23 0 0022.46 6z" />
+                            </svg>
+                        </a>
+                        <a href="#"
+                            class="w-8 h-8 flex items-center justify-center rounded-full border text-gray-800 hover:bg-gray-200">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="w-4 h-4"
+                                viewBox="0 0 24 24">
+                                <path
+                                    d="M8.72 13.74L0 24h6.44l4.14-4.89 6.16 4.89H24L15.29 12 24 0h-6.44l-4.14 4.89L7.26 0H0l8.72 12z" />
+                            </svg>
+                        </a>
+                        <a href="#"
+                            class="w-8 h-8 flex items-center justify-center rounded-full border text-gray-800 hover:bg-gray-200">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="w-4 h-4"
+                                viewBox="0 0 24 24">
+                                <path
+                                    d="M23.5 6.5a3 3 0 00-2.11-2.11C19.42 4 12 4 12 4s-7.42 0-9.39.39A3 3 0 00.5 6.5 31.57 31.57 0 000 12a31.57 31.57 0 00.5 5.5 3 3 0 002.11 2.11C4.58 20 12 20 12 20s7.42 0 9.39-.39a3 3 0 002.11-2.11A31.57 31.57 0 0024 12a31.57 31.57 0 00-.5-5.5zm-13 9V8l6.5 3.5z" />
+                            </svg>
+                        </a>
 
-                <div class="bg-white rounded-lg shadow p-4 text-center">
-                    <p class="text-sm text-gray-500">Durasi</p>
-                    <p class="text-2xl font-semibold text-lime-600">
-                        {{ $tour->duration }}
-                    </p>
-                </div>
-
-                <div class="bg-white rounded-lg shadow p-4 text-center">
-                    <p class="text-sm text-gray-500">Kategori</p>
-                    <p class="text-xl font-semibold text-gray-700">
-                        {{ $tour->category->name ?? '-' }}
-                    </p>
+                    </div>
+                    <div class="flex">
+                        <a href="#booking"
+                            class="bg-lime-300 hover:bg-lime-400 text-gray-900 font-semibold px-4 py-2 rounded-full shadow">
+                            Enquiry Now
+                        </a>
+                    </div>
                 </div>
             </div>
+        </section>
 
-            {{-- detail tabs --}}
+        <section class="py-4">
+            {{-- Subtitle + Title --}}
+            <h2 class="text-3xl md:text-4xl font-extrabold text-center text-gray-800 mb-6">
+                Detail Tour
+            </h2>
+
             <div x-data="{ tab: 'overview' }">
-                <div class="border-b mb-4">
-                    <nav class="flex justify-between items-center">
-                        <button
-                            :class="tab === 'overview' ? 'border-b-2 border-lime-500 text-lime-600' : 'text-gray-600'"
-                            class="py-2 px-4 focus:outline-none" @click="tab = 'overview'">
-                            Overview
-                        </button>
-                        <button
-                            :class="tab === 'inc/exc' ? 'border-b-2 border-lime-500 text-lime-600' : 'text-gray-600'"
-                            class="py-2 px-4 focus:outline-none" @click="tab = 'inc/exc'">
-                            Inc/Exc
-                        </button>
-                        <button
-                            :class="tab === 'itinerary' ? 'border-b-2 border-lime-500 text-lime-600' : 'text-gray-600'"
-                            class="py-2 px-4 focus:outline-none" @click="tab = 'itinerary'">
-                            Itinerary
-                        </button>
-                        {{-- Booking Form --}}
-                        <div class="ml-auto flex items-center">
-                            @auth
-                                <div x-data="{ open: false }">
-                                    <!-- Tombol -->
-                                    <button @click="open = true"
-                                        class="border border-lime-500 font-semibold py-2 px-4 rounded shadow-md transition text-sm ml-2 text-lime-600 hover:bg-lime-50">
-                                        Booking Sekarang
-                                    </button>
+                {{-- Tabs --}}
+                <div class="flex justify-center gap-2 mb-4 flex-wrap">
+                    <button @click="tab = 'overview'"
+                        :class="tab === 'overview' ? 'bg-teal-900 text-white' : 'bg-lime-400'"
+                        class="px-4 py-2 rounded shadow">
+                        Overview
+                    </button>
+                    <button @click="tab = 'info'" :class="tab === 'info' ? 'bg-teal-900 text-white' : 'bg-lime-400'"
+                        class="px-4 py-2 rounded shadow">
+                        Notes
+                    </button>
+                    <button @click="tab = 'terms'"
+                        :class="tab === 'terms' ? 'bg-teal-900 text-white' : 'bg-lime-400'"
+                        class="px-4 py-2 rounded shadow">
+                        Itinerary
+                    </button>
+                </div>
 
-                                    <!-- Modal -->
-                                    <div x-show="open" x-cloak
-                                        class="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
-                                        <div @click.away="open = false"
-                                            class="bg-white rounded-lg shadow-lg w-full max-w-md p-6">
-                                            <h2 class="text-xl font-bold text-gray-800 mb-4">Booking Sekarang</h2>
-
-                                            <form action="{{ route('bookings.store') }}" method="POST" class="space-y-4">
-                                                @csrf
-                                                <input type="hidden" name="tour_id" value="{{ $tour->id }}">
-
-                                                <div>
-                                                    <label for="booking_date"
-                                                        class="block text-sm font-medium text-gray-700">Tanggal
-                                                        Booking</label>
-                                                    <input type="date" id="booking_date" name="booking_date" required
-                                                        class="mt-1 block w-full border border-gray-300 rounded py-2 px-3 shadow-sm focus:ring-lime-500 focus:border-lime-500 text-sm">
-                                                </div>
-
-                                                <div class="flex justify-end space-x-2">
-                                                    <button type="button" @click="open = false"
-                                                        class="py-2 px-4 bg-gray-100 text-gray-700 rounded hover:bg-gray-200 text-sm">
-                                                        Batal
-                                                    </button>
-
-                                                    <button type="submit"
-                                                        class="py-2 px-4 bg-lime-500 hover:bg-lime-600 text-white font-semibold rounded shadow text-sm">
-                                                        Booking
-                                                    </button>
-                                                </div>
-                                            </form>
-                                        </div>
-                                    </div>
+                {{-- Konten tabs --}}
+                <div class="mt-6">
+                    {{-- Overview --}}
+                    <div x-show="tab === 'overview'" x-cloak x-transition:enter="transition ease-out duration-500"
+                        x-transition:enter-start="opacity-0 translate-y-4"
+                        x-transition:enter-end="opacity-100 translate-y-0"
+                        x-transition:leave="transition ease-in duration-300"
+                        x-transition:leave-start="opacity-100 translate-y-0"
+                        x-transition:leave-end="opacity-0 translate-y-4">
+                        <div class="p-4">
+                            <div class="bg-white rounded-lg border p-4 md:p-6 flex flex-col md:flex-row gap-6">
+                                {{-- Left: Itinerary --}}
+                                <div class="flex-1 text-sm">
+                                    {!! $tour->description !!}
                                 </div>
-                            @else
-                                <a href="{{ route('register') }}"
-                                    class="border border-lime-500 border-b-1 border-t-1 border-l-1 border-r-1 bg-1 font-semibold py-2 px-4 rounded shadow-md transition text-sm ml-2 text-lime-600 hover:bg-lime-50">
-                                    Booking Sekarang
-                                </a>
-                            @endauth
+
+                                {{-- Right: Image --}}
+                                <div class="flex-1">
+                                    <img src="{{ $tour->media?->first()->url }}" alt="{{ $tour->title }}"
+                                        class="rounded-lg shadow object-cover w-full h-full">
+                                </div>
+                            </div>
                         </div>
-                    </nav>
-                </div>
+                    </div>
 
-                <div x-show="tab === 'overview'" x-transition:enter="transition ease-out duration-300"
-                    x-transition:enter-start="opacity-0 translate-y-2"
-                    x-transition:enter-end="opacity-100 translate-y-0"
-                    x-transition:leave="transition ease-in duration-200"
-                    x-transition:leave-start="opacity-100 translate-y-0"
-                    x-transition:leave-end="opacity-0 translate-y-2" x-cloak>
-                    <h4 class="font-bold">Overview:</h4>
-                    <p class="text-slate-900 mb-4">
-                        {!! $tour->description !!}
-                    </p>
-                    <h4 class="font-bold mt-4">Notes:</h4>
-                    <p class="text-slate-900 mb-4">
-                        {!! $tour->notes !!}
-                    </p>
-                </div>
+                    {{-- Info --}}
+                    <div x-show="tab === 'info'" x-cloak x-transition:enter="transition ease-out duration-500"
+                        x-transition:enter-start="opacity-0 scale-90" x-transition:enter-end="opacity-100 scale-100"
+                        x-transition:leave="transition ease-in duration-300"
+                        x-transition:leave-start="opacity-100 scale-100" x-transition:leave-end="opacity-0 scale-90">
+                        <div class="p-4">
+                            <div class="bg-white rounded-lg border p-4 md:p-6 flex flex-col md:flex-row gap-6">
+                                {{-- Left: Itinerary --}}
+                                <div class="flex-1 text-sm">
+                                    {!! $tour->notes !!}
+                                </div>
 
-                <div x-show="tab === 'inc/exc'" x-transition:enter="transition ease-out duration-300"
-                    x-transition:enter-start="opacity-0 translate-y-2"
-                    x-transition:enter-end="opacity-100 translate-y-0"
-                    x-transition:leave="transition ease-in duration-200"
-                    x-transition:leave-start="opacity-100 translate-y-0"
-                    x-transition:leave-end="opacity-0 translate-y-2" x-cloak>
-                    <h4 class="font-bold mt-4">Include:</h4>
-                    <p class="text-slate-900 mb-4">
-                        {!! $tour->include !!}
-                    </p>
-                    <h4 class="font-bold mt-4">Exclude:</h4>
-                    <p class="text-slate-900 mb-4">
-                        {!! $tour->exclude !!}
-                    </p>
-                </div>
+                                {{-- Right: Image --}}
+                                <div class="flex-1">
+                                    <img src="{{ $tour->media?->first()->url }}" alt="{{ $tour->title }}"
+                                        class="rounded-lg shadow object-cover w-full h-full">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
 
-                <div x-show="tab === 'itinerary'" x-transition:enter="transition ease-out duration-300"
-                    x-transition:enter-start="opacity-0 translate-y-2"
-                    x-transition:enter-end="opacity-100 translate-y-0"
-                    x-transition:leave="transition ease-in duration-200"
-                    x-transition:leave-start="opacity-100 translate-y-0"
-                    x-transition:leave-end="opacity-0 translate-y-2" x-cloak>
-                    <h4 class="font-bold mt-4">Itinerary:</h4>
-                    <p class="text-slate-900 mb-4">
-                        {!! $tour->itinerary !!}
-                    </p>
+                    {{-- Terms --}}
+                    <div x-show="tab === 'terms'" x-cloak x-transition:enter="transition ease-out duration-500"
+                        x-transition:enter-start="opacity-0 -translate-x-4"
+                        x-transition:enter-end="opacity-100 translate-x-0"
+                        x-transition:leave="transition ease-in duration-300"
+                        x-transition:leave-start="opacity-100 translate-x-0"
+                        x-transition:leave-end="opacity-0 -translate-x-4">
+                        <div class="p-4">
+                            <div class="bg-white rounded-lg border p-4 md:p-6 flex flex-col md:flex-row gap-6">
+                                {{-- Left: Itinerary --}}
+                                <div class="flex-1 text-sm">
+                                    {!! $tour->itinerary !!}
+                                </div>
+
+                                {{-- Right: Image --}}
+                                <div class="flex-1">
+                                    <img src="{{ $tour->media?->first()->url }}" alt="{{ $tour->title }}"
+                                        class="rounded-lg shadow object-cover w-full h-full">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
+        </section>
 
-            @if ($tour->ratings->count())
-                <div class="mt-8">
-                    <h2 class="text-xl font-bold mb-4 text-gray-800">Ulasan Pengguna:</h2>
-
-                    @foreach ($tour->ratings->take(3) as $rating)
-                        <div class="mb-4 p-4 bg-gray-50 rounded shadow-sm">
-                            <div class="flex items-center mb-1">
-                                <div class="text-yellow-400 text-lg">
-                                    @for ($i = 1; $i <= 5; $i++)
-                                        <span>{{ $i <= $rating->rating ? '⭐' : '☆' }}</span>
-                                    @endfor
-                                </div>
-                                <span class="ml-2 text-sm text-gray">oleh {{ $rating->user->name }}</span>
-                            </div>
-                            <p class="text-gray-700">{{ $rating->comment }}</p>
+        <section class="py-4 max-w-7xl mx-auto px-4">
+            <div class="flex flex-col md:flex-row gap-6">
+                {{-- KIRI: Includes & Excludes --}}
+                <div class="flex-1 bg-white rounded-lg border p-6">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        {{-- Includes --}}
+                        <div>
+                            <h3 class="text-xl font-bold mb-4">Tour Price Includes:</h3>
+                            <ul class="space-y-2 text-sm text-gray-700">
+                                {!! $tour->include !!}
+                            </ul>
                         </div>
-                    @endforeach
 
-                    @if ($tour->ratings->count() > 3)
-                        <form method="GET" action="{{ route('tours.show', $tour) }}">
-                            <input type="hidden" name="show_all_reviews" value="1">
-                            <button class="mt-4 text-indigo-600 hover:underline font-medium" type="submit">
-                                Tampilkan semua ulasan ({{ $tour->ratings->count() }})
-                            </button>
-                        </form>
-                    @endif
+                        {{-- Excludes --}}
+                        <div class="md:border-l md:pl-6">
+                            <h3 class="text-xl font-bold mb-4">Tour Price Excludes:</h3>
+                            <ul class="space-y-2 text-sm text-gray-700">
+                                {!! $tour->exclude !!}
+                            </ul>
+                        </div>
+                    </div>
                 </div>
-            @endif
 
-            @if (auth()->check())
-                <div class="mt-8">
-                    <h2 class="text-lg font-semibold mb-2">Berikan Rating & Ulasan Anda:</h2>
+                {{-- KANAN: Book A Trip --}}
+                <div class="w-full md:w-2/4 bg-blue-100 rounded-lg p-6 flex-shrink-0">
+                    <h3 class="text-xl font-bold mb-4">Book A Trip:</h3>
 
-                    @php
-                        $myRating = $tour->ratings->where('user_id', auth()->id())->first();
-                    @endphp
-
-                    <form action="{{ route('tours.rate', $tour->id) }}" method="POST" class="mt-6"
-                        x-data="{ rating: 0 }">
+                    <form method="POST" action="{{ route('bookings.store') }}" class="space-y-4">
                         @csrf
-                        <input type="hidden" name="tour_id" value="{{ $tour->id }}">
-                        <input type="hidden" name="rating" :value="rating">
 
-                        <div class="mb-4">
-                            <label class="block text-sm font-medium text-gray-700 mb-1">
-                                Beri Rating &amp; Ulasan
-                            </label>
-                            <div class="flex space-x-1">
-                                @for ($i = 1; $i <= 5; $i++)
-                                    <svg @click="rating = {{ $i }}" xmlns="http://www.w3.org/2000/svg"
-                                        class="h-8 w-8 cursor-pointer"
-                                        :class="rating >= {{ $i }} ? 'text-yellow-400' : 'text-gray-300'"
-                                        fill="currentColor" viewBox="0 0 20 20">
-                                        <path
-                                            d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.286 3.974a1 1 0 00.95.69h4.184c.969 0 1.371 1.24.588 1.81l-3.39 2.463a1 1 0 00-.364 1.118l1.286 3.974c.3.921-.755 1.688-1.54 1.118l-3.39-2.463a1 1 0 00-1.176 0l-3.39 2.463c-.784.57-1.838-.197-1.539-1.118l1.285-3.974a1 1 0 00-.364-1.118L2.05 9.401c-.783-.57-.38-1.81.588-1.81h4.184a1 1 0 00.95-.69l1.286-3.974z" />
-                                    </svg>
-                                @endfor
-                            </div>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <input type="text" name="name" placeholder="Name *"
+                                class="border border-gray-300 rounded px-3 py-2 w-full" required>
+                            <input type="text" name="city" placeholder="City of Residence *"
+                                class="border border-gray-300 rounded px-3 py-2 w-full" required>
+
+                            <input type="email" name="email" placeholder="Email *"
+                                class="border border-gray-300 rounded px-3 py-2 w-full" required>
+                            <input type="text" name="phone" placeholder="Phone Number *"
+                                class="border border-gray-300 rounded px-3 py-2 w-full" required>
+
+                            <input type="date" name="travel_date" placeholder="Date of Travel *"
+                                class="border border-gray-300 rounded px-3 py-2 w-full" required>
+                            <input type="number" name="people" placeholder="No of People *"
+                                class="border border-gray-300 rounded px-3 py-2 w-full" min="1" required>
                         </div>
 
-                        <div class="mb-4">
-                            <textarea name="comment" rows="3"
-                                class="border border-gray-300 rounded w-full py-2 px-3 shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
-                                placeholder="Tulis ulasan Anda di sini (optional)"></textarea>
-                        </div>
+                        <textarea name="message" rows="3" placeholder="Message *"
+                            class="border border-gray-300 rounded px-3 py-2 w-full"></textarea>
 
-                        <div class="flex justify-end">
-                            <button type="submit"
-                                class="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-2 px-6 rounded transition">
-                                Kirim
-                            </button>
-                        </div>
+                        <button type="submit"
+                            class="bg-teal-900 hover:bg-teal-800 text-white rounded-full px-6 py-2 w-full font-semibold">
+                            Book Online
+                        </button>
                     </form>
-            @endif
+                </div>
+            </div>
+        </section>
 
-        </div>
-    </section>
+    </div>
+
 </x-guest-layout>

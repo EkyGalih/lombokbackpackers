@@ -5,9 +5,7 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\ToursResource\Pages;
 use App\Models\Tour;
 use Awcodes\Curator\Components\Forms\CuratorPicker;
-use Filament\Forms;
 use Filament\Forms\Components\DatePicker;
-use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Grid;
 use Filament\Forms\Components\Hidden;
 use Filament\Forms\Components\Repeater;
@@ -20,6 +18,7 @@ use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
+use Filament\Tables\Actions\BulkActionGroup;
 use Filament\Tables\Actions\DeleteAction;
 use Filament\Tables\Actions\DeleteBulkAction;
 use Filament\Tables\Actions\EditAction;
@@ -45,12 +44,20 @@ class ToursResource extends Resource
                         Hidden::make('user_id')->default(auth()->id()),
                         TextInput::make('title')
                             ->required()
+                            ->live(onBlur: true)
                             ->formatStateUsing(function ($state) {
                                 if (is_array($state)) {
                                     return $state[app()->getLocale()] ?? '';
                                 }
                                 return $state;
-                            }),
+                            })
+                            ->afterStateUpdated(function ($state, callable $set) {
+                                // kalau seo title masih kosong
+                                $set('seoMeta.meta_title', $state);
+                                // set rul seo
+                                $set('seoMeta.canonical_url', url(ENV('APP_URL') . '/tours/' . str($state)->slug()));
+                            })
+                            ,
                         Grid::make(12)->schema([
                             Select::make('category_id')
                                 ->relationship('category', 'name')
@@ -74,6 +81,25 @@ class ToursResource extends Resource
                                 }
                                 return $state;
                             })
+                            ->live(onBlur: true)
+                            ->afterStateUpdated(function ($state, callable $set) {
+                                    $plainText = strip_tags($state);
+
+                                    $seoDesc = str($plainText)->limit(160);
+
+                                    // ambil kata2
+                                    $words = str($plainText)
+                                        ->lower()
+                                        ->explode(' ')
+                                        ->map(fn($word) => trim(preg_replace('/[^a-z0-9]/', '', $word)))
+                                        ->filter(fn($word) => strlen($word) > 3) // minimal panjang kata
+                                        ->unique()
+                                        ->take(10)
+                                        ->implode(', ');
+
+                                    $set('seoMeta.meta_description', $seoDesc);
+                                    $set('seoMeta.keywords', $words);
+                                })
                             ->required()
                             ->label('Description'),
                         Grid::make(12)->schema([
@@ -226,7 +252,9 @@ class ToursResource extends Resource
                 //     ->openUrlInNewTab(),
             ])
             ->bulkActions([
-                DeleteBulkAction::make(),
+                BulkActionGroup::make([
+                    DeleteBulkAction::make(),
+                ]),
             ]);
     }
 

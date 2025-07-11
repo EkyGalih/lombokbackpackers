@@ -53,7 +53,7 @@
         rel="stylesheet">
 </head>
 
-<body class="bg-white text-gray-800 antialiased font-playfair">
+<body class="bg-white text-gray-800 text-sm antialiased font-playfair">
     {{-- Animasi boat loading --}}
     <div x-data="{ loaded: false }" x-init="window.addEventListener('load', () => loaded = true)" x-show="!loaded" x-transition.opacity.duration.2500ms
         class="fixed inset-0 bg-white z-50 flex justify-center items-center">

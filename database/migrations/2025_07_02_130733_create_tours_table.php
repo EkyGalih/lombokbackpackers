@@ -24,6 +24,7 @@ return new class extends Migration
             $table->json('duration');
             $table->json('packet');
             $table->json('itinerary')->nullable();
+            $table->json('summary')->nullable();
             $table->bigInteger('discount')->nullable();
             $table->enum('status', ['available', 'not available'])->default('available');
             $table->date('discount_start')->nullable();

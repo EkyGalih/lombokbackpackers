@@ -16,29 +16,24 @@
                             {{-- Gambar full --}}
                             <div class="overflow-hidden"> {{-- Tambahkan pembungkus supaya crop gambar ketika zoom --}}
                                 <img src="{{ $tour->media?->first()->url }}" alt="{{ $tour->title }}"
-                                    class="w-full h-96 object-cover transform transition-transform duration-500 ease-in-out group-hover:scale-110">
+                                    class="w-full h-[500px] object-cover transform transition-transform duration-500 ease-in-out group-hover:scale-110">
                             </div>
 
                             {{-- Overlay tulisan di bawah --}}
                             <div
-                                class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-4 z-20">
-                                <div class="transition-transform duration-300 ease-out group-hover:scale-105">
-                                    <h3 class="text-lg font-semibold text-white">
-                                        {{ $tour->title }}
-                                    </h3>
+                                class="absolute bottom-0 left-0 right-0 bg-gradient-to-t transition-all duration-500 ease-in-out group-hover:-translate-y-2 from-black/80 to-transparent p-4 z-20 flex flex-col gap-1">
+                                <h3 class="text-lg font-semibold text-white">
+                                    {{ $tour->title }}
+                                </h3>
 
-                                    <p class="text-xl font-semibold">
-                                        Harga Mulai (Rp.
-                                        {{ number_format($tour->price_range['min']) . ' - ' . number_format($tour->price_range['max']) }})
-                                    </p>
-                                </div>
-                            </div>
+                                <p
+                                    class="text-xl font-semibold text-white transition-all duration-500 ease-in-out group-hover:-translate-y-2 group-hover:text-lime-300">
+                                    Harga Mulai (Rp. {{ number_format($tour->lowest_price) }} -
+                                    {{ number_format($tour->highest_price) }})
+                                </p>
 
-                            {{-- Tombol Book Now tampil saat hover --}}
-                            <div
-                                class="absolute inset-0 flex justify-center items-center opacity-0 group-hover:opacity-100 bg-black bg-opacity-50 transition duration-300 z-10">
                                 <a href="{{ route('tours.show', $tour->slug) }}"
-                                    class="text-indigo-300 text-lg font-bold hover:underline hover:text-white transition">
+                                    class="inline-block opacity-0 translate-y-2 group-hover:opacity-100 group-hover:translate-y-0 text-white font-bold underline transition-all duration-500 ease-in-out">
                                     Browse Trips
                                 </a>
                             </div>
