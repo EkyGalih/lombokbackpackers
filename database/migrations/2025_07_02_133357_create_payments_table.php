@@ -20,6 +20,7 @@ return new class extends Migration
             $table->decimal('amount', 12, 2);
             $table->string('payment_proof')->nullable();
             $table->string('status')->default('pending');
+            $table->string('code_payment');
             $table->timestamps();
 
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');

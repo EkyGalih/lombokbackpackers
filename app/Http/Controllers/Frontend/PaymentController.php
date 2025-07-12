@@ -27,13 +27,15 @@ class PaymentController extends Controller
 
         $path = $request->file('proof_image')->store('media/payments', 'public');
 
+        $booking->update(['status' => BookingStatus::Waiting->value]);
+
         $payment = new Payment();
         $payment->booking_id = $booking->id;
         $payment->user_id = Auth::user()->id;
         $payment->payment_proof = $path;
         $payment->payment_method = $request->payment_method;
         $payment->amount = $request->amount;
-        $payment->status = 'verifying';
+        $payment->status = BookingStatus::Waiting->value;
         $payment->paid_at = now();
         $payment->save();
 

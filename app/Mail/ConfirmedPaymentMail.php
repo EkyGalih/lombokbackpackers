@@ -25,27 +25,17 @@ class ConfirmedPaymentMail extends Mailable
     /**
      * Get the message envelope.
      */
-    public function envelope(): Envelope
+    public function build(): self
     {
-        return new Envelope(
-            subject: 'Payment Confirmed',
-            to: [
-                new Address($this->booking->user->email, $this->booking->user->name),
-            ]
-        );
-    }
-
-    /**
-     * Get the message content definition.
-     */
-    public function content(): Content
-    {
-        return new Content(
-            markdown: 'emails.payments.payment-confirmed',
-            with: [
+        return $this
+            ->subject('Payment Confirmed')
+            ->to(
+                $this->booking->user->email,
+                $this->booking->user->name
+            )
+            ->view('emails.payments.payment-confirmed', [
                 'booking' => $this->booking,
-            ],
-        );
+            ]);
     }
 
     /**

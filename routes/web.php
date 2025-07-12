@@ -25,8 +25,9 @@ Route::middleware('auth')->group(function () {
     Route::group(['prefix' => 'bookings'], function () {
         Route::get('/', [BookingController::class, 'index'])->name('bookings.index');
         Route::post('/store', [BookingController::class, 'store'])->name('bookings.store');
-        Route::get('/{id}', [BookingController::class, 'show'])->name('bookings.show');
+        Route::get('/{booking}', [BookingController::class, 'show'])->name('bookings.show');
         Route::get('/verify/{booking}', [BookingController::class, 'verify'])->name('bookings.verify');
+        Route::get('/{booking}/invoice', [BookingController::class, 'download'])->name('bookings.invoice');
     });
 
     Route::group(['prefix' => 'payments'], function () {

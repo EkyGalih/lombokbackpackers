@@ -10,7 +10,7 @@ use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 
-class PaymentVerificationMail extends Mailable
+class PaymentApprovedMail extends Mailable
 {
     use Queueable, SerializesModels;
 
@@ -24,39 +24,17 @@ class PaymentVerificationMail extends Mailable
     }
 
     /**
-     * Get the message envelope.
+     * Build the message.
      */
-    public function envelope(): Envelope
-    {
-        return new Envelope(
-            subject: 'Payment Verification',
-            to: [
-                new Address($this->payment->booking->user->email, $this->payment->booking->user->name),
-            ]
-        );
-    }
-
-    /**
-     * Get the message content definition.
-     */
-    public function content(): Content
-    {
-        return new Content(
-            markdown: 'emails.payments.payment-verifying',
-            with: [
-                'payment' => $this->payment,
-            ],
-        );
-    }
     public function build(): self
     {
         return $this
-            ->subject('Payment Verification in Progress')
+            ->subject('Payment Approved')
             ->to(
                 $this->payment->booking->user->email,
                 $this->payment->booking->user->name
             )
-            ->view('emails.payments.payment-verifying', [
+            ->view('emails.payments.payment-verified', [
                 'payment' => $this->payment,
             ]);
     }
