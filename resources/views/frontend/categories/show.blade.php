@@ -10,30 +10,30 @@
             @if ($tours_by_category->count())
                 <div class="grid gap-6 md:grid-cols-4" id="paket">
                     @foreach ($tours_by_category as $tour)
-                        <div class="group relative bg-white rounded-lg overflow-hidden shadow-lg transform transition-all ease-in-out duration-300 hover:shadow-none hover:custom-rounded-br"
-                            style="--tw-rounded-br: 60px;">
+                        <div class="group relative bg-white rounded-lg overflow-hidden shadow-lg transform transition-all ease-in-out duration-700 hover:shadow-none hover:custom-rounded-br"
+                            style="--tw-rounded-br: 100px;">
 
                             {{-- Gambar full --}}
                             <div class="overflow-hidden"> {{-- Tambahkan pembungkus supaya crop gambar ketika zoom --}}
-                                <img src="{{ $tour->media?->first()->url }}" alt="{{ $tour->title }}"
+                                <img src="{{ $tour->media?->first()->url ?? asset('defaults/no-image.jpg') }}" alt="{{ $tour->title }}"
                                     class="w-full h-[500px] object-cover transform transition-transform duration-500 ease-in-out group-hover:scale-110">
                             </div>
 
                             {{-- Overlay tulisan di bawah --}}
                             <div
-                                class="absolute bottom-0 left-0 right-0 bg-gradient-to-t transition-all duration-500 ease-in-out group-hover:-translate-y-2 from-black/80 to-transparent p-4 z-20 flex flex-col gap-1">
+                                class="absolute bottom-0 left-0 right-0 bg-gradient-to-t transition-all duration-500 ease-in-out group-hover:-translate-y-6 from-black/80 to-transparent p-4 mb-4flex flex-col gap-1">
                                 <h3 class="text-lg font-semibold text-white">
                                     {{ $tour->title }}
                                 </h3>
 
                                 <p
-                                    class="text-xl font-semibold text-white transition-all duration-500 ease-in-out group-hover:-translate-y-2 group-hover:text-lime-300">
+                                    class="text-xl font-semibold text-white transition-all duration-700 ease-in-out group-hover:-translate-y-2 group-hover:text-lime-300">
                                     Harga Mulai (Rp. {{ number_format($tour->lowest_price) }} -
                                     {{ number_format($tour->highest_price) }})
                                 </p>
 
                                 <a href="{{ route('tours.show', $tour->slug) }}"
-                                    class="inline-block opacity-0 translate-y-2 group-hover:opacity-100 group-hover:translate-y-0 text-white font-bold underline transition-all duration-500 ease-in-out">
+                                    class="inline-block opacity-0 translate-y-2 group-hover:opacity-100 group-hover:translate-y-0 text-white font-bold underline transition-all duration-1000 ease-in-out">
                                     Browse Trips
                                 </a>
                             </div>

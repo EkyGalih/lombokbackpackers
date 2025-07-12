@@ -3,10 +3,12 @@
 namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
+use App\Mail\ConfirmedPaymentMail;
 use App\Models\Booking;
 use App\Models\Tour;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 
 class BookingController extends Controller
 {
@@ -18,21 +20,25 @@ class BookingController extends Controller
 
     public function store(Request $request)
     {
-        $request->validate([
-            'tour_id' => 'required|exists:tours,id',
-            'booking_date' => 'required|date|after:today',
-        ]);
+        // Ambil harga dari string packet
+        // Misalnya "2 Person, 1.600.000"
+        $packetParts = explode(',', $request->packet);
+        $priceString = trim($packetParts[1] ?? '0');
 
-        $tour = Tour::findOrFail($request->tour_id);
+        // Bersihkan dari titik & konversi ke float
+        $priceDecimal = (float) str_replace('.', '', $priceString);
 
         $booking = new Booking();
         $booking->user_id = Auth::id();
         $booking->tour_id = $request->tour_id;
-        $booking->booking_date = $request->booking_date;
-        $booking->total_price = $tour->price;
+        $booking->booking_date = $request->travel_date;
+        $booking->total_price = $priceDecimal;
         $booking->save();
 
-        return redirect()->route('payments.create', $booking->id)->with('success', 'Booking berhasil dibuat!');
+        // kirim email ke user
+        Mail::to($request->email)->send(new ConfirmedPaymentMail($booking));
+
+        return redirect()->route('bookings.verify', $booking->id)->with('success', 'Booking berhasil dibuat!');
     }
 
     public function show($id)
@@ -44,19 +50,8 @@ class BookingController extends Controller
         return view('frontend.bookings.show', compact('booking'));
     }
 
-    public function uploadProof(Request $request, Booking $booking)
+    public function verify(Booking $booking)
     {
-        $request->validate([
-            'payment_proof' => 'required|image|max:2048',
-        ]);
-
-        $path = $request->file('payment_proof')->store('payment_proofs', 'public');
-
-        $booking->update([
-            'payment_proof' => $path,
-            'payment_method' => 'manual',
-        ]);
-
-        return back()->with('success', 'Bukti pembayaran berhasil dikirim. Tunggu konfirmasi admin.');
+        return view('emails.bookings.verify', compact('booking'));
     }
 }

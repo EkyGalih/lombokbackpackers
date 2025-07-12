@@ -22,17 +22,23 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
-    Route::get('/my-bookings', [BookingController::class, 'index'])->name('bookings.index');
-    Route::post('/my-bookings', [BookingController::class, 'store'])->name('bookings.store');
-    Route::get('/my-bookings/{id}', [BookingController::class, 'show'])->name('bookings.show');
+    Route::group(['prefix' => 'bookings'], function () {
+        Route::get('/', [BookingController::class, 'index'])->name('bookings.index');
+        Route::post('/store', [BookingController::class, 'store'])->name('bookings.store');
+        Route::get('/{id}', [BookingController::class, 'show'])->name('bookings.show');
+        Route::get('/verify/{booking}', [BookingController::class, 'verify'])->name('bookings.verify');
+    });
 
-    Route::get('/payment/{booking}', [PaymentController::class, 'create'])->name('payments.create');
-    Route::post('/payment/{booking}', [PaymentController::class, 'store'])->name('payments.store');
+    Route::group(['prefix' => 'payments'], function () {
+        Route::get('/{booking}', [PaymentController::class, 'create'])->name('payments.create');
+        Route::post('/{booking}/payment', [PaymentController::class, 'payment'])->name('payments.payment');
+        Route::get('/{payment}/verify', [PaymentController::class, 'verify'])->name('payments.verify');
+        // Route::post('/{booking}', [PaymentController::class, 'store'])->name('payments.store');
+        Route::get('/invoice/{booking}/download', [InvoiceController::class, 'download'])
+            ->name('invoice.download');
+    });
 
-    Route::get('/invoice/{booking}/download', [InvoiceController::class, 'download'])
-        ->name('invoice.download');
 
-    Route::post('/bookings/{booking}/upload-proof', [BookingController::class, 'uploadProof'])->name('bookings.uploadProof');
 
     Route::get('/locale/{locale}', function (string $locale) {
         session()->put('locale', $locale);

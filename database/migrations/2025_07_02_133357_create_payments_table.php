@@ -15,12 +15,11 @@ return new class extends Migration
             $table->uuid('id')->primary();
             $table->uuid('booking_id');
             $table->unsignedBigInteger('user_id');
-            $table->string('method');
-            $table->date('payment_date');
+            $table->string('payment_method');
+            $table->date('paid_at');
             $table->decimal('amount', 12, 2);
-            $table->string('proof_image')->nullable();
+            $table->string('payment_proof')->nullable();
             $table->string('status')->default('pending');
-            $table->uuid('transaction_id')->unique();
             $table->timestamps();
 
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');

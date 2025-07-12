@@ -4,9 +4,12 @@ namespace App\Http\Controllers\Frontend;
 
 use App\Enums\BookingStatus;
 use App\Http\Controllers\Controller;
+use App\Mail\PaymentVerificationMail;
 use App\Models\Booking;
 use App\Models\Payment;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
 
 class PaymentController extends Controller
@@ -16,39 +19,31 @@ class PaymentController extends Controller
         return view('payments.create', compact('booking'));
     }
 
-    public function store(Request $request, Booking $booking)
+    public function payment(Request $request, Booking $booking)
     {
-        $validated = $request->validate([
-            'amount' => 'required|numeric|min:1',
-            'method' => 'required|string|in:transfer,qris',
-            'proof_image' => 'nullable|image|max:2048',
+        $request->validate([
+            'proof_image' => 'required|image|mimes:png,jpg,jpeg|max:2048',
         ]);
 
-        $path = null;
+        $path = $request->file('proof_image')->store('media/payments', 'public');
 
-        if ($request->hasFile('proof_image')) {
-            $path = $request->file('proof_image')->store('payment_proofs', 'public');
-        }
+        $payment = new Payment();
+        $payment->booking_id = $booking->id;
+        $payment->user_id = Auth::user()->id;
+        $payment->payment_proof = $path;
+        $payment->payment_method = $request->payment_method;
+        $payment->amount = $request->amount;
+        $payment->status = 'verifying';
+        $payment->paid_at = now();
+        $payment->save();
 
-        Payment::create([
-            'booking_id' => $booking->id,
-            'user_id' => $booking->user_id,
-            'amount' => $validated['amount'],
-            'method' => $validated['method'],
-            'status' => BookingStatus::Waiting, // Atau langsung 'confirmed' kalau tidak perlu verifikasi
-            'proof_image' => $path,
-            'transaction_id' => Str::uuid(),
-            'payment_date' => now()
-        ]);
+        Mail::to(Auth::user()->email)->send(new PaymentVerificationMail($payment));
 
-        // Tandai booking sedang menunggu verifikasi pembayaran
-        $booking->update([
-            'status' => BookingStatus::Pending,
-            'payment_method' => $validated['method'],
-            'payment_proof' => $path,
-            'paid_at' => now()
-        ]);
+        return redirect()->route('payments.verify', $payment->id);
+    }
 
-        return redirect()->route('dashboard')->with('success', 'Pembayaran berhasil dikirim. Tunggu konfirmasi admin.');
+    public function verify(Payment $payment)
+    {
+        return view('emails.payments.verify', compact('payment'));
     }
 }

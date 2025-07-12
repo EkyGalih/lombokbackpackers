@@ -20,7 +20,8 @@
                     </p>
                 </div>
                 <div class="flex items-center gap-4">
-                    <p class="text-gray-800 font-semibold rounded border border-gray-200 px-3 py-2 text-justify" style="border-radius: 0.25rem;">
+                    <p class="text-gray-800 font-semibold rounded border border-gray-200 px-3 py-2 text-justify"
+                        style="border-radius: 0.25rem;">
                         Packet
                         @if (!empty($tour->packet))
                             @foreach ($tour->packet as $item)
@@ -57,8 +58,10 @@
                         </a>
                         <a href="{{ app(\App\Settings\WebsiteSettings::class)->social_instagram }}" target="_blank"
                             class="w-8 h-8 flex items-center justify-center rounded-full border text-gray-800 hover:bg-teal-200">
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="w-4 h-4" viewBox="0 0 24 24">
-                                <path d="M12 2.163c3.204 0 3.584.012 4.85.07 1.366.062 2.633.334 3.608 1.308.974.974 1.246 2.241 1.308 3.608.058 1.266.07 1.646.07 4.85s-.012 3.584-.07 4.85c-.062 1.366-.334 2.633-1.308 3.608-.974.974-2.241 1.246-3.608 1.308-1.266.058-1.646.07-4.85.07s-3.584-.012-4.85-.07c-1.366-.062-2.633-.334-3.608-1.308-.974-.974-1.246-2.241-1.308-3.608C2.175 15.647 2.163 15.267 2.163 12s.012-3.584.07-4.85c.062-1.366.334-2.633 1.308-3.608C4.515 2.567 5.782 2.295 7.148 2.233 8.414 2.175 8.794 2.163 12 2.163zm0-2.163C8.736 0 8.332.012 7.052.07 5.77.128 4.672.388 3.678 1.382 2.684 2.376 2.424 3.474 2.366 4.756 2.308 6.036 2.296 6.44 2.296 12s.012 5.964.07 7.244c.058 1.282.318 2.38 1.312 3.374.994.994 2.092 1.254 3.374 1.312 1.28.058 1.684.07 7.244.07s5.964-.012 7.244-.07c1.282-.058 2.38-.318 3.374-1.312.994-.994 1.254-2.092 1.312-3.374.058-1.28.07-1.684.07-7.244s-.012-5.964-.07-7.244c-.058-1.282-.318-2.38-1.312-3.374C21.38.388 20.282.128 19 .07 17.72.012 17.316 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zm0 10.162a3.999 3.999 0 1 1 0-7.998 3.999 3.999 0 0 1 0 7.998zm6.406-11.845a1.44 1.44 0 1 0 0 2.88 1.44 1.44 0 0 0 0-2.88z"/>
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="w-4 h-4"
+                                viewBox="0 0 24 24">
+                                <path
+                                    d="M12 2.163c3.204 0 3.584.012 4.85.07 1.366.062 2.633.334 3.608 1.308.974.974 1.246 2.241 1.308 3.608.058 1.266.07 1.646.07 4.85s-.012 3.584-.07 4.85c-.062 1.366-.334 2.633-1.308 3.608-.974.974-2.241 1.246-3.608 1.308-1.266.058-1.646.07-4.85.07s-3.584-.012-4.85-.07c-1.366-.062-2.633-.334-3.608-1.308-.974-.974-1.246-2.241-1.308-3.608C2.175 15.647 2.163 15.267 2.163 12s.012-3.584.07-4.85c.062-1.366.334-2.633 1.308-3.608C4.515 2.567 5.782 2.295 7.148 2.233 8.414 2.175 8.794 2.163 12 2.163zm0-2.163C8.736 0 8.332.012 7.052.07 5.77.128 4.672.388 3.678 1.382 2.684 2.376 2.424 3.474 2.366 4.756 2.308 6.036 2.296 6.44 2.296 12s.012 5.964.07 7.244c.058 1.282.318 2.38 1.312 3.374.994.994 2.092 1.254 3.374 1.312 1.28.058 1.684.07 7.244.07s5.964-.012 7.244-.07c1.282-.058 2.38-.318 3.374-1.312.994-.994 1.254-2.092 1.312-3.374.058-1.28.07-1.684.07-7.244s-.012-5.964-.07-7.244c-.058-1.282-.318-2.38-1.312-3.374C21.38.388 20.282.128 19 .07 17.72.012 17.316 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zm0 10.162a3.999 3.999 0 1 1 0-7.998 3.999 3.999 0 0 1 0 7.998zm6.406-11.845a1.44 1.44 0 1 0 0 2.88 1.44 1.44 0 0 0 0-2.88z" />
                             </svg>
                         </a>
                         <a href="{{ app(\App\Settings\WebsiteSettings::class)->social_youtube }}" target="_blank"
@@ -71,175 +74,221 @@
                         </a>
 
                     </div>
-                    </div>
                 </div>
             </div>
-        </section>
+    </div>
+    </section>
 
-        <section class="py-4">
-            {{-- Subtitle + Title --}}
-            <h2 class="text-3xl md:text-4xl font-extrabold text-center text-gray-800 mb-6">
-                Detail Tour
-            </h2>
+    <section class="py-8 max-w-7xl mx-auto px-4">
+        <a href="#" target="_blank" class="block group">
+            <img src="{{ $tour->media?->first()?->url }}" alt="{{ $tour->title }} image"
+                class="rounded-lg w-full h-2/4 object-cover group-hover:opacity-80 group-hover:scale-105 transition-all duration-500 ease-in-out" />
+        </a>
+    </section>
 
-            <div x-data="{ tab: 'overview' }">
-                {{-- Tabs --}}
-                <div class="flex justify-center gap-2 mb-4 flex-wrap">
-                    <button @click="tab = 'overview'"
-                        :class="tab === 'overview' ? 'bg-teal-900 text-white' : 'bg-lime-400'"
-                        class="px-4 py-2 rounded shadow flex items-center gap-2">
-                        Overview
-                        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 17L17 7M7 7h10v10" />
-                        </svg>
-                    </button>
-                    <button @click="tab = 'info'" :class="tab === 'info' ? 'bg-teal-900 text-white' : 'bg-lime-400'"
-                        class="px-4 py-2 rounded shadow flex items-center gap-2">
-                        Notes
-                        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 17L17 7M7 7h10v10" />
-                        </svg>
-                    </button>
-                    <button @click="tab = 'terms'"
-                        :class="tab === 'terms' ? 'bg-teal-900 text-white' : 'bg-lime-400'"
-                        class="px-4 py-2 rounded shadow flex items-center gap-2">
-                        Itinerary
-                        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 17L17 7M7 7h10v10" />
-                        </svg>
-                    </button>
+    <section class="py-4 max-w-7xl mx-auto px-4">
+        {{-- Subtitle + Title --}}
+        <h2 class="text-3xl md:text-4xl font-extrabold text-center text-gray-800 mb-6">
+            Detail Tour
+        </h2>
+
+        <div x-data="{ tab: 'overview' }">
+            {{-- Tabs --}}
+            <div class="flex justify-center gap-2 mb-4 flex-wrap">
+                <button @click="tab = 'overview'" :class="tab === 'overview' ? 'bg-teal-900 text-white' : 'bg-lime-400'"
+                    class="px-4 py-2 rounded shadow flex items-center gap-2">
+                    Overview
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 ml-1" fill="none" viewBox="0 0 24 24"
+                        stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M7 17L17 7M7 7h10v10" />
+                    </svg>
+                </button>
+                <button @click="tab = 'info'" :class="tab === 'info' ? 'bg-teal-900 text-white' : 'bg-lime-400'"
+                    class="px-4 py-2 rounded shadow flex items-center gap-2">
+                    Notes
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 ml-1" fill="none" viewBox="0 0 24 24"
+                        stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M7 17L17 7M7 7h10v10" />
+                    </svg>
+                </button>
+                <button @click="tab = 'terms'" :class="tab === 'terms' ? 'bg-teal-900 text-white' : 'bg-lime-400'"
+                    class="px-4 py-2 rounded shadow flex items-center gap-2">
+                    Itinerary
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 ml-1" fill="none" viewBox="0 0 24 24"
+                        stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M7 17L17 7M7 7h10v10" />
+                    </svg>
+                </button>
+            </div>
+
+            {{-- Konten tabs --}}
+            <div class="mt-6">
+                {{-- Overview --}}
+                <div x-show="tab === 'overview'" x-cloak x-transition:enter="transition ease-out duration-500"
+                    x-transition:enter-start="opacity-0 translate-y-4"
+                    x-transition:enter-end="opacity-100 translate-y-0"
+                    x-transition:leave="transition ease-in duration-300"
+                    x-transition:leave-start="opacity-100 translate-y-0"
+                    x-transition:leave-end="opacity-0 translate-y-4">
+                    <div class="p-4">
+                        <div class="bg-white rounded-lg border p-4 md:p-6">
+                            <div class="prose prose-sm max-w-none text-gray-800">
+                                {!! $tour->description !!}
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
-                {{-- Konten tabs --}}
-                <div class="mt-6">
-                    {{-- Overview --}}
-                    <div x-show="tab === 'overview'" x-cloak x-transition:enter="transition ease-out duration-500"
-                        x-transition:enter-start="opacity-0 translate-y-4"
-                        x-transition:enter-end="opacity-100 translate-y-0"
-                        x-transition:leave="transition ease-in duration-300"
-                        x-transition:leave-start="opacity-100 translate-y-0"
-                        x-transition:leave-end="opacity-0 translate-y-4">
-                        <div class="p-4">
-                            <div class="bg-white rounded-lg border p-4 md:p-6 flex flex-col md:flex-row gap-6">
-                                {{-- Left: Itinerary --}}
-                                <div class="flex-1 text-sm">
-                                    {!! $tour->description !!}
-                                </div>
-
-                                {{-- Right: Image --}}
-                                <div class="flex-1">
-                                    <img src="{{ $tour->media?->first()->url }}" alt="{{ $tour->title }}"
-                                        class="rounded-lg shadow object-cover w-full h-full">
-                                </div>
+                {{-- Info --}}
+                <div x-show="tab === 'info'" x-cloak x-transition:enter="transition ease-out duration-500"
+                    x-transition:enter-start="opacity-0 scale-90" x-transition:enter-end="opacity-100 scale-100"
+                    x-transition:leave="transition ease-in duration-300"
+                    x-transition:leave-start="opacity-100 scale-100" x-transition:leave-end="opacity-0 scale-90">
+                    <div class="p-4">
+                        <div class="bg-white rounded-lg border p-4 md:p-6 gap-6">
+                            <div class="prose prose-xs max-w-none text-gray-800">
+                                {!! $tour->notes !!}
                             </div>
+
                         </div>
                     </div>
+                </div>
 
-                    {{-- Info --}}
-                    <div x-show="tab === 'info'" x-cloak x-transition:enter="transition ease-out duration-500"
-                        x-transition:enter-start="opacity-0 scale-90" x-transition:enter-end="opacity-100 scale-100"
-                        x-transition:leave="transition ease-in duration-300"
-                        x-transition:leave-start="opacity-100 scale-100" x-transition:leave-end="opacity-0 scale-90">
-                        <div class="p-4">
-                            <div class="bg-white rounded-lg border p-4 md:p-6 flex flex-col md:flex-row gap-6">
-                                {{-- Left: Itinerary --}}
-                                <div class="flex-1 text-sm">
-                                    {!! $tour->notes !!}
-                                </div>
-
-                                {{-- Right: Image --}}
-                                <div class="flex-1">
-                                    <img src="{{ $tour->media?->first()->url }}" alt="{{ $tour->title }}"
-                                        class="rounded-lg shadow object-cover w-full h-full">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    {{-- Terms --}}
-                    <div x-show="tab === 'terms'" x-cloak x-transition:enter="transition ease-out duration-500"
-                        x-transition:enter-start="opacity-0 -translate-x-4"
-                        x-transition:enter-end="opacity-100 translate-x-0"
-                        x-transition:leave="transition ease-in duration-300"
-                        x-transition:leave-start="opacity-100 translate-x-0"
-                        x-transition:leave-end="opacity-0 -translate-x-4">
-                        <div class="p-4">
-                            <div class="bg-white rounded-lg border p-4 md:p-6 flex flex-col md:flex-row gap-6">
-                                {{-- Left: Itinerary --}}
-                                <div class="flex-1 text-sm">
-                                    {!! $tour->itinerary !!}
-                                </div>
-
-                                {{-- Right: Image --}}
-                                <div class="flex-1">
-                                    <img src="{{ $tour->media?->first()->url }}" alt="{{ $tour->title }}"
-                                        class="rounded-lg shadow object-cover w-full h-full">
-                                </div>
+                {{-- Terms --}}
+                <div x-show="tab === 'terms'" x-cloak x-transition:enter="transition ease-out duration-500"
+                    x-transition:enter-start="opacity-0 -translate-x-4"
+                    x-transition:enter-end="opacity-100 translate-x-0"
+                    x-transition:leave="transition ease-in duration-300"
+                    x-transition:leave-start="opacity-100 translate-x-0"
+                    x-transition:leave-end="opacity-0 -translate-x-4">
+                    <div class="p-4">
+                        <div class="bg-white rounded-lg border p-4 md:p-6 gap-6">
+                            <div class="prose prose-xs max-w-none text-gray-800">
+                                {!! $tour->itinerary !!}
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </section>
+        </div>
+    </section>
 
-        <section class="py-4 max-w-7xl mx-auto px-4">
-            <div class="flex flex-col md:flex-row gap-6">
-                {{-- KIRI: Includes & Excludes --}}
-                <div class="flex-1 bg-white rounded-lg border p-6">
+    <section class="py-4 max-w-7xl mx-auto px-4">
+        <div class="flex flex-col md:flex-row gap-6">
+            {{-- KIRI: Includes & Excludes --}}
+            <div class="flex-1 bg-white rounded-lg border p-6">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    {{-- Includes --}}
+                    <div>
+                        <h3 class="text-xl pace-y-2 text-gray-700 font-bold mb-4">Tour Price Includes:</h3>
+                        <div class="prose prose-xs max-w-none text-gray-800">
+                            {!! $tour->include !!}
+                        </div>
+                    </div>
+
+                    {{-- Excludes --}}
+                    <div class="md:border-l md:pl-6">
+                        <h3 class="text-xl space-y-2 text-gray-700 font-bold mb-4">Tour Price Excludes:</h3>
+                        <div class="prose prose-xs max-w-none text-gray-800">
+                            {!! $tour->exclude !!}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            {{-- KANAN: Book A Trip --}}
+            <div class="w-full md:w-2/4 bg-teal-100/30 rounded-lg p-6 flex-shrink-0">
+                <h3 class="text-xl font-bold mb-4">Book A Trip:</h3>
+
+                <form method="POST" action="{{ route('bookings.store') }}" class="space-y-6">
+                    @csrf
+
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        {{-- Includes --}}
+                        {{-- Name --}}
                         <div>
-                            <h3 class="text-xl font-bold mb-4">Tour Price Includes:</h3>
-                            <ul class="space-y-2 text-sm text-gray-700">
-                                {!! $tour->include !!}
-                            </ul>
+                            <input type="hidden" name="user_id" value="{{ Auth::user()->id }}">
+                            <input type="hidden" name="tour_id" value="{{ $tour->id }}">
+                            <label for="name" class="block text-sm font-medium text-gray-700">Name *</label>
+                            <input type="text" name="name" id="name"
+                                value="{{ Auth::user()->name ?? '' }}"
+                                class="mt-1 block w-full rounded-lg border-gray-300 shadow-sm focus:border-lime-500 focus:ring-lime-500 transition placeholder-gray-400"
+                                placeholder="Your full name" required>
                         </div>
 
-                        {{-- Excludes --}}
-                        <div class="md:border-l md:pl-6">
-                            <h3 class="text-xl font-bold mb-4">Tour Price Excludes:</h3>
-                            <ul class="space-y-2 text-sm text-gray-700">
-                                {!! $tour->exclude !!}
-                            </ul>
+                        {{-- City --}}
+                        <div>
+                            <label for="city" class="block text-sm font-medium text-gray-700">City of Residence
+                                *</label>
+                            <input type="text" name="city" id="city"
+                                value="{{ Auth::user()->customer->nationality }}"
+                                class="mt-1 block w-full rounded-lg border-gray-300 shadow-sm focus:border-lime-500 focus:ring-lime-500 transition placeholder-gray-400 {{ Auth::check() ? 'bg-gray-100 cursor-not-allowed' : '' }}"
+                                {{ Auth::check() ? 'readonly' : '' }} placeholder="City name" required>
+                        </div>
+
+                        {{-- Email --}}
+                        <div>
+                            <label for="email" class="block text-sm font-medium text-gray-700">Email *</label>
+                            <input type="email" name="email" id="email"
+                                value="{{ Auth::user()->email ?? '' }}"
+                                class="mt-1 block w-full rounded-lg border-gray-300 shadow-sm focus:border-lime-500 focus:ring-lime-500 transition placeholder-gray-400"
+                                placeholder="you@example.com" required>
+                        </div>
+
+                        {{-- Phone --}}
+                        <div>
+                            <label for="phone" class="block text-sm font-medium text-gray-700">Phone Number
+                                *</label>
+                            <input type="text" name="phone" id="phone"
+                                value="{{ Auth::user()->customer->phone }}"
+                                class="mt-1 block w-full rounded-lg border-gray-300 shadow-sm focus:border-lime-500 focus:ring-lime-500 transition placeholder-gray-400"
+                                placeholder="+62…" required>
+                        </div>
+
+                        {{-- Date --}}
+                        <div>
+                            <label for="travel_date" class="block text-sm font-medium text-gray-700">Date of Travel
+                                *</label>
+                            <input type="date" name="travel_date" id="travel_date"
+                                class="mt-1 block w-full rounded-lg border-gray-300 shadow-sm focus:border-lime-500 focus:ring-lime-500 transition placeholder-gray-400"
+                                required>
+                        </div>
+
+                        {{-- Packet --}}
+                        <div>
+                            <label for="packet" class="block text-sm font-medium text-gray-700">Packet *</label>
+                            <select name="packet" id="packet"
+                                class="mt-1 block w-full rounded-lg border-gray-300 shadow-sm focus:border-lime-500 focus:ring-lime-500 transition placeholder-gray-400"
+                                required>
+                                <option value="" disabled selected>Choose a packet</option>
+                                @foreach ($tour->packet as $item)
+                                    <option value="{{ $item['value'] }}">{{ $item['value'] }}</option>
+                                @endforeach
+                            </select>
                         </div>
                     </div>
-                </div>
 
-                {{-- KANAN: Book A Trip --}}
-                <div class="w-full md:w-2/4 bg-blue-100 rounded-lg p-6 flex-shrink-0">
-                    <h3 class="text-xl font-bold mb-4">Book A Trip:</h3>
+                    {{-- Message --}}
+                    <div>
+                        <label for="message" class="block text-sm font-medium text-gray-700">Message *</label>
+                        <textarea name="notes" id="message" rows="3"
+                            class="mt-1 block w-full rounded-lg border-gray-300 shadow-sm focus:border-lime-500 focus:ring-lime-500 transition placeholder-gray-400"
+                            placeholder="Write something about your trip…"></textarea>
+                    </div>
 
-                    <form method="POST" action="{{ route('bookings.store') }}" class="space-y-4">
-                        @csrf
-
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                            <input type="text" name="name" placeholder="Name *"
-                                class="border border-gray-300 rounded px-3 py-2 w-full" required>
-                            <input type="text" name="city" placeholder="City of Residence *"
-                                class="border border-gray-300 rounded px-3 py-2 w-full" required>
-
-                            <input type="email" name="email" placeholder="Email *"
-                                class="border border-gray-300 rounded px-3 py-2 w-full" required>
-                            <input type="text" name="phone" placeholder="Phone Number *"
-                                class="border border-gray-300 rounded px-3 py-2 w-full" required>
-
-                            <input type="date" name="travel_date" placeholder="Date of Travel *"
-                                class="border border-gray-300 rounded px-3 py-2 w-full" required>
-                            <input type="number" name="people" placeholder="No of People *"
-                                class="border border-gray-300 rounded px-3 py-2 w-full" min="1" required>
-                        </div>
-
-                        <textarea name="message" rows="3" placeholder="Message *"
-                            class="border border-gray-300 rounded px-3 py-2 w-full"></textarea>
-
+                    {{-- Submit --}}
+                    <div>
                         <button type="submit"
-                            class="bg-teal-900 hover:bg-teal-800 text-white rounded-full px-6 py-2 w-full font-semibold">
+                            class="w-full inline-flex justify-center items-center rounded-lg bg-lime-600 px-6 py-3 text-white font-semibold shadow-sm hover:bg-lime-700 hover:shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-lime-500 transition">
                             Book Online
                         </button>
-                    </form>
-                </div>
+                    </div>
+                </form>
             </div>
-        </section>
+        </div>
+    </section>
 
     </div>
 

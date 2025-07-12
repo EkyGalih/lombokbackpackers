@@ -93,37 +93,25 @@
 
                 {{-- HERO --}}
                 <div x-data="{
-                    activeTab: 'adventure',
+                    activeTab: '{{ $categories->first()?->id ?? '' }}',
                     showModal: false,
                     modalIndex: 0,
                     images: {
-                        adventure: [
-                            'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80',
-                            'https://images.unsplash.com/photo-1470770841072-f978cf4d019e?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80',
-                            'https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80'
-                        ],
-                        vacations: [
-                            'https://images.unsplash.com/photo-1506748686214-e9df14d4d9d0?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80',
-                            'https://images.unsplash.com/photo-1493558103817-58b2924bce98?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80',
-                            'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80'
-                        ],
-                        hills: [
-                            'https://images.unsplash.com/photo-1501785888041-af3ef285b470?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80',
-                            'https://images.unsplash.com/photo-1470770841072-f978cf4d019e?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80',
-                            'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80'
-                        ],
-                        seasonal: [
-                            'https://images.unsplash.com/photo-1506748686214-e9df14d4d9d0?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80',
-                            'https://images.unsplash.com/photo-1470770841072-f978cf4d019e?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80',
-                            'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80'
-                        ]
-                    }
+                        @foreach ($categories as $category)
+                '{{ $category->id }}': [
+                    @foreach ($category->tours as $tour)
+                        '{{ $tour->media->first()->url ?? asset('images/default.jpg') }}', @endforeach
+                    ],
+                    @endforeach
+                }
                 }"
-                    class="relative flex flex-col items-center justify-center min-h-screen text-center px-4">
+                    class="relative flex flex-col items-center justify-center min-h-screen text-center px-4"
+                    @keydown.escape.window="showModal = false">
 
                     {{-- MODAL GAMBAR --}}
                     <div x-show="showModal" x-transition.opacity
-                        class="fixed inset-0 bg-black/70 flex items-center justify-center z-50">
+                        class="fixed inset-0 bg-black/70 flex items-center justify-center z-50"
+                        @click.self="showModal = false">
                         <div class="relative bg-transparent rounded-lg shadow-lg h-full w-full overflow-hidden">
 
                             <!-- Tombol close di luar gambar -->
@@ -161,7 +149,7 @@
                             {{ $headerSubTitle }}
                         </p>
 
-                        <div class="flex justify-center gap-4 mb-16 relative h-32">
+                        <div class="flex justify-center gap-4 mb-20 relative h-32">
                             <template x-for="(img, index) in images[activeTab]" :key="activeTab + '-' + index">
                                 <div
                                     class="relative group w-52 h-40 rounded-md shadow-md overflow-hidden border border-transparent transition-transform duration-500 ease-in-out group-hover:scale-110 hover:border-orange-400 hover:rounded-br-full">
@@ -186,21 +174,17 @@
                         </a>
                     </div>
                     {{-- TABS --}}
-                    <div class="z-30 flex flex-wrap justify-center mt-6 gap-4 px-4 mb-36">
-                        <template
-                            x-for="tab in [
-                {key: 'adventure', label: '01. Adventure'},
-                {key: 'vacations', label: '02. Vacations'},
-                {key: 'hills', label: '03. Hills Station'},
-                {key: 'seasonal', label: '04. Seasonal'}
-            ]">
-                            <button @click="activeTab = tab.key"
-                                :class="activeTab === tab.key ?
+                    <div class="z-30 flex flex-wrap justify-center mt-12 gap-4 px-4 mb-12">
+                        @foreach ($categories as $category)
+                            <button @click="activeTab = '{{ $category->id }}'"
+                                :class="activeTab === '{{ $category->id }}'
+                                    ?
                                     'bg-lime-300 text-slate-900' :
                                     'bg-white bg-opacity-20 text-white'"
-                                class="font-semibold px-8 py-3 rounded-lg rounded-br-3xl w-72 text-center mt-12"
-                                x-text="tab.label"></button>
-                        </template>
+                                class="font-semibold px-8 py-3 rounded-lg rounded-br-3xl w-72 text-center">
+                                {{ $loop->iteration }}. {{ $category->name }}
+                            </button>
+                        @endforeach
                     </div>
                 </div>
 
@@ -246,16 +230,39 @@
                 </a>
 
                 <div class="flex items-center mt-6">
-                    <div class="flex -space-x-2">
-                        <img src="{{ asset('images/client1.jpg') }}"
-                            class="w-10 h-10 rounded-full border-2 border-white" alt="">
-                        <img src="{{ asset('images/client2.jpg') }}"
-                            class="w-10 h-10 rounded-full border-2 border-white" alt="">
-                        <img src="{{ asset('images/client3.jpg') }}"
-                            class="w-10 h-10 rounded-full border-2 border-white" alt="">
+                    <div class="flex -space-x-5">
+                        @php
+                            $colors = [
+                                'bg-red-500',
+                                'bg-blue-500',
+                                'bg-green-500',
+                                'bg-yellow-500',
+                                'bg-purple-500',
+                                'bg-pink-500',
+                                'bg-teal-500',
+                                'bg-orange-500',
+                                'bg-cyan-500',
+                                'bg-indigo-500',
+                            ];
+                        @endphp
+
+                        @foreach ($customers->take(5) as $customer)
+                            @php
+                                $color = $colors[array_rand($colors)];
+                                $initials = collect(explode(' ', $customer->name))
+                                    ->map(fn($part) => \Illuminate\Support\Str::substr($part, 0, 1))
+                                    ->take(2)
+                                    ->join('');
+                            @endphp
+
+                            <div
+                                class="w-10 h-10 rounded-full border-2 border-white text-white flex items-center justify-center text-sm font-bold {{ $color }}">
+                                {{ $initials }}
+                            </div>
+                        @endforeach
                     </div>
                     <div class="ml-4 text-sm">
-                        <span class="text-lg font-bold">114K+</span> Happy Clients
+                        <span class="text-lg font-bold">{{ $customers->count() }}</span> Active Travelers
                     </div>
                 </div>
             </div>
@@ -288,21 +295,20 @@
                             {{-- Overlay tulisan --}}
                             <div
                                 class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-4 z-20">
-                                <div
-                                    class="transition-transform duration-500 ease-in-out transform group-hover:-translate-y-8">
-                                    <h3 class="text-lg font-bold text-white hover:text-lime-300 transition">
-                                        {{ $category->name }}
-                                    </h3>
+                                <h3
+                                    class="transition-transform duration-500 ease-in-out transform group-hover:-translate-y-8 text-lg font-bold text-white hover:text-lime-300">
+                                    {{ $category->name }}
+                                </h3>
 
-                                    <p class="text-sm font-semibold text-white">
-                                        {!! $category->description !!}
-                                    </p>
+                                <div
+                                    class="text-lg font-semibold text-white transition-transform duration-700 ease-in-out transform group-hover:-translate-y-8">
+                                    {!! $category->description !!}
                                 </div>
                             </div>
 
                             {{-- Tombol Browse Trips muncul dari bawah --}}
                             <div
-                                class="absolute bottom-4 left-0 right-0 flex justify-center opacity-0 group-hover:opacity-100 transform translate-y-6 group-hover:translate-y-0 transition-all duration-500 ease-in-out z-30">
+                                class="absolute bottom-4 left-0 right-0 flex justify-center opacity-0 group-hover:opacity-100 transform translate-y-6 group-hover:translate-y-0 transition-all duration-1000 ease-in-out z-30">
                                 <a href="{{ route('categories.show', $category->slug) }}"
                                     class="bg-transparent px-4 py-2 rounded text-white text-sm font-semibold shadow underline hover:underline-offset-1 transition">
                                     Browse Trips
@@ -415,8 +421,7 @@
                 @foreach ($popularTours as $item)
                     <a href="{{ route('tours.show', $item->slug) }}"
                         class="relative rounded-lg overflow-hidden shadow-lg group">
-                        <img src="{{ $item->media?->first()?->url }}"
-                            alt="{{ $item->titlex }}"
+                        <img src="{{ $item->media?->first()?->url }}" alt="{{ $item->titlex }}"
                             class="w-full h-64 object-cover transition-transform group-hover:scale-105">
                         <div class="absolute inset-0 bg-black/50 flex flex-col justify-end p-4">
 
@@ -497,7 +502,8 @@
                             </div>
                             <h3 class="text-lg font-bold text-gray-900 mb-1">{{ $post->title }}</h3>
                             <p class="text-gray-600 text-sm mb-2">{!! $post->excerpt !!}</p>
-                            <a href="{{ route('blog.show', $post->slug) }}" class="text-slate-900 font-medium text-md underline">Read More</a>
+                            <a href="{{ route('blog.show', $post->slug) }}"
+                                class="text-slate-900 font-medium text-md underline">Read More</a>
                         </div>
                     </div>
                 @endforeach
