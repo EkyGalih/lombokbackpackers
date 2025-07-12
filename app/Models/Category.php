@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Traits\AutoTranslateOnSave;
+use App\Traits\FormatCurrency;
 use App\Traits\HasUuid;
 use Awcodes\Curator\Models\Media;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -13,7 +14,7 @@ use Illuminate\Support\Str;
 
 class Category extends Model
 {
-    use HasFactory, HasUuid, HasTranslations, AutoTranslateOnSave;
+    use HasFactory, HasUuid, HasTranslations, AutoTranslateOnSave, FormatCurrency;
 
     protected $guarded = [];
     public $translatable = ['name', 'description'];

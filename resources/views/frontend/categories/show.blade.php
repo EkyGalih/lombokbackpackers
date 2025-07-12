@@ -28,8 +28,8 @@
 
                                 <p
                                     class="text-xl font-semibold text-white transition-all duration-700 ease-in-out group-hover:-translate-y-2 group-hover:text-lime-300">
-                                    Harga Mulai (Rp. {{ number_format($tour->lowest_price) }} -
-                                    {{ number_format($tour->highest_price) }})
+                                    Price From ({{ $category->formatCurrency($tour->lowest_price) }} -
+                                    {{ $category->formatCurrency($tour->highest_price) }})
                                 </p>
 
                                 <a href="{{ route('tours.show', $tour->slug) }}"

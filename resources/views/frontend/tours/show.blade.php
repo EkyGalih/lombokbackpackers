@@ -209,7 +209,7 @@
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                         {{-- Name --}}
                         <div>
-                            <input type="hidden" name="user_id" value="{{ Auth::user()->id }}">
+                            <input type="hidden" name="user_id" value="{{ Auth::user()?->id }}">
                             <input type="hidden" name="tour_id" value="{{ $tour->id }}">
                             <label for="name" class="block text-sm font-medium text-gray-700">Name *</label>
                             <input type="text" name="name" id="name"
@@ -223,7 +223,7 @@
                             <label for="city" class="block text-sm font-medium text-gray-700">City of Residence
                                 *</label>
                             <input type="text" name="city" id="city"
-                                value="{{ Auth::user()->customer->nationality }}"
+                                value="{{ Auth::user()?->customer?->nationality }}"
                                 class="mt-1 block w-full rounded-lg border-gray-300 shadow-sm focus:border-lime-500 focus:ring-lime-500 transition placeholder-gray-400 {{ Auth::check() ? 'bg-gray-100 cursor-not-allowed' : '' }}"
                                 {{ Auth::check() ? 'readonly' : '' }} placeholder="City name" required>
                         </div>
@@ -242,7 +242,7 @@
                             <label for="phone" class="block text-sm font-medium text-gray-700">Phone Number
                                 *</label>
                             <input type="text" name="phone" id="phone"
-                                value="{{ Auth::user()->customer->phone }}"
+                                value="{{ Auth::user()->customer->phone ?? '' }}"
                                 class="mt-1 block w-full rounded-lg border-gray-300 shadow-sm focus:border-lime-500 focus:ring-lime-500 transition placeholder-gray-400"
                                 placeholder="+62…" required>
                         </div>
