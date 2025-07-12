@@ -15,8 +15,13 @@ class BookingController extends Controller
 {
     public function index()
     {
-        $bookings = Auth::user()->bookings()->with('tour', 'payment')->latest()->paginate(10);
-        return view('frontend.bookings.index', compact('bookings'));
+        $user = auth()->user();
+
+        $bookings = $user->bookings()->with('tour.category')->latest()->paginate(10);
+
+        $tours = \App\Models\Tour::with('category')->get();
+
+        return view('frontend.bookings.index', compact('bookings', 'tours'));
     }
 
     public function store(Request $request)

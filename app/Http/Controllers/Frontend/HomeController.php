@@ -52,4 +52,28 @@ class HomeController extends Controller
             'customers'
         ));
     }
+
+    public function dashboard()
+    {
+        $user = auth()->user();
+
+        $recentBookings = $user->bookings()->latest()->take(5)->get();
+
+        $chartLabels = [];
+        $chartData = [];
+
+        // Ambil data booking per bulan
+        $bookingsPerMonth = $user->bookings()
+            ->selectRaw('MONTH(created_at) as month, COUNT(*) as count')
+            ->groupBy('month')
+            ->orderBy('month')
+            ->pluck('count', 'month');
+
+        for ($i = 1; $i <= 12; $i++) {
+            $chartLabels[] = now()->startOfYear()->addMonths($i - 1)->format('M');
+            $chartData[] = $bookingsPerMonth[$i] ?? 0;
+        }
+
+        return view('dashboard', compact('recentBookings', 'chartLabels', 'chartData'));
+    }
 }
