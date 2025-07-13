@@ -2,8 +2,15 @@
 @tailwind components;
 @tailwind utilities;
 @import 'flowbite';
+
 .hover\:custom-rounded-br:hover {
-  border-bottom-right-radius: var(--tw-rounded-br);
+    border-bottom-right-radius: var(--tw-rounded-br);
 }
-.font-montserrat { font-family: 'Montserrat', sans-serif; }
-.font-playfair { font-family: 'Playfair Display', serif; }
+
+.font-montserrat {
+    font-family: 'Montserrat', sans-serif;
+}
+
+.font-playfair {
+    font-family: 'Playfair Display', serif;
+}

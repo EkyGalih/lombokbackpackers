@@ -57,6 +57,8 @@ class CategoryResource extends Resource
                         ->live(onBlur: false),
                     CuratorPicker::make('media')
                         ->label('Thumbnail')
+                        ->preserveFilenames()
+                        ->acceptedFileTypes(['image/*'])
                         ->columnSpan(6)
                         ->multiple(),
                 ])
