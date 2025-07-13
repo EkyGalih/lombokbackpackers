@@ -20,27 +20,6 @@ class WebsiteSettingsSeeder extends Seeder
             ['payload' => json_encode($appName)]
         );
 
-        // Simpan logo
-        $logoMedia = $this->downloadAndSaveMedia(
-            'https://png.pngtree.com/png-clipart/20220617/ourmid/pngtree-cool-travelling-van-tropical-png-image_5125592.png',
-            'site-logo-' . Str::random(8) . '.png',
-            $appName . ' Logo'
-        );
-
-        // Simpan favicon
-        $faviconMedia = $this->downloadAndSaveMedia(
-            'https://png.pngtree.com/png-clipart/20220617/ourmid/pngtree-cool-travelling-van-tropical-png-image_5125592.png',
-            'favicon-' . Str::random(8) . '.png',
-            $appName . ' Favicon'
-        );
-
-        // Simpan header image
-        $headerMedia = $this->downloadAndSaveMedia(
-            'https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjQLZPu6Aul1am6jriYgNGZhXfGhuUCl3PsSoXC2ibF7xQj5n0gBgxPWHJbojfxKWmAaFM7Msbrx1blMmOC0N99w_ZAoeUeDT4zyA9pVZGeSZSgxAWmxkWqrBY0ubJxf2Qrff4bdTVdgLc/s1600/Gili+Trawangan+3.jpg',
-            'header-image-' . Str::random(8) . '.jpg',
-            $appName . ' Header Image'
-        );
-
         SettingsProperty::updateOrCreate(
             ['group' => 'website-settings', 'name' => 'social_facebook'],
             ['payload' => json_encode('https://facebook.com/yourpage')]
@@ -63,17 +42,17 @@ class WebsiteSettingsSeeder extends Seeder
 
         SettingsProperty::updateOrCreate(
             ['group' => 'website-settings', 'name' => 'site_logo'],
-            ['payload' => json_encode($logoMedia?->path)]
+            ['payload' => json_encode(config('app.url'). '/storage/defaults/logo.png')]
         );
 
         SettingsProperty::updateOrCreate(
             ['group' => 'website-settings', 'name' => 'favicon'],
-            ['payload' => json_encode($faviconMedia?->path)]
+            ['payload' => json_encode(config('app.url'). '/storage/defaults/favicon.png')]
         );
 
         SettingsProperty::updateOrCreate(
             ['group' => 'website-settings', 'name' => 'header_image'],
-            ['payload' => json_encode($headerMedia?->path)]
+            ['payload' => json_encode(config('app.url').'/storage/defaults/no-header-card.png')]
         );
 
         SettingsProperty::updateOrCreate(

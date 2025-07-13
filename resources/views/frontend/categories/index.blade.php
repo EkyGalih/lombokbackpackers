@@ -16,7 +16,7 @@
                                 style="--tw-rounded-br: 60px;">
                                 {{-- Gambar full --}}
                                 <div class="overflow-hidden">
-                                    <img src="{{ $category->media?->first()?->url ?? asset('defaults/no-image.jpg') }}" alt="{{ $category->name }}"
+                                    <img src="{{ imageOrDefault($category->media?->first()?->url, 'card') }}" alt="{{ $category->name }}"
                                         class="w-full h-[600px] object-cover transform transition-transform duration-1000 ease-in-out group-hover:scale-110">
                                 </div>
 

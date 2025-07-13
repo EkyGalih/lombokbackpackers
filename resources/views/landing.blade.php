@@ -2,7 +2,7 @@
     <x-slot name="nav">
         <section class="relative h-screen overflow-hidden">
             {{-- Background Gambar --}}
-            <img src="{{ app(\App\Settings\WebsiteSettings::class)->header_image }}"
+            <img src="{{ imageOrDefault(app(\App\Settings\WebsiteSettings::class)->header_image, 'header') }}"
                 alt="{{ app(\App\Settings\WebsiteSettings::class)->site_name }}"
                 class="absolute inset-0 w-full h-full object-cover opacity-90 z-0">
 
@@ -100,7 +100,7 @@
                         @foreach ($categories as $category)
                 '{{ $category->id }}': [
                     @foreach ($category->tours as $tour)
-                        '{{ $tour->media->first()->url ?? asset('images/default.jpg') }}', @endforeach
+                        '{{ imageOrDefault($tour->media->first()->url, 'card') }}', @endforeach
                     ],
                     @endforeach
                 }
@@ -197,7 +197,7 @@
         <div class="container mx-auto flex flex-col md:flex-row items-center">
             <!-- Left: Image -->
             <div class="md:w-1/2 flex justify-center mb-8 md:mb-0">
-                <img src="https://wdtletsgo.wpengine.com/wp-content/uploads/2025/03/Demo-1-Filler-Image.png"
+                <img src="{{ asset('defaults/features.jpg') }}"
                     alt="Traveler" class="max-w-xs md:max-w-sm">
             </div>
 
@@ -287,7 +287,7 @@
 
                             {{-- Gambar full --}}
                             <div class="overflow-hidden">
-                                <img src="{{ $category->media->first()->url ?? asset('defaults/tours/default1.jpg') }}"
+                                <img src="{{ imageOrDefault($category->media->first()->url, 'card') }}"
                                     alt="{{ $category->title }}"
                                     class="w-full h-96 object-cover transform transition-transform duration-500 ease-in-out group-hover:scale-110">
                             </div>
@@ -353,7 +353,7 @@
                                 {{-- Background --}}
                                 <div class="absolute inset-0 bg-cover bg-center opacity-0 group-hover:opacity-30
                 transition-all duration-500 ease-in-out scale-105 group-hover:scale-100"
-                                    style="background-image: url('{{ $feature->media->first()->url }}');">
+                                    style="background-image: url('{{ imageOrDefault($feature->media->first()->url, 'card') }}');">
                                 </div>
 
                                 {{-- Content --}}
@@ -364,7 +364,7 @@
                                     <div
                                         class="text-3xl mb-4 transition-all duration-500 ease-in-out opacity-100 group-hover:opacity-50">
                                         <img class="w-24 h-24 object-cover rounded-full mx-auto mb-2 border-2 border-lime-300 shadow-lg"
-                                            src="{{ $feature->media?->first()->url }}"
+                                            src="{{ imageOrDefault($feature->media?->first()->url, 'card') }}"
                                             alt="{{ $feature['title'] }}">
                                     </div>
 
@@ -392,7 +392,7 @@
                         <div class="swiper-wrapper">
                             @foreach ($slides as $slide)
                                 <div class="swiper-slide relative">
-                                    <img src="{{ $slide->media?->first()->url }}"
+                                    <img src="{{ imageOrDefault($slide->media?->first()->url, 'card') }}"
                                         class="w-full object-cover rounded-lg h-96">
                                     <div class="absolute bottom-4 left-4 text-white">
                                         <h2 class="text-2xl font-bold">{{ $slide->title }}</h2>
@@ -421,7 +421,7 @@
                 @foreach ($popularTours as $item)
                     <a href="{{ route('tours.show', $item->slug) }}"
                         class="relative rounded-lg overflow-hidden shadow-lg group">
-                        <img src="{{ $item->media?->first()?->url }}" alt="{{ $item->titlex }}"
+                        <img src="{{ imageOrDefault($feature->media->first()->url, 'card') }}" alt="{{ $item->titlex }}"
                             class="w-full h-64 object-cover transition-transform group-hover:scale-105">
                         <div class="absolute inset-0 bg-black/50 flex flex-col justify-end p-4">
 
@@ -491,7 +491,7 @@
                 <!-- Card -->
                 @foreach ($posts as $post)
                     <div class="relative rounded overflow-hidden shadow hover:shadow-lg transition group">
-                        <img src="{{ $post->media?->first()?->url ?? asset('defaults/no-image.jpg') }}"
+                        <img src="{{ imageOrDefault($post->media?->first()?->url, 'card') }}"
                             alt=""
                             class="w-full h-[500px] object-cover transform transition-transform duration-700 ease-in-out group-hover:scale-150">
 

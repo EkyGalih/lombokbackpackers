@@ -5,7 +5,7 @@
 <x-guest-layout>
     <x-slot name="nav">
         <x-header title="{{ $tour->title }}" breadcrumb="Destination > {{ $tour->category->name }}"
-            image="{{ $tour->media?->first()->url }}" alt="{{ $tour->name }}" />
+            image="{{ imageOrDefault($tour->media?->first()->url, 'header') }}" alt="{{ $tour->name }}" />
     </x-slot>
     <div class="max-w-7xl mx-auto px-4">
         <section class="py-8">
@@ -81,7 +81,7 @@
 
     <section class="py-8 max-w-7xl mx-auto px-4">
         <a href="#" target="_blank" class="block group">
-            <img src="{{ $tour->media?->first()?->url }}" alt="{{ $tour->title }} image"
+            <img src="{{ imageOrDefault($tour->media?->first()?->url, 'card') }}" alt="{{ $tour->title }} image"
                 class="rounded-lg w-full h-2/4 object-cover group-hover:opacity-80 group-hover:scale-105 transition-all duration-500 ease-in-out" />
         </a>
     </section>

@@ -16,12 +16,12 @@ class DatabaseSeeder extends Seeder
             CustomerSeeder::class,
             WebsiteSettingsSeeder::class,
             CategorySeeder::class,
-            // TourSeeder::class,
             NavigationSeeder::class,
             FeaturesSeeder::class,
             ServicesSeeder::class,
             SlidesSeeder::class,
             PostsSeeder::class,
+            TourSeeder::class,
         ]);
     }
 }

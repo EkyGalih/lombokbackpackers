@@ -75,7 +75,7 @@
         </header>
         <section class="relative h-44 overflow-hidden">
             {{-- Background Gambar --}}
-            <img src="{{ $image ?? app(\App\Settings\WebsiteSettings::class)->header_image }}"
+            <img src="{{ $image ?? imageOrDefault(app(\App\Settings\WebsiteSettings::class)->header_image, 'header') }}"
                 alt="{{ $alt ?? app(\App\Settings\WebsiteSettings::class)->site_name }}"
                 class="absolute inset-0 w-full h-full object-cover opacity-50 filter blur-sm z-0">
 

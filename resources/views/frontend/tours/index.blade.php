@@ -1,11 +1,11 @@
 <x-guest-layout>
     @php
-        $headerImage = app(\App\Settings\WebsiteSettings::class)->header_image;
+        $headerImage = imageOrDefault(app(\App\Settings\WebsiteSettings::class)->header_image, 'header');
     @endphp
     <section
         class="min-h-[300px] flex items-center justify-center bg-gradient-to-br from-indigo-600 to-blue-500 text-white relative overflow-hidden">
         @if ($headerImage)
-            <img src="{{ asset('storage/' . $headerImage) }}" alt="Header Image"
+            <img src="{{ $headerImage }}" alt="Header Image"
                 class="absolute inset-0 w-full h-full object-cover opacity-5 z-0">
         @endif
         <div class="text-center z-10 px-4 max-w-2xl">
