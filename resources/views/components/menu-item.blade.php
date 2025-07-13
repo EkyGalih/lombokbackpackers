@@ -23,7 +23,7 @@
     @if ($item->childrenRecursive->count())
         <ul x-show="open" x-transition
             class="
-                md:absolute md:left-0 md:mt-1 md:bg-gradient-to-tr md:from-white md:to-slate-300 md:text-slate-900 md:p-2 md:rounded md:shadow md:z-50 md:min-w-max
+                md:absolute md:left-0 md:mt-1 md:bg-gradient-to-tr md:from-white md:to-slate-100 md:text-slate-900 md:p-2 md:rounded md:shadow md:z-50 md:min-w-max
                 md:space-y-0
                 space-y-1 md:space-x-0
                 mt-1

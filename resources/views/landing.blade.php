@@ -35,9 +35,7 @@
                     <div class="container mx-auto flex justify-between items-center px-6 py-4">
                         {{-- Logo --}}
                         <a href="{{ url('/') }}" class="flex items-center space-x-3 text-2xl font-bold text-white">
-                            <img src="{{ app(\App\Settings\WebsiteSettings::class)->site_logo
-                                ? asset('storage/' . app(\App\Settings\WebsiteSettings::class)->site_logo)
-                                : asset('defaults/logo.png') }}"
+                            <img src="{{ imageOrDefault(app(\App\Settings\WebsiteSettings::class)->site_logo, 'card')}}"
                                 alt="{{ app(\App\Settings\WebsiteSettings::class)->site_name ?? config('app.name') }}"
                                 class="h-10 w-10 object-cover rounded-full shadow bg-white" />
                             <span>{{ app(\App\Settings\WebsiteSettings::class)->site_name ?? config('app.name') }}</span>
@@ -124,6 +122,10 @@
                     activeTab: '{{ $categories->first()?->id ?? '' }}',
                     showModal: false,
                     modalIndex: 0,
+                    slugs: {
+                        @foreach ($categories as $category)
+                '{{ $category->id }}': '{{ $category->slug }}', @endforeach
+                    },
                     images: {
                         @foreach ($categories as $category)
                 '{{ $category->id }}': [
@@ -197,7 +199,7 @@
                                 </div>
                             </template>
                         </div>
-                        <a href="#"
+                        <a :href="'{{ route('categories.show', '_SLUG_') }}'.replace('_SLUG_', slugs[activeTab])"
                             class="bg-lime-300 text-slate-900 font-semibold px-6 py-3 rounded-lg shadow rounded-br-3xl hover:bg-lime-200 transition">
                             Explore More
                         </a>
