@@ -1,10 +1,10 @@
-@props(['item', 'depth' => 0])
+@props(['item', 'depth' => 0, 'isMobile' => false])
 
 <li class="relative" x-data="{ open: false }" @click.outside="open = false">
+    {{-- Item utama --}}
     <div>
         <button @click="open = !open" type="button"
-            class="flex items-center justify-between w-full px-2 py-1 hover:underline gap-1"
-            :class="scrolled ? 'text-slate-900' : 'text-white'">
+            class="flex items-center justify-between w-full px-2 py-1 hover:underline gap-1">
             <span>{{ $item->name }}</span>
 
             @if ($item->childrenRecursive->count())
@@ -19,9 +19,16 @@
         </button>
     </div>
 
+    {{-- Child menu --}}
     @if ($item->childrenRecursive->count())
-        <ul x-show="open" x-transition class="absolute left-0 mt-1 bg-gradient-to-tr from-white to-slate-300 text-slate-900 p-2 rounded shadow z-50 min-w-max"
-            style="display: none;">
+        <ul x-show="open" x-transition
+            class="
+                md:absolute md:left-0 md:mt-1 md:bg-gradient-to-tr md:from-white md:to-slate-300 md:text-slate-900 md:p-2 md:rounded md:shadow md:z-50 md:min-w-max
+                md:space-y-0
+                space-y-1 md:space-x-0
+                mt-1
+            "
+            :class="open ? 'block' : 'hidden'">
             @foreach ($item->childrenRecursive as $child)
                 <x-menu-item :item="$child" :depth="$depth + 1" />
             @endforeach

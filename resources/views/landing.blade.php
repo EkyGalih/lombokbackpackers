@@ -13,12 +13,13 @@
             <div class="relative z-10">
                 {{-- TOP BAR --}}
                 <div class="text-sm py-2 px-4 w-full bg-transparent text-white">
-                    <div class="container mx-auto flex justify-between items-center">
-                        <div class="space-x-4">
+                    <div
+                        class="container mx-auto flex flex-col sm:flex-row justify-between items-center space-y-2 sm:space-y-0">
+                        <div class="space-x-4 text-center sm:text-left">
                             ✉️ {{ app(\App\Settings\WebsiteSettings::class)->contact_email ?? 'info@travelnesia.com' }}
                             📞 {{ app(\App\Settings\WebsiteSettings::class)->contact_phone ?? '0812-3456-7890' }}
                         </div>
-                        <div class="space-x-3">
+                        <div class="space-x-3 text-center sm:text-right">
                             <a href="#" class="hover:underline">Facebook</a>
                             <a href="#" class="hover:underline">Instagram</a>
                             <a href="#" class="hover:underline">Twitter</a>
@@ -30,17 +31,20 @@
                 <div class="top-[50px] w-full border-t border-white opacity-10 z-40"></div>
 
                 {{-- HEADER --}}
-                <header class="w-full bg-transparent text-white transition-colors duration-300">
+                <header class="w-full bg-transparent text-white transition-colors duration-300" x-data="{ open: false }">
                     <div class="container mx-auto flex justify-between items-center px-6 py-4">
+                        {{-- Logo --}}
                         <a href="{{ url('/') }}" class="flex items-center space-x-3 text-2xl font-bold text-white">
-                            <img src="{{ asset('storage/' . app(\App\Settings\WebsiteSettings::class)->site_logo) ?? asset('defaults/logo.png') }}"
-                                alt="{{ app(\App\Settings\WebsiteSettings::class)->site_name }}"
-                                class="h-10 w-10 object-contain rounded-full bg-white/80 p-1 shadow" />
-                            <span>{{ app(\App\Settings\WebsiteSettings::class)->site_name }}</span>
+                            <img src="{{ app(\App\Settings\WebsiteSettings::class)->site_logo
+                                ? asset('storage/' . app(\App\Settings\WebsiteSettings::class)->site_logo)
+                                : asset('defaults/logo.png') }}"
+                                alt="{{ app(\App\Settings\WebsiteSettings::class)->site_name ?? config('app.name') }}"
+                                class="h-10 w-10 object-cover rounded-full shadow bg-white" />
+                            <span>{{ app(\App\Settings\WebsiteSettings::class)->site_name ?? config('app.name') }}</span>
                         </a>
 
-                        {{-- Menu Desktop --}}
-                        <div class="hidden md:flex space-x-8 items-center">
+                        {{-- Desktop Menu (≥ lg) --}}
+                        <div class="hidden lg:flex space-x-8 items-center">
                             @php
                                 $menu = \App\Models\Navigations::whereNull('parent_id')
                                     ->with(['childrenRecursive', 'parent'])
@@ -51,33 +55,52 @@
                             @if ($menu->isNotEmpty())
                                 <ul class="flex space-x-4">
                                     @foreach ($menu as $item)
-                                        <x-menu-item :item="$item" :depth="0" />
+                                        <x-menu-item :item="$item" :depth="0" :isMobile="false" />
                                     @endforeach
                                 </ul>
                             @endif
 
                             @guest
                                 <a href="{{ route('login') }}"
-                                    class="bg-lime-300 text-slate-900 px-5 py-2 rounded-br-3xl rounded-lg shadow hover:bg-lime-200 transition ml-2">
+                                    class="bg-lime-300 text-slate-900 px-5 py-2 rounded-lg shadow hover:bg-lime-200 transition">
                                     Masuk
                                 </a>
                             @else
                                 <a href="{{ route('profile.edit') }}"
-                                    class="bg-lime-300 text-slate-900 px-5 py-2 rounded-lg shadow hover:bg-lime-200 transition ml-2">
+                                    class="bg-lime-300 text-slate-900 px-5 py-2 rounded-lg shadow hover:bg-lime-200 transition">
                                     My Account
                                 </a>
                             @endguest
                         </div>
 
-                        {{-- Mobile --}}
-                        <div x-show="open" x-transition @click.away="open = false"
-                            class="md:hidden px-6 pb-4 pt-2 space-y-2 bg-white text-gray-800 rounded-b-lg shadow">
+                        {{-- Hamburger Button (< lg) --}}
+                        <button @click="open = !open"
+                            class="lg:hidden inline-flex items-center justify-center p-2 rounded-md text-white hover:text-cyan-300 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-cyan-300">
+                            <svg class="h-6 w-6" x-show="!open" fill="none" stroke="currentColor"
+                                viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M4 6h16M4 12h16M4 18h16" />
+                            </svg>
+                            <svg class="h-6 w-6" x-show="open" fill="none" stroke="currentColor"
+                                viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M6 18L18 6M6 6l12 12" />
+                            </svg>
+                        </button>
+                    </div>
 
-                            <a href="#paket"
-                                class="block py-2 px-3 rounded-lg hover:bg-cyan-600 hover:text-cyan-200 transition">
-                                Paket Tour
-                            </a>
+                    {{-- Mobile Menu (< lg) --}}
+                    <div x-show="open" x-transition @click.away="open = false"
+                        class="lg:hidden px-6 pb-4 pt-2 space-y-2 bg-white text-gray-800 rounded-b-lg shadow">
+                        @if ($menu->isNotEmpty())
+                            <ul class="space-y-2">
+                                @foreach ($menu as $item)
+                                    <x-menu-item :item="$item" :depth="0" :isMobile="true" />
+                                @endforeach
+                            </ul>
+                        @endif
 
+                        @guest
                             <a href="{{ route('login') }}"
                                 class="block py-2 px-3 rounded-lg hover:bg-cyan-600 hover:text-cyan-200 transition">
                                 Masuk
@@ -87,7 +110,12 @@
                                 class="block bg-cyan-300 text-orange-950 px-5 py-2 rounded-lg mt-2 hover:bg-cyan-600 text-center shadow transition">
                                 Daftar
                             </a>
-                        </div>
+                        @else
+                            <a href="{{ route('profile.edit') }}"
+                                class="block bg-cyan-300 text-orange-950 px-5 py-2 rounded-lg mt-2 hover:bg-cyan-600 text-center shadow transition">
+                                My Account
+                            </a>
+                        @endguest
                     </div>
                 </header>
 
@@ -202,9 +230,11 @@
 
             <!-- Right: Content -->
             <div class="md:w-1/2 px-6">
-                <p class="text-sm uppercase tracking-widest text-gray-500 mb-2">Dapatkan Pengalaman yang disesuaikan</p>
+                <p class="text-sm uppercase tracking-widest text-gray-500 mb-2">Dapatkan Pengalaman yang disesuaikan
+                </p>
                 <h1 class="text-4xl font-bold leading-tight mb-6">
-                    <span class="bg-lime-200 px-1">Paspor Anda Menuju <span class="bg-lime-200 px-1">Petualangan</span>
+                    <span class="bg-lime-200 px-1">Paspor Anda Menuju <span
+                            class="bg-lime-200 px-1">Petualangan</span>
                         Yang Tak Terlupakan</span><br>
                 </h1>
 
@@ -217,7 +247,8 @@
                                         class="w-12 h-12 rounded-full object-cover mr-3">
                                 </div>
                             </div>
-                            <h2 class="text-lg font-bold hover:text-lime-400 cursor-pointer mb-4">{{ $feature->title }}
+                            <h2 class="text-lg font-bold hover:text-lime-400 cursor-pointer mb-4">
+                                {{ $feature->title }}
                             </h2>
                             <p class="text-gray-600 text-sm">{{ $feature->description }}</p>
                         </div>

@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <title>{{ app(\App\Settings\WebsiteSettings::class)->site_name ?? '' . config('app.name') }}</title>
     <link rel="icon" type="image/png"
-        href="{{ asset('storage/' . app(\App\Settings\WebsiteSettings::class)->favicon) }}">
+        href="{{ imageOrDefault(asset(app(\App\Settings\WebsiteSettings::class)->favicon), 'header') }}">
     @yield('seoMeta')
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     @vite(['resources/css/app.css', 'resources/js/app.js'])
@@ -56,7 +56,7 @@
 
 <body class="bg-white text-gray-800 text-sm antialiased font-playfair">
     {{-- Animasi plane loading --}}
-    <div x-data="{ loaded: false }" x-init="window.addEventListener('load', () => loaded = true)" x-show="!loaded" x-transition.opacity.duration.1500ms
+    {{-- <div x-data="{ loaded: false }" x-init="window.addEventListener('load', () => loaded = true)" x-show="!loaded" x-transition.opacity.duration.1500ms
         class="fixed inset-0 bg-white z-50 flex justify-center items-center">
         <div class="plane-container animate-bounce">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512" width="100" fill="#38bdf8">
@@ -64,7 +64,7 @@
                     d="M480 192H365.71L260.61 8.48A16 16 0 00247.71 0h-32a16 16 0 00-14.24 8.48L189.68 64H112a16 16 0 00-16 16v32a16 16 0 0016 16h48.32l41.79 160H96l-27.13-54.27A16 16 0 0055.71 208H24a16 16 0 00-14.24 23.52l72 144A16 16 0 0096 384h96.11l40.8 160H352l105.09-183.52A32 32 0 00480 320V208a16 16 0 00-16-16z" />
             </svg>
         </div>
-    </div>
+    </div> --}}
     {{-- Animasi plane loading --}}
     {{ $nav ?? '' }}
 
@@ -73,11 +73,12 @@
     <footer class="bg-gradient-to-r from-teal-900 to-cyan-900 text-white py-10 relative overflow-hidden">
         <div class="absolute inset-0 bg-teal-800/20 backdrop-blur-sm"></div>
 
-        <div class="relative z-10 container mx-auto px-4 grid grid-cols-1 md:grid-cols-3 gap-8 animate-fade-in">
+        <div
+            class="relative z-10 container mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 animate-fade-in">
             {{-- Kolom 1: Branding --}}
             <div>
                 <div class="flex items-center mb-4 space-x-3">
-                    <img src="{{ asset('storage/' . app(\App\Settings\WebsiteSettings::class)->site_logo) }}"
+                    <img src="{{ imageOrDefault(asset(app(\App\Settings\WebsiteSettings::class)->site_logo), 'header') }}"
                         alt="{{ app(\App\Settings\WebsiteSettings::class)->site_name ?? ENV('APP_NAME') }}"
                         class="h-12 w-12 object-contain rounded-full bg-white/90 p-1 shadow transition-transform hover:scale-110">
                     <span class="text-2xl font-bold">
