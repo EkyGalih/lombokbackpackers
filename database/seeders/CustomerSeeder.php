@@ -16,8 +16,8 @@ class CustomerSeeder extends Seeder
     {
         for ($i = 0; $i < 10; $i++) {
             $user = User::create([
-                'name' => fake()->name,
-                'email' => fake()->unique()->safeEmail,
+                'name' => fake()->name(),
+                'email' => fake()->unique()->safeEmail(),
                 'password' => bcrypt('password'),
                 'role' => 'user',
                 'is_active' => true,
