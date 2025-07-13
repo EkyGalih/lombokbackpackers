@@ -2,9 +2,9 @@
     <x-slot name="nav">
         <section class="relative h-screen overflow-hidden">
             {{-- Background Gambar --}}
-            <img src="{{ app(\App\Settings\WebsiteSettings::class)->header_image }}"
+            <img src="{{ asset('storage/' . app(\App\Settings\WebsiteSettings::class)->header_image) }}"
                 alt="{{ app(\App\Settings\WebsiteSettings::class)->site_name }}"
-                class="absolute inset-0 w-full h-full object-cover opacity-90 z-0">
+                class="absolute inset-0 w-full h-full object-fill opacity-90 z-0">
 
             {{-- Overlay warna gradasi jika mau --}}
             <div class="absolute inset-0 bg-gradient-to-br from-teal-900/70 to-cyan-900/70 z-0"></div>
@@ -33,7 +33,7 @@
                 <header class="w-full bg-transparent text-white transition-colors duration-300">
                     <div class="container mx-auto flex justify-between items-center px-6 py-4">
                         <a href="{{ url('/') }}" class="flex items-center space-x-3 text-2xl font-bold text-white">
-                            <img src="{{ app(\App\Settings\WebsiteSettings::class)->site_logo ?? asset('defaults/logo.png') }}"
+                            <img src="{{ asset('storage/' . app(\App\Settings\WebsiteSettings::class)->site_logo) ?? asset('defaults/logo.png') }}"
                                 alt="{{ app(\App\Settings\WebsiteSettings::class)->site_name }}"
                                 class="h-10 w-10 object-contain rounded-full bg-white/80 p-1 shadow" />
                             <span>{{ app(\App\Settings\WebsiteSettings::class)->site_name }}</span>
@@ -197,8 +197,8 @@
         <div class="container mx-auto flex flex-col md:flex-row items-center">
             <!-- Left: Image -->
             <div class="md:w-1/2 flex justify-center mb-8 md:mb-0">
-                <img src="https://wdtletsgo.wpengine.com/wp-content/uploads/2025/03/Demo-1-Filler-Image.png"
-                    alt="Traveler" class="max-w-xs md:max-w-sm">
+                <img src="{{ asset('defaults/settings/favicon2.png') }}"
+                    alt="Traveler" class="max-w-xs max-h-max md:max-w-sm">
             </div>
 
             <!-- Right: Content -->
@@ -491,7 +491,7 @@
                 <!-- Card -->
                 @foreach ($posts as $post)
                     <div class="relative rounded overflow-hidden shadow hover:shadow-lg transition group">
-                        <img src="{{ $post->media?->first()?->url ?? asset('defaults/no-image.jpg') }}"
+                        <img src="{{ $post->media?->first()?->url ?? asset('defaults/no-image.png') }}"
                             alt=""
                             class="w-full h-[500px] object-cover transform transition-transform duration-700 ease-in-out group-hover:scale-150">
 
@@ -528,7 +528,7 @@
                         <div>
                             <h4 class="font-semibold text-gray-900">Our Office</h4>
                             <p class="text-gray-600">
-                                Jl. Merdeka No.123, Jakarta Pusat, Indonesia
+                                {{ app(\App\Settings\WebsiteSettings::class)->contact_address }}
                             </p>
                         </div>
                     </div>
@@ -538,9 +538,30 @@
                         <div>
                             <h4 class="font-semibold text-gray-900">Follow Us</h4>
                             <div class="flex space-x-4 mt-2">
-                                <a href="#" class="text-gray-500 hover:text-lime-500 transition">Facebook</a>
-                                <a href="#" class="text-gray-500 hover:text-lime-500 transition">Instagram</a>
-                                <a href="#" class="text-gray-500 hover:text-lime-500 transition">Twitter</a>
+                                <a href="{{ app(\App\Settings\WebsiteSettings::class)->social_facebook }}" class="text-gray-500 hover:text-lime-500 transition"
+                                    aria-label="Facebook">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 fill-current"
+                                        viewBox="0 0 320 512">
+                                        <path
+                                            d="M279.14 288l14.22-92.66h-88.91V134.13c0-25.35 12.42-50.06 52.24-50.06h40.42V6.26S260.43 0 225.36 0c-73.22 0-121.36 44.38-121.36 124.72V195.3H22.89V288h81.11v224h100.2V288z" />
+                                    </svg>
+                                </a>
+                                <a href="{{ app(\App\Settings\WebsiteSettings::class)->social_instagram }}" class="text-gray-500 hover:text-lime-500 transition"
+                                    aria-label="Instagram">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 fill-current"
+                                        viewBox="0 0 448 512">
+                                        <path
+                                            d="M224.1 141c-63.6 0-115 51.4-115 115 0 63.6 51.4 115 115 115s115-51.4 115-115-51.4-115-115-115zm0 190c-41.6 0-75-33.4-75-75s33.4-75 75-75 75 33.4 75 75-33.4 75-75 75zm146.4-194.1c0 14.9-12.1 27-27 27-14.9 0-27-12.1-27-27s12.1-27 27-27 27 12.1 27 27zm76.1 27.2c-1.7-35.7-9.9-67.3-36.2-93.6C380.7 16.6 349.1 8.4 313.4 6.7 277.5 5 240.5 0 224 0c-16.5 0-53.5 5-89.4 6.7-35.7 1.7-67.3 9.9-93.6 36.2C16.6 99.3 8.4 130.9 6.7 166.6 5 202.5 0 239.5 0 256s5 53.5 6.7 89.4c1.7 35.7 9.9 67.3 36.2 93.6 26.3 26.3 57.9 34.5 93.6 36.2 35.9 1.7 72.9 6.7 89.4 6.7s53.5-5 89.4-6.7c35.7-1.7 67.3-9.9 93.6-36.2 26.3-26.3 34.5-57.9 36.2-93.6 1.7-35.9 6.7-72.9 6.7-89.4s-5-53.5-6.7-89.4zm-48.4 215c-7.8 19.5-22.8 34.5-42.3 42.3-29.2 11.7-98.4 9-130.8 9s-101.6 2.6-130.8-9c-19.5-7.8-34.5-22.8-42.3-42.3-11.7-29.2-9-98.4-9-130.8s-2.6-101.6 9-130.8c7.8-19.5 22.8-34.5 42.3-42.3 29.2-11.7 98.4-9 130.8-9s101.6-2.6 130.8 9c19.5 7.8 34.5 22.8 42.3 42.3 11.7 29.2 9 98.4 9 130.8s2.6 101.6-9 130.8z" />
+                                    </svg>
+                                </a>
+                                <a href="{{ app(\App\Settings\WebsiteSettings::class)->social_x }}" class="text-gray-500 hover:text-lime-500 transition"
+                                    aria-label="Twitter">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 fill-current"
+                                        viewBox="0 0 512 512">
+                                        <path
+                                            d="M459.4 151.7c.3 2.8.3 5.7.3 8.6 0 87.4-66.5 188.2-188.2 188.2-37.3 0-72-11-101.2-29.8 5.3.6 10.4.8 15.7.8 31 0 59.6-10.6 82.3-28.4-29-.6-53.5-19.7-61.9-46 4 .6 8.1.8 12.1.8 5.9 0 11.8-.8 17.2-2.2-30.3-6.1-53.1-32.8-53.1-64.9v-.8c8.9 4.9 19 7.9 29.7 8.3-17.6-11.8-29.3-31.8-29.3-54.6 0-12.1 3.3-23.4 9-33.2 32.6 40.1 81.4 66.5 136.2 69.2-1.1-4.9-1.6-10.1-1.6-15.4 0-37.3 30.3-67.6 67.6-67.6 19.4 0 36.8 8.1 49.1 21.1 15.4-2.8 29.7-8.6 42.5-16.5-5.1 15.7-15.7 28.9-29.7 37.3 13.6-1.4 26.8-5.2 39-10.4-9 13.3-20.4 25.2-33.4 34.6z" />
+                                    </svg>
+                                </a>
                             </div>
                         </div>
                     </div>
@@ -551,7 +572,7 @@
                         <div class="text-lime-500 text-3xl">📞</div>
                         <div>
                             <h4 class="font-semibold text-gray-900">Phone</h4>
-                            <p class="text-gray-600">+62 812 3456 7890</p>
+                            <p class="text-gray-600">{{ app(\App\Settings\WebsiteSettings::class)->contact_phone }}</p>
                         </div>
                     </div>
 
@@ -559,14 +580,14 @@
                         <div class="text-lime-500 text-3xl">✉️</div>
                         <div>
                             <h4 class="font-semibold text-gray-900">Email</h4>
-                            <p class="text-gray-600">hello@yourcompany.com</p>
+                            <p class="text-gray-600">{{ app(\App\Settings\WebsiteSettings::class)->contact_email }}</p>
                         </div>
                     </div>
 
                 </div>
             </div>
             <!-- Google Maps -->
-            <div class="w-full h-96 rounded-lg overflow-hidden shadow-lg animate-fade-in-up">
+            <div class="w-full h-96 mt-10 rounded-lg overflow-hidden shadow-lg animate-fade-in-up">
                 <iframe
                     src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d126914.50833836473!2d106.6894306!3d-6.2297282!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e69f1579f63c7fd%3A0xb29f4e22be74e6a1!2sJakarta%20Pusat!5e0!3m2!1sen!2sid!4v1720673000000!5m2!1sen!2sid"
                     width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy"
