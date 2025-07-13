@@ -170,25 +170,26 @@
 
                     <div class="text-center z-10 px-4 max-w-3xl">
                         <h1
-                            class="text-4xl md:text-6xl font-bold mb-4 bg-gradient-to-r from-white to-lime-300 bg-clip-text text-transparent">
+                            class="text-2xl sm:text-4xl md:text-6xl font-bold mb-2 sm:mb-4 bg-gradient-to-r from-white to-lime-300 bg-clip-text text-transparent">
                             {{ $headerTitle }}
                         </h1>
-                        <p class="text-lg md:text-xl mb-8 text-white">
+                        <p class="text-sm sm:text-lg md:text-xl mb-4 sm:mb-8 text-white">
                             {{ $headerSubTitle }}
                         </p>
 
-                        <div class="flex justify-center gap-4 mb-20 relative h-32">
+                        <div class="flex flex-wrap justify-center gap-4 mb-12 sm:mb-20 relative">
                             <template x-for="(img, index) in images[activeTab]" :key="activeTab + '-' + index">
                                 <div
-                                    class="relative group w-52 h-40 rounded-md shadow-md overflow-hidden border border-transparent transition-transform duration-500 ease-in-out group-hover:scale-110 hover:border-orange-400 hover:rounded-br-full">
+                                    class="relative group w-32 sm:w-40 md:w-52 h-32 sm:h-40 rounded-md shadow-md overflow-hidden border border-transparent transition-transform duration-500 ease-in-out hover:scale-105 hover:border-orange-400 hover:rounded-br-full">
                                     <img :src="img" alt=""
                                         class="w-full h-full object-cover rounded-md opacity-0 animate-fade-in-up transform transition-transform duration-300 group-hover:scale-105"
                                         x-init="$el.classList.remove('opacity-0')">
 
                                     <button @click="showModal = true; modalIndex = index"
                                         class="absolute inset-0 flex items-center bg-gradient-to-r from-black/50 to-black/50 justify-center opacity-0 group-hover:opacity-100 transition duration-300">
-                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 text-white z-20"
-                                            fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <svg xmlns="http://www.w3.org/2000/svg"
+                                            class="h-8 w-8 sm:h-10 sm:w-10 text-white z-20" fill="none"
+                                            viewBox="0 0 24 24" stroke="currentColor">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                                 d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                                         </svg>
@@ -202,14 +203,15 @@
                         </a>
                     </div>
                     {{-- TABS --}}
-                    <div class="z-30 flex flex-wrap justify-center mt-12 gap-4 px-4 mb-12">
+                    <div
+                        class="z-30 grid grid-cols-2 gap-2 px-2 mb-8 mt-8 sm:mt-12 sm:flex sm:flex-wrap sm:justify-center sm:gap-4 sm:px-4 sm:mb-12">
                         @foreach ($categories as $category)
                             <button @click="activeTab = '{{ $category->id }}'"
                                 :class="activeTab === '{{ $category->id }}'
                                     ?
                                     'bg-lime-300 text-slate-900' :
                                     'bg-white bg-opacity-20 text-white'"
-                                class="font-semibold px-8 py-3 rounded-lg rounded-br-3xl w-72 text-center">
+                                class="font-semibold px-4 py-2 sm:px-8 sm:py-3 rounded-lg rounded-br-3xl w-full sm:w-72 text-center">
                                 {{ $loop->iteration }}. {{ $category->name }}
                             </button>
                         @endforeach
