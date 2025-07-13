@@ -31,9 +31,9 @@
                                                 {{ $category->name }}
                                             </h3>
 
-                                            <p class="text-xl font-semibold">
-                                                Harga Mulai (Rp.
-                                                {{ number_format($category->price_range['min']) . ' - ' . number_format($category->price_range['max']) }})
+                                            <p class="text-sm font-semibold">
+                                                Price From (
+                                                {{ $category->formatCurrency($category->price_range['min']) . ' - ' . $category->formatCurrency($category->price_range['max']) }})
                                             </p>
                                         </div>
 

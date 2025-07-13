@@ -17,7 +17,7 @@
                     <tbody>
                         @foreach ($bookings as $booking)
                             <tr
-                                class="border-t text-sm text-gray-700 hover:bg-gray-50 transition-all duration-200 ease-in-out hover:scale-[1.01]">
+                                class="border-t text-sm text-gray-700 hover:bg-gray-50 transition-all duration-200 ease-in-out hover:scale-[1]">
                                 <td class="p-4">{{ $booking->tour->title }}</td>
                                 <td class="p-4">{{ \Carbon\Carbon::parse($booking->booking_date)->format('d M Y') }}
                                 </td>
@@ -69,5 +69,39 @@
         @else
             <p class="text-gray-500 animate-fade-in">Anda belum memiliki booking.</p>
         @endif
+
+        <h2 class="text-2xl font-semibold text-gray-800 mt-10">Tour Tersedia</h2>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            @forelse ($tours as $tour)
+                <div class="bg-white shadow rounded-lg overflow-hidden hover:shadow-md transition">
+                    <img src="{{ $tour->media?->first()?->url ?? asset('images/default-tour.jpg') }}" alt="{{ $tour->title }}"
+                        class="h-40 w-full object-cover">
+                    <div class="p-4">
+                        <h3 class="text-lg font-semibold text-gray-800">{{ $tour->title }}</h3>
+                        <p class="text-sm text-gray-500">
+                            {{ $tour->category->name ?? '-' }}
+                        </p>
+                        <div class="mt-2 flex justify-between items-center">
+                            <p class="text-teal-600 font-bold">
+                                From Starts Rp {{ number_format($tour->lowest_price, 0, ',', '.') }}
+                            </p>
+                            <a href="{{ route('tours.show', $tour->slug) }}"
+                                class="px-3 py-1 text-xs bg-teal-600 text-white rounded hover:bg-lime-700">
+                                Lihat Detail
+                            </a>
+                        </div>
+                        <div class="mt-2">
+                            <a href="{{ route('tours.show', $tour->slug) }}"
+                                class="block text-center text-sm mt-2 px-3 py-1 bg-green-600 text-white rounded hover:bg-green-700">
+                                Booking Sekarang
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            @empty
+                <p class="text-gray-500">Belum ada tour yang tersedia saat ini.</p>
+            @endforelse
+        </div>
     </div>
 </x-app-layout>

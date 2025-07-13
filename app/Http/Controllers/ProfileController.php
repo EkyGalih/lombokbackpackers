@@ -18,23 +18,40 @@ class ProfileController extends Controller
     {
         return view('profile.edit', [
             'user' => $request->user(),
+            'customer' => $request->user()->customer
         ]);
     }
 
     /**
      * Update the user's profile information.
      */
-    public function update(ProfileUpdateRequest $request): RedirectResponse
+    public function update(ProfileUpdateRequest $request)
     {
-        $request->user()->fill($request->validated());
+        $user = $request->user();
 
-        if ($request->user()->isDirty('email')) {
-            $request->user()->email_verified_at = null;
+        $user->update($request->only('name', 'email'));
+
+        $customer = $user->customer;
+
+        if ($customer) {
+            $customer->update($request->only([
+                'phone',
+                'address',
+                'nationality',
+                'gender',
+                'date_of_birth'
+            ]));
+        } else {
+            $user->customer()->create($request->only([
+                'phone',
+                'address',
+                'nationality',
+                'gender',
+                'date_of_birth'
+            ]));
         }
 
-        $request->user()->save();
-
-        return Redirect::route('profile.edit')->with('status', 'profile-updated');
+        return back()->with('status', 'Profile Saved');
     }
 
     /**
