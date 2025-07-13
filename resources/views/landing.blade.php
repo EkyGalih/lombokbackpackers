@@ -197,8 +197,7 @@
         <div class="container mx-auto flex flex-col md:flex-row items-center">
             <!-- Left: Image -->
             <div class="md:w-1/2 flex justify-center mb-8 md:mb-0">
-                <img src="{{ asset('defaults/features.jpg') }}"
-                    alt="Traveler" class="max-w-xs md:max-w-sm">
+                <img src="{{ asset('defaults/features.jpg') }}" alt="Traveler" class="max-w-xs md:max-w-sm">
             </div>
 
             <!-- Right: Content -->
@@ -421,7 +420,8 @@
                 @foreach ($popularTours as $item)
                     <a href="{{ route('tours.show', $item->slug) }}"
                         class="relative rounded-lg overflow-hidden shadow-lg group">
-                        <img src="{{ imageOrDefault($feature->media->first()->url, 'card') }}" alt="{{ $item->titlex }}"
+                        <img src="{{ imageOrDefault($feature->media->first()->url, 'card') }}"
+                            alt="{{ $item->titlex }}"
                             class="w-full h-64 object-cover transition-transform group-hover:scale-105">
                         <div class="absolute inset-0 bg-black/50 flex flex-col justify-end p-4">
 
@@ -438,17 +438,19 @@
                                     </li>
                                     <li>{{ $item->duration }}</li>
                                     <li>
-                                        @foreach ($item->ratings as $rating)
-                                            <div class="flex gap-1">
-                                                @for ($i = 1; $i <= 5; $i++)
-                                                    @if ($i <= $rating['rating'])
-                                                        <span class="text-yellow-400">★</span>
-                                                    @else
-                                                        <span class="text-gray-300">★</span>
-                                                    @endif
-                                                @endfor
-                                            </div>
-                                        @endforeach
+                                        @php
+                                            $ratingValue = $item->ratings->avg('rating') ?? 0;
+                                        @endphp
+
+                                        <div class="flex gap-1">
+                                            @for ($i = 1; $i <= 5; $i++)
+                                                @if ($i <= $ratingValue)
+                                                    <span class="text-yellow-400">★</span>
+                                                @else
+                                                    <span class="text-gray-300">★</span>
+                                                @endif
+                                            @endfor
+                                        </div>
                                     </li>
                                 </ul>
                             </div>
@@ -538,24 +540,24 @@
                         <div>
                             <h4 class="font-semibold text-gray-900">Follow Us</h4>
                             <div class="flex space-x-4 mt-2">
-                                <a href="{{ app(\App\Settings\WebsiteSettings::class)->social_facebook }}" class="text-gray-500 hover:text-lime-500 transition"
-                                    aria-label="Facebook">
+                                <a href="{{ app(\App\Settings\WebsiteSettings::class)->social_facebook }}"
+                                    class="text-gray-500 hover:text-lime-500 transition" aria-label="Facebook">
                                     <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 fill-current"
                                         viewBox="0 0 320 512">
                                         <path
                                             d="M279.14 288l14.22-92.66h-88.91V134.13c0-25.35 12.42-50.06 52.24-50.06h40.42V6.26S260.43 0 225.36 0c-73.22 0-121.36 44.38-121.36 124.72V195.3H22.89V288h81.11v224h100.2V288z" />
                                     </svg>
                                 </a>
-                                <a href="{{ app(\App\Settings\WebsiteSettings::class)->social_instagram }}" class="text-gray-500 hover:text-lime-500 transition"
-                                    aria-label="Instagram">
+                                <a href="{{ app(\App\Settings\WebsiteSettings::class)->social_instagram }}"
+                                    class="text-gray-500 hover:text-lime-500 transition" aria-label="Instagram">
                                     <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 fill-current"
                                         viewBox="0 0 448 512">
                                         <path
                                             d="M224.1 141c-63.6 0-115 51.4-115 115 0 63.6 51.4 115 115 115s115-51.4 115-115-51.4-115-115-115zm0 190c-41.6 0-75-33.4-75-75s33.4-75 75-75 75 33.4 75 75-33.4 75-75 75zm146.4-194.1c0 14.9-12.1 27-27 27-14.9 0-27-12.1-27-27s12.1-27 27-27 27 12.1 27 27zm76.1 27.2c-1.7-35.7-9.9-67.3-36.2-93.6C380.7 16.6 349.1 8.4 313.4 6.7 277.5 5 240.5 0 224 0c-16.5 0-53.5 5-89.4 6.7-35.7 1.7-67.3 9.9-93.6 36.2C16.6 99.3 8.4 130.9 6.7 166.6 5 202.5 0 239.5 0 256s5 53.5 6.7 89.4c1.7 35.7 9.9 67.3 36.2 93.6 26.3 26.3 57.9 34.5 93.6 36.2 35.9 1.7 72.9 6.7 89.4 6.7s53.5-5 89.4-6.7c35.7-1.7 67.3-9.9 93.6-36.2 26.3-26.3 34.5-57.9 36.2-93.6 1.7-35.9 6.7-72.9 6.7-89.4s-5-53.5-6.7-89.4zm-48.4 215c-7.8 19.5-22.8 34.5-42.3 42.3-29.2 11.7-98.4 9-130.8 9s-101.6 2.6-130.8-9c-19.5-7.8-34.5-22.8-42.3-42.3-11.7-29.2-9-98.4-9-130.8s-2.6-101.6 9-130.8c7.8-19.5 22.8-34.5 42.3-42.3 29.2-11.7 98.4-9 130.8-9s101.6-2.6 130.8 9c19.5 7.8 34.5 22.8 42.3 42.3 11.7 29.2 9 98.4 9 130.8s2.6 101.6-9 130.8z" />
                                     </svg>
                                 </a>
-                                <a href="{{ app(\App\Settings\WebsiteSettings::class)->social_x }}" class="text-gray-500 hover:text-lime-500 transition"
-                                    aria-label="Twitter">
+                                <a href="{{ app(\App\Settings\WebsiteSettings::class)->social_x }}"
+                                    class="text-gray-500 hover:text-lime-500 transition" aria-label="Twitter">
                                     <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 fill-current"
                                         viewBox="0 0 512 512">
                                         <path
@@ -572,7 +574,8 @@
                         <div class="text-lime-500 text-3xl">📞</div>
                         <div>
                             <h4 class="font-semibold text-gray-900">Phone</h4>
-                            <p class="text-gray-600">{{ app(\App\Settings\WebsiteSettings::class)->contact_phone }}</p>
+                            <p class="text-gray-600">{{ app(\App\Settings\WebsiteSettings::class)->contact_phone }}
+                            </p>
                         </div>
                     </div>
 
@@ -580,7 +583,8 @@
                         <div class="text-lime-500 text-3xl">✉️</div>
                         <div>
                             <h4 class="font-semibold text-gray-900">Email</h4>
-                            <p class="text-gray-600">{{ app(\App\Settings\WebsiteSettings::class)->contact_email }}</p>
+                            <p class="text-gray-600">{{ app(\App\Settings\WebsiteSettings::class)->contact_email }}
+                            </p>
                         </div>
                     </div>
 
