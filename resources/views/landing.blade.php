@@ -35,7 +35,7 @@
                     <div class="container mx-auto flex justify-between items-center px-6 py-4">
                         {{-- Logo --}}
                         <a href="{{ url('/') }}" class="flex items-center space-x-3 text-2xl font-bold text-white">
-                            <img src="{{ imageOrDefault(app(\App\Settings\WebsiteSettings::class)->site_logo, 'card')}}"
+                            <img src="{{ imageOrDefault(app(\App\Settings\WebsiteSettings::class)->site_logo, 'card') }}"
                                 alt="{{ app(\App\Settings\WebsiteSettings::class)->site_name ?? config('app.name') }}"
                                 class="h-10 w-10 object-cover rounded-full shadow bg-white" />
                             <span>{{ app(\App\Settings\WebsiteSettings::class)->site_name ?? config('app.name') }}</span>
@@ -380,43 +380,44 @@
                 {{-- Fitur kiri --}}
                 <div class="space-y-4">
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        @foreach ($features as $feature)
-                            <div
-                                class="relative group text-white p-4 rounded overflow-hidden bg-teal-900 hover:bg-lime-500 rounded-br-lg hover:rounded-br-3xl hover:rounded-tl-3xl transition-all duration-500 ease-in-out min-h-64">
-
-                                {{-- Background --}}
-                                <div class="absolute inset-0 bg-cover bg-center opacity-0 group-hover:opacity-30
-                transition-all duration-500 ease-in-out scale-105 group-hover:scale-100"
-                                    style="background-image: url('{{ imageOrDefault($feature->media->first()->url, 'card') }}');">
-                                </div>
-
-                                {{-- Content --}}
+                        @if (!empty($features))
+                            @foreach ($features as $feature)
                                 <div
-                                    class="relative z-10 flex flex-col justify-center h-full transition-all duration-500 ease-in-out group-hover:-translate-y-1">
+                                    class="relative group text-white p-4 rounded overflow-hidden bg-teal-900 hover:bg-lime-500 rounded-br-lg hover:rounded-br-3xl hover:rounded-tl-3xl transition-all duration-500 ease-in-out min-h-64">
 
-                                    {{-- ICON --}}
-                                    <div
-                                        class="text-3xl mb-4 transition-all duration-500 ease-in-out opacity-100 group-hover:opacity-50">
-                                        <img class="w-24 h-24 object-cover rounded-full mx-auto mb-2 border-2 border-lime-300 shadow-lg"
-                                            src="{{ imageOrDefault($feature->media?->first()->url, 'card') }}"
-                                            alt="{{ $feature['title'] }}">
+                                    {{-- Background --}}
+                                    <div class="absolute inset-0 bg-cover bg-center opacity-0 group-hover:opacity-30
+                transition-all duration-500 ease-in-out scale-105 group-hover:scale-100"
+                                        style="background-image: url('{{ imageOrDefault($feature->media->first()->url, 'card') }}');">
                                     </div>
 
-                                    {{-- Title --}}
-                                    <h3
-                                        class="font-bold text-lg transition-all duration-500 ease-in-out group-hover:text-white group-hover:scale-105">
-                                        {{ $feature['title'] }}
-                                    </h3>
+                                    {{-- Content --}}
+                                    <div
+                                        class="relative z-10 flex flex-col justify-center h-full transition-all duration-500 ease-in-out group-hover:-translate-y-1">
 
-                                    {{-- Description --}}
-                                    <p
-                                        class="text-sm transition-all duration-500 ease-in-out group-hover:text-gray-100 group-hover:scale-105">
-                                        {!! $feature['description'] !!}
-                                    </p>
+                                        {{-- ICON --}}
+                                        <div
+                                            class="text-3xl mb-4 transition-all duration-500 ease-in-out opacity-100 group-hover:opacity-50">
+                                            <img class="w-24 h-24 object-cover rounded-full mx-auto mb-2 border-2 border-lime-300 shadow-lg"
+                                                src="{{ imageOrDefault($feature->media?->first()->url, 'card') }}"
+                                                alt="{{ $feature['title'] }}">
+                                        </div>
+
+                                        {{-- Title --}}
+                                        <h3
+                                            class="font-bold text-lg transition-all duration-500 ease-in-out group-hover:text-white group-hover:scale-105">
+                                            {{ $feature['title'] }}
+                                        </h3>
+
+                                        {{-- Description --}}
+                                        <p
+                                            class="text-sm transition-all duration-500 ease-in-out group-hover:text-gray-100 group-hover:scale-105">
+                                            {!! $feature['description'] !!}
+                                        </p>
+                                    </div>
                                 </div>
-                            </div>
-                        @endforeach
-
+                            @endforeach
+                        @endif
                     </div>
                 </div>
 
