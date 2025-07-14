@@ -1,7 +1,7 @@
 <x-guest-layout>
     <x-slot name="nav">
         <x-header title="Destinasi Wisata" breadcrumb="Destination > {{ $category->name }}"
-            image="{{ imageOrDefault($category->media?->first()->url, 'header') }}" alt="{{ $category->name }}" />
+            image="{{ imageOrDefault($category->media?->first()?->url, 'header') }}" alt="{{ $category->name }}" />
     </x-slot>
     {{-- Paket Tour Section --}}
     <section class="bg-gray-100 py-16">
@@ -15,7 +15,7 @@
 
                             {{-- Gambar full --}}
                             <div class="overflow-hidden"> {{-- Tambahkan pembungkus supaya crop gambar ketika zoom --}}
-                                <img src="{{ imageOrDefault($tour->media?->first()->url, 'card') }}" alt="{{ $tour->title }}"
+                                <img src="{{ imageOrDefault($tour->media?->first()?->url, 'card') }}" alt="{{ $tour->title }}"
                                     class="w-full h-[500px] object-cover transform transition-transform duration-500 ease-in-out group-hover:scale-110">
                             </div>
 

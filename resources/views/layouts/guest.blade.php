@@ -50,11 +50,11 @@
         }
     </style>
     <link
-        href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500&family=Playfair+Display:wght@700&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Merriweather:wght@400;700&display=swap"
         rel="stylesheet">
 </head>
 
-<body class="bg-white text-gray-800 text-sm antialiased font-playfair">
+<body class="bg-white text-gray-800 text-sm antialiased font-sans">
     {{-- Animasi plane loading --}}
     {{-- <div x-data="{ loaded: false }" x-init="window.addEventListener('load', () => loaded = true)" x-show="!loaded" x-transition.opacity.duration.1500ms
         class="fixed inset-0 bg-white z-50 flex justify-center items-center">

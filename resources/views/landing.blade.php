@@ -130,7 +130,7 @@
                         @foreach ($categories as $category)
                 '{{ $category->id }}': [
                     @foreach ($category->tours as $tour)
-                        '{{ imageOrDefault($tour->media?->first()->url, 'card') }}', @endforeach
+                        '{{ imageOrDefault($tour->media?->first()?->url, 'card') }}', @endforeach
                     ],
                     @endforeach
                 }
@@ -247,7 +247,7 @@
                         <div>
                             <div class="text-2xl mb-4">
                                 <div class="flex items-center justify-start">
-                                    <img src="{{ $feature->media?->first()->url }}" alt="{{ $feature->title }}"
+                                    <img src="{{ $feature->media?->first()?->url }}" alt="{{ $feature->title }}"
                                         class="w-12 h-12 rounded-full object-cover mr-3">
                                 </div>
                             </div>
@@ -387,7 +387,7 @@
                                 {{-- Background --}}
                                 <div class="absolute inset-0 bg-cover bg-center opacity-0 group-hover:opacity-30
                 transition-all duration-500 ease-in-out scale-105 group-hover:scale-100"
-                                    style="background-image: url('{{ imageOrDefault($feature->media?->first()->url, 'card') }}');">
+                                    style="background-image: url('{{ imageOrDefault($feature->media?->first()?->url, 'card') }}');">
                                 </div>
 
                                 {{-- Content --}}
@@ -398,7 +398,7 @@
                                     <div
                                         class="text-3xl mb-4 transition-all duration-500 ease-in-out opacity-100 group-hover:opacity-50">
                                         <img class="w-24 h-24 object-cover rounded-full mx-auto mb-2 border-2 border-lime-300 shadow-lg"
-                                            src="{{ imageOrDefault($feature->media?->first()->url, 'card') }}"
+                                            src="{{ imageOrDefault($feature->media?->first()?->url, 'card') }}"
                                             alt="{{ $feature['title'] }}">
                                     </div>
 
@@ -425,7 +425,7 @@
                         <div class="swiper-wrapper">
                             @foreach ($slides as $slide)
                                 <div class="swiper-slide relative">
-                                    <img src="{{ imageOrDefault($slide->media?->first()->url, 'card') }}"
+                                    <img src="{{ imageOrDefault($slide->media?->first()?->url, 'card') }}"
                                         class="w-full object-cover rounded-lg h-96">
                                     <div class="absolute bottom-4 left-4 text-white">
                                         <h2 class="text-2xl font-bold">{{ $slide->title }}</h2>
@@ -454,7 +454,7 @@
                 @foreach ($popularTours as $item)
                     <a href="{{ route('tours.show', $item->slug) }}"
                         class="relative rounded-lg overflow-hidden shadow-lg group">
-                        <img src="{{ imageOrDefault($item->media?->first()->url, 'card') }}"
+                        <img src="{{ imageOrDefault($item->media?->first()?->url, 'card') }}"
                             alt="{{ $item->titlex }}"
                             class="w-full h-64 object-cover transition-transform group-hover:scale-105">
                         <div class="absolute inset-0 bg-black/50 flex flex-col justify-end p-4">
