@@ -321,7 +321,7 @@
 
                             {{-- Gambar full --}}
                             <div class="overflow-hidden">
-                                <img src="{{ imageOrDefault($category->media->first()->url, 'card') }}"
+                                <img src="{{ imageOrDefault($category->media?->first()?->url, 'card') }}"
                                     alt="{{ $category->title }}"
                                     class="w-full h-96 object-cover transform transition-transform duration-500 ease-in-out group-hover:scale-110">
                             </div>
