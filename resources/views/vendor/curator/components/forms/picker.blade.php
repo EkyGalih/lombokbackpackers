@@ -7,18 +7,13 @@
 @endphp
 
 <x-dynamic-component :component="$getFieldWrapperView()" :field="$field">
-    <div
-        x-data="{
-            insertMedia(event) {
-                if (event.detail.statePath !== '{{ $statePath }}') return;
-                $wire.$set(event.detail.statePath, event.detail.media);
-            },
-        }"
-        x-on:insert-content.window="insertMedia"
-        style="width: 100%;"
-    >
-        <ul
-            x-sortable
+    <div x-data="{
+        insertMedia(event) {
+            if (event.detail.statePath !== '{{ $statePath }}') return;
+            $wire.$set(event.detail.statePath, event.detail.media);
+        },
+    }" x-on:insert-content.window="insertMedia" style="width: 100%;">
+        <ul x-sortable
             wire:end.stop="mountFormComponentAction('{{ $statePath }}', 'reorder', { items: $event.target.sortable.toArray() })"
             style="
                 display: grid;
@@ -28,11 +23,9 @@
                 list-style: none;
                 padding: 0;
                 margin: 0;
-            "
-        >
+            ">
             @foreach ($items as $uuid => $item)
-                <li
-                    wire:key="{{ $this->getId() }}.{{ $uuid }}.{{ $field::class }}.item"
+                <li wire:key="{{ $this->getId() }}.{{ $uuid }}.{{ $field::class }}.item"
                     x-sortable-item="{{ $uuid }}"
                     style="
                         position: relative;
@@ -42,12 +35,10 @@
                         box-shadow: 0 1px 2px rgba(0,0,0,0.1);
                         aspect-ratio: 1/1;
                         background: #f9f9f9;
-                    "
-                >
+                    ">
                     {{-- Drag handle --}}
                     @if ($isMultiple)
-                        <div
-                            x-sortable-handle
+                        <div x-sortable-handle
                             style="
                                 position: absolute;
                                 top: 4px;
@@ -57,11 +48,12 @@
                                 cursor: move;
                                 background: rgba(0,0,0,0.5);
                                 border-radius: 4px;
-                            "
-                        >
-                            <svg width="16" height="16" fill="none" stroke="white" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M4 6h16M4 12h16M4 18h16" />
+                            ">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none"
+                                stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                viewBox="0 0 24 24">
+                                <path
+                                    d="M12 2v20M12 2l-3 3m3-3l3 3M12 22l-3-3m3 3l3-3M2 12h20M2 12l3-3m-3 3l3 3M22 12l-3-3m3 3l-3 3" />
                             </svg>
                         </div>
                     @endif
@@ -76,43 +68,28 @@
                             background: rgba(0,0,0,0.5);
                             border-radius: 4px;
                             padding: 2px;
-                        "
-                    >
-                        <x-filament-actions::group
-                            :actions="[
-                                $getAction('view')(['url' => $item['url']]),
-                                $getAction('edit')(['id' => $item['id']]),
-                                $getAction('download')(['uuid' => $uuid]),
-                                $getAction('remove')(['uuid' => $uuid]),
-                            ]"
-                            color="gray"
-                            size="xs"
-                            dropdown-placement="bottom-end"
-                        />
+                        ">
+                        <x-filament-actions::group :actions="[
+                            $getAction('view')(['url' => $item['url']]),
+                            $getAction('edit')(['id' => $item['id']]),
+                            $getAction('download')(['uuid' => $uuid]),
+                            $getAction('remove')(['uuid' => $uuid]),
+                        ]" color="white" size="xs"
+                            dropdown-placement="bottom-end" />
                     </div>
 
                     {{-- Media --}}
                     @if (str($item['type'])->contains('image'))
-                        <img
-                            src="{{ $item['large_url'] }}"
-                            alt="{{ $item['alt'] ?? $item['name'] }}"
+                        <img src="{{ $item['large_url'] }}" alt="{{ $item['alt'] ?? $item['name'] }}"
                             @if ($shouldLazyLoad()) loading="lazy" @endif
-                            style="width: 100%; height: 100%; object-fit: cover;"
-                        >
+                            style="width: 100%; height: 100%; object-fit: cover;">
                     @elseif (str($item['type'])->contains('video'))
-                        <video
-                            controls
-                            src="{{ $item['url'] }}"
+                        <video controls src="{{ $item['url'] }}"
                             @if ($shouldLazyLoad()) preload="none" @endif
-                            style="width: 100%; height: 100%; object-fit: cover;"
-                        ></video>
+                            style="width: 100%; height: 100%; object-fit: cover;"></video>
                     @else
-                        <x-curator::document-image
-                            label="{{ $item['name'] }}"
-                            icon-size="xl"
-                            type="{{ $item['type'] }}"
-                            extension="{{ $item['ext'] }}"
-                        />
+                        <x-curator::document-image label="{{ $item['name'] }}" icon-size="xl"
+                            type="{{ $item['type'] }}" extension="{{ $item['ext'] }}" />
                     @endif
 
                     {{-- Caption --}}
@@ -129,8 +106,7 @@
                             display: flex;
                             justify-content: space-between;
                             gap: 6px;
-                        "
-                    >
+                        ">
                         <span style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
                             {{ $item['pretty_name'] }}
                         </span>
@@ -142,7 +118,7 @@
 
         <div style="margin-top: 16px; display: flex; gap: 8px; align-items: center;">
             @if ($itemsCount === 0 || $isMultiple)
-                @if (! $maxItems || $itemsCount < $maxItems)
+                @if (!$maxItems || $itemsCount < $maxItems)
                     {{ $getAction('open_curator_picker') }}
                 @endif
             @endif

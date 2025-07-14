@@ -56,7 +56,7 @@
                 @endif
             @endif
         </div>
-        <label class="border border-gray-300 dark:border-gray-700 rounded-md relative flex items-center">
+        <label class="border border-gray-300 dark:border-gray-700 rounded-md relative flex items-center" style="margin-top: 40px;">
             <span class="sr-only">{{ trans('curator::views.panel.search_label') }}</span>
             <x-filament::icon alias="curator::icons.check" icon="heroicon-s-magnifying-glass"
                 class="w-4 h-4 absolute top-1.5 left-2 rtl:left-0 rtl:right-2 dark:text-gray-500" />
@@ -75,11 +75,17 @@
     </div>
     <!-- End Toolbar -->
 
-    <div class="flex-1 relative flex flex-col lg:flex-row overflow-hidden">
+    <div class="flex-1 relative flex flex-col lg:flex-row overflow-hidden"  style="margin-top: 12px;">
 
         <!-- Gallery -->
         <div class="curator-panel-gallery flex-1 h-full overflow-auto p-4">
-            <ul class="curator-picker-grid grid gap-2 grid-cols-2 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8">
+            <ul class="curator-picker-grid"
+                style="
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+        gap: 4px;
+    ">
+
                 @forelse ($files as $file)
                     <li wire:key="media-{{ $file['id'] }}" class="relative aspect-square"
                         x-bind:class="{
