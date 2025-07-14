@@ -380,44 +380,42 @@
                 {{-- Fitur kiri --}}
                 <div class="space-y-4">
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        @if (!empty($features))
-                            @foreach ($features as $feature)
-                                <div
-                                    class="relative group text-white p-4 rounded overflow-hidden bg-teal-900 hover:bg-lime-500 rounded-br-lg hover:rounded-br-3xl hover:rounded-tl-3xl transition-all duration-500 ease-in-out min-h-64">
+                        @foreach ($features as $feature)
+                            <div
+                                class="relative group text-white p-4 rounded overflow-hidden bg-teal-900 hover:bg-lime-500 rounded-br-lg hover:rounded-br-3xl hover:rounded-tl-3xl transition-all duration-500 ease-in-out min-h-64">
 
-                                    {{-- Background --}}
-                                    <div class="absolute inset-0 bg-cover bg-center opacity-0 group-hover:opacity-30
+                                {{-- Background --}}
+                                <div class="absolute inset-0 bg-cover bg-center opacity-0 group-hover:opacity-30
                 transition-all duration-500 ease-in-out scale-105 group-hover:scale-100"
-                                        style="background-image: url('{{ imageOrDefault($feature->media?->first()->url, 'card') }}');">
-                                    </div>
-
-                                    {{-- Content --}}
-                                    <div
-                                        class="relative z-10 flex flex-col justify-center h-full transition-all duration-500 ease-in-out group-hover:-translate-y-1">
-
-                                        {{-- ICON --}}
-                                        <div
-                                            class="text-3xl mb-4 transition-all duration-500 ease-in-out opacity-100 group-hover:opacity-50">
-                                            <img class="w-24 h-24 object-cover rounded-full mx-auto mb-2 border-2 border-lime-300 shadow-lg"
-                                                src="{{ imageOrDefault($feature->media?->first()->url, 'card') }}"
-                                                alt="{{ $feature['title'] }}">
-                                        </div>
-
-                                        {{-- Title --}}
-                                        <h3
-                                            class="font-bold text-lg transition-all duration-500 ease-in-out group-hover:text-white group-hover:scale-105">
-                                            {{ $feature['title'] }}
-                                        </h3>
-
-                                        {{-- Description --}}
-                                        <p
-                                            class="text-sm transition-all duration-500 ease-in-out group-hover:text-gray-100 group-hover:scale-105">
-                                            {!! $feature['description'] !!}
-                                        </p>
-                                    </div>
+                                    style="background-image: url('{{ imageOrDefault($feature->media?->first()->url, 'card') }}');">
                                 </div>
-                            @endforeach
-                        @endif
+
+                                {{-- Content --}}
+                                <div
+                                    class="relative z-10 flex flex-col justify-center h-full transition-all duration-500 ease-in-out group-hover:-translate-y-1">
+
+                                    {{-- ICON --}}
+                                    <div
+                                        class="text-3xl mb-4 transition-all duration-500 ease-in-out opacity-100 group-hover:opacity-50">
+                                        <img class="w-24 h-24 object-cover rounded-full mx-auto mb-2 border-2 border-lime-300 shadow-lg"
+                                            src="{{ imageOrDefault($feature->media?->first()->url, 'card') }}"
+                                            alt="{{ $feature['title'] }}">
+                                    </div>
+
+                                    {{-- Title --}}
+                                    <h3
+                                        class="font-bold text-lg transition-all duration-500 ease-in-out group-hover:text-white group-hover:scale-105">
+                                        {{ $feature['title'] }}
+                                    </h3>
+
+                                    {{-- Description --}}
+                                    <p
+                                        class="text-sm transition-all duration-500 ease-in-out group-hover:text-gray-100 group-hover:scale-105">
+                                        {!! $feature['description'] !!}
+                                    </p>
+                                </div>
+                            </div>
+                        @endforeach
                     </div>
                 </div>
 
@@ -425,7 +423,6 @@
                 <div>
                     <div class="swiper">
                         <div class="swiper-wrapper">
-                            @if (!emtpy($slides))
                             @foreach ($slides as $slide)
                                 <div class="swiper-slide relative">
                                     <img src="{{ imageOrDefault($slide->media?->first()->url, 'card') }}"
@@ -436,7 +433,6 @@
                                     </div>
                                 </div>
                             @endforeach
-                            @endif
                         </div>
                         <div class="swiper-pagination absolute top-2 right-2 z-10"></div>
                     </div>
@@ -455,7 +451,6 @@
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
 
                 <!-- Card Popular Tour -->
-                @if(!emtpy($popularTours))
                 @foreach ($popularTours as $item)
                     <a href="{{ route('tours.show', $item->slug) }}"
                         class="relative rounded-lg overflow-hidden shadow-lg group">
@@ -506,7 +501,6 @@
                         </div>
                     </a>
                 @endforeach
-                @endif
             </div>
         </div>
     </section>
