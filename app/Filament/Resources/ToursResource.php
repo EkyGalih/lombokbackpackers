@@ -3,6 +3,7 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\ToursResource\Pages;
+use App\Models\Category;
 use App\Models\Tour;
 use Awcodes\Curator\Components\Forms\CuratorPicker;
 use Filament\Forms\Components\DatePicker;
@@ -56,12 +57,14 @@ class ToursResource extends Resource
                                 $set('seoMeta.meta_title', $state);
                                 // set rul seo
                                 $set('seoMeta.canonical_url', url(ENV('APP_URL') . '/tours/' . str($state)->slug()));
-                            })
-                            ,
+                            }),
                         Grid::make(12)->schema([
-                            Select::make('category_id')
-                                ->relationship('category', 'name')
-                                ->required()->label('Category')
+                            TextInput::make('category_name')
+                                ->label('Category')
+                                ->datalist(
+                                    Category::pluck('name')->toArray()
+                                )
+                                ->required()
                                 ->columnSpan(6),
                             TextInput::make('duration')->required()->label('Duration (days and nights)')
                                 ->placeholder('e.g., 3 days 2 nights')
@@ -83,23 +86,23 @@ class ToursResource extends Resource
                             })
                             ->live(onBlur: true)
                             ->afterStateUpdated(function ($state, callable $set) {
-                                    $plainText = strip_tags($state);
+                                $plainText = strip_tags($state);
 
-                                    $seoDesc = str($plainText)->limit(160);
+                                $seoDesc = str($plainText)->limit(160);
 
-                                    // ambil kata2
-                                    $words = str($plainText)
-                                        ->lower()
-                                        ->explode(' ')
-                                        ->map(fn($word) => trim(preg_replace('/[^a-z0-9]/', '', $word)))
-                                        ->filter(fn($word) => strlen($word) > 3) // minimal panjang kata
-                                        ->unique()
-                                        ->take(10)
-                                        ->implode(', ');
+                                // ambil kata2
+                                $words = str($plainText)
+                                    ->lower()
+                                    ->explode(' ')
+                                    ->map(fn($word) => trim(preg_replace('/[^a-z0-9]/', '', $word)))
+                                    ->filter(fn($word) => strlen($word) > 3) // minimal panjang kata
+                                    ->unique()
+                                    ->take(10)
+                                    ->implode(', ');
 
-                                    $set('seoMeta.meta_description', $seoDesc);
-                                    $set('seoMeta.keywords', $words);
-                                })
+                                $set('seoMeta.meta_description', $seoDesc);
+                                $set('seoMeta.keywords', $words);
+                            })
                             ->required()
                             ->label('Description'),
                         Grid::make(12)->schema([
@@ -221,24 +224,20 @@ class ToursResource extends Resource
                 ->size(60),
             TextColumn::make('title')->sortable()->searchable(),
             TextColumn::make('category.name')->label('Kategori')->sortable(),
-            TextColumn::make('packet')
-                ->label('Packets')
-                ->formatStateUsing(function ($state) {
-                    if (! is_array($state)) {
-                        $state = json_decode($state, true);
-                    }
+            // TextColumn::make('packet')
+            //     ->label('Packets')
+            //     ->getStateUsing(fn($record) => $record->packet)
+            //     ->formatStateUsing(function ($state) {
+            //         if (! is_array($state)) {
+            //             return '-';
+            //         }
 
-                    if (! $state) {
-                        return '-';
-                    }
-
-                    // Ambil semua 'value' dan gabungkan pakai line break
-                    return collect($state)
-                        ->pluck('value')
-                        ->implode("\n");
-                })
-                ->wrap()
-                ->limit(50), // atau ->html() jika mau pakai <br>
+            //         return collect($state)
+            //             ->pluck('value')
+            //             ->implode("\n") ?: '-';
+            //     })
+            //     ->wrap()
+            //     ->limit(50),
             TextColumn::make('duration')->label('Durasi (hari)'),
             TextColumn::make('seoMeta.meta_title')->label('SEO Title'),
         ])

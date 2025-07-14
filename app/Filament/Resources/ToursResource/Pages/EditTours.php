@@ -17,6 +17,8 @@ class EditTours extends EditRecord
             $data['seoMeta'] = $this->record->seoMeta->toArray();
         }
 
+        $data['category_name'] = $this->record->category?->name ?? '';
+
         return $data;
     }
 
@@ -24,6 +26,16 @@ class EditTours extends EditRecord
     {
         // Buang seoMeta supaya tidak dikirim ke tabel tours
         unset($data['seoMeta']);
+
+        $category = \App\Models\Category::firstOrCreate(
+            ['name' => $data['category_name']],
+            ['id' => \Illuminate\Support\Str::uuid()->toString()]
+        );
+
+        $data['category_id'] = $category->id;
+
+        unset($data['category_name']);
+
         return $data;
     }
 
