@@ -13,6 +13,7 @@ use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
+use Filament\Tables\Columns\ImageColumn;
 use Filament\Tables\Table;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
@@ -53,7 +54,6 @@ class CategoryResource extends Resource
                             return $state;
                         })
                         ->columnSpan(6)
-                        ->required()
                         ->live(onBlur: false),
                     CuratorPicker::make('media')
                         ->label('Thumbnail')
@@ -69,6 +69,10 @@ class CategoryResource extends Resource
     {
         return $table
             ->columns([
+                ImageColumn::make('media.0.path')
+                    ->label('Thumbnail')
+                    ->disk('public')
+                    ->size(56),
                 Tables\Columns\TextColumn::make('name')->sortable()->searchable(),
                 Tables\Columns\TextColumn::make('slug')->sortable()->searchable(),
             ])
