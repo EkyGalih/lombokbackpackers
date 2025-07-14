@@ -4,6 +4,7 @@ namespace App\Filament\Resources\ToursResource\Pages;
 
 use App\Filament\Resources\ToursResource;
 use Filament\Resources\Pages\EditRecord;
+use Illuminate\Support\Str;
 
 class EditTours extends EditRecord
 {
@@ -24,13 +25,23 @@ class EditTours extends EditRecord
 
     protected function mutateFormDataBeforeSave(array $data): array
     {
-        // Buang seoMeta supaya tidak dikirim ke tabel tours
-        unset($data['seoMeta']);
+        unset($data['seoMeta']); // optional kalau pakai relasi
 
-        $category = \App\Models\Category::firstOrCreate(
-            ['name' => $data['category_name']],
-            ['id' => \Illuminate\Support\Str::uuid()->toString()]
-        );
+        $category = \App\Models\Category::whereRaw(
+            'LOWER(JSON_UNQUOTE(JSON_EXTRACT(name, "$.id"))) = ?',
+            [strtolower($data['category_name'])]
+        )->first();
+
+        if (! $category) {
+            $category = \App\Models\Category::create([
+                'id' => \Illuminate\Support\Str::uuid()->toString(),
+                'name' => [
+                    'en' => $data['category_name'],
+                    'id' => $data['category_name'],
+                ],
+                'slug' => Str::slug($data['category_name']),
+            ]);
+        }
 
         $data['category_id'] = $category->id;
 

@@ -4,6 +4,7 @@ namespace App\Filament\Resources\ToursResource\Pages;
 
 use App\Filament\Resources\ToursResource;
 use Filament\Resources\Pages\CreateRecord;
+use Illuminate\Support\Str;
 
 class CreateTours extends CreateRecord
 {
@@ -11,13 +12,24 @@ class CreateTours extends CreateRecord
 
     protected function mutateFormDataBeforeCreate(array $data): array
     {
-        // Buang seoMeta dari $data supaya tidak dikirim ke tabel tours
-        unset($data['seoMeta']);
+        unset($data['seoMeta']); // Buang seoMeta
 
-        $category = \App\Models\Category::firstOrCreate(
-            ['name' => $data['category_name']],
-            ['id' => \Illuminate\Support\Str::uuid()->toString()]
-        );
+        // Cari kategori dengan name->id sama (case-insensitive)
+        $category = \App\Models\Category::whereRaw(
+            'LOWER(JSON_UNQUOTE(JSON_EXTRACT(name, "$.id"))) = ?',
+            [strtolower($data['category_name'])]
+        )->first();
+
+        if (! $category) {
+            $category = \App\Models\Category::create([
+                'id' => \Illuminate\Support\Str::uuid()->toString(),
+                'name' => [
+                    'en' => $data['category_name'],
+                    'id' => $data['category_name'],
+                ],
+                'slug' => Str::slug($data['category_name']),
+            ]);
+        }
 
         $data['category_id'] = $category->id;
 

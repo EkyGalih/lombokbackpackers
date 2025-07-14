@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Enums\BookingStatus;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
 
@@ -17,7 +18,7 @@ class BookingFactory extends Factory
             'code_booking' => strtoupper(Str::random(8)),
             'arrival_date' => $this->faker->dateTimeBetween('+1 days', '+30 days')->format('Y-m-d'),
             'total_price' => $this->faker->randomFloat(500000, 5000000, 1500000),
-            'status' => $this->faker->randomElement(['pending', 'waiting', 'approved', 'confirmed', 'canceled']),
+            'status' => $this->faker->randomElement(BookingStatus::cases()),
             'notes' => $this->faker->optional()->sentence,
         ];
     }
