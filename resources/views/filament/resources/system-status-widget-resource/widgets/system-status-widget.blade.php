@@ -5,17 +5,17 @@
         <div class="grid grid-cols-1 gap-2 text-sm">
             <div>
                 <span class="font-semibold">Server Uptime:</span>
-                {{ $uptime }}
+                <span style="color: rgb(194, 194, 194); font-weight: bold">{{ $uptime }}</span>
             </div>
 
             <div>
-                <span class="font-semibold">Memory Usage:</span>
-                {{ $memoryUsage }}
+                <span class="font-semibol">Memory Usage:</span>
+                <span style="color: rgb(0, 85, 0); font-weight: bold">{{ $memoryUsage }}</span>
             </div>
 
             <div>
-                <span class="font-semibold">Storage Usage:</span>
-                {{ $storageUsage }}
+                <span class="font-semibold text-orange-400">Storage Usage:</span>
+                <span style="color: rgb(145, 95, 2); font-weight: bold">{{ $storageUsage }}</span>
             </div>
 
         </div>
