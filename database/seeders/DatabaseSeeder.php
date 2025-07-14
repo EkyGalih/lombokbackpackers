@@ -22,6 +22,8 @@ class DatabaseSeeder extends Seeder
             SlidesSeeder::class,
             PostsSeeder::class,
             TourSeeder::class,
+            BookingSeeder::class,
+            PaymentSeeder::class,
         ]);
     }
 }

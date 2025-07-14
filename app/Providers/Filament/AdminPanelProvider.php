@@ -2,6 +2,14 @@
 
 namespace App\Providers\Filament;
 
+use App\Filament\Resources\ActivitiesWidgetResource\Widgets\ActivitiesWidget;
+use App\Filament\Resources\BookingPaymentChartResource\Widgets\BookingPaymentChart as WidgetsBookingPaymentChart;
+use App\Filament\Resources\CustomAccountWidgetResource\Widgets\CustomAccountWidget;
+use App\Filament\Resources\DailyTrendChartResource\Widgets\DailyTrendChart;
+use App\Filament\Resources\StatsWidgetResource\Widgets\StatsWidget;
+use App\Filament\Resources\SystemStatusWidgetResource\Widgets\SystemStatusWidget;
+use App\Filament\Resources\TourCompositionChartResource\Widgets\TourCompositionChart;
+use App\Filament\Widgets\BookingPaymentChart;
 use Awcodes\Curator\CuratorPlugin;
 use Hasnayeen\Themes\ThemesPlugin;
 use Hasnayeen\Themes\Http\Middleware\SetTheme;
@@ -70,9 +78,13 @@ class AdminPanelProvider extends PanelProvider
             ])
             ->discoverWidgets(in: app_path('Filament/Widgets'), for: 'App\\Filament\\Widgets')
             ->widgets([
-                Widgets\AccountWidget::class,
-                Widgets\FilamentInfoWidget::class,
-                \App\Filament\Widgets\Dashboard::class,
+                CustomAccountWidget::class,
+                SystemStatusWidget::class,
+                StatsWidget::class,
+                WidgetsBookingPaymentChart::class,
+                DailyTrendChart::class,
+                ActivitiesWidget::class,
+                TourCompositionChart::class,
             ])
             ->middleware([
                 EncryptCookies::class,
