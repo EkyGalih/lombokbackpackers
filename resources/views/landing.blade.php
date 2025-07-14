@@ -130,7 +130,7 @@
                         @foreach ($categories as $category)
                 '{{ $category->id }}': [
                     @foreach ($category->tours as $tour)
-                        '{{ imageOrDefault($tour->media->first()->url, 'card') }}', @endforeach
+                        '{{ imageOrDefault($tour->media?->first()->url, 'card') }}', @endforeach
                     ],
                     @endforeach
                 }
@@ -388,7 +388,7 @@
                                     {{-- Background --}}
                                     <div class="absolute inset-0 bg-cover bg-center opacity-0 group-hover:opacity-30
                 transition-all duration-500 ease-in-out scale-105 group-hover:scale-100"
-                                        style="background-image: url('{{ imageOrDefault($feature->media->first()->url, 'card') }}');">
+                                        style="background-image: url('{{ imageOrDefault($feature->media?->first()->url, 'card') }}');">
                                     </div>
 
                                     {{-- Content --}}
@@ -425,6 +425,7 @@
                 <div>
                     <div class="swiper">
                         <div class="swiper-wrapper">
+                            @if (!emtpy($slides))
                             @foreach ($slides as $slide)
                                 <div class="swiper-slide relative">
                                     <img src="{{ imageOrDefault($slide->media?->first()->url, 'card') }}"
@@ -435,6 +436,7 @@
                                     </div>
                                 </div>
                             @endforeach
+                            @endif
                         </div>
                         <div class="swiper-pagination absolute top-2 right-2 z-10"></div>
                     </div>
@@ -453,10 +455,11 @@
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
 
                 <!-- Card Popular Tour -->
+                @if(!emtpy($popularTours))
                 @foreach ($popularTours as $item)
                     <a href="{{ route('tours.show', $item->slug) }}"
                         class="relative rounded-lg overflow-hidden shadow-lg group">
-                        <img src="{{ imageOrDefault($feature->media->first()->url, 'card') }}"
+                        <img src="{{ imageOrDefault($feature->media?->first()->url, 'card') }}"
                             alt="{{ $item->titlex }}"
                             class="w-full h-64 object-cover transition-transform group-hover:scale-105">
                         <div class="absolute inset-0 bg-black/50 flex flex-col justify-end p-4">
@@ -503,6 +506,7 @@
                         </div>
                     </a>
                 @endforeach
+                @endif
             </div>
         </div>
     </section>
