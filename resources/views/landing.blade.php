@@ -454,7 +454,7 @@
                 @foreach ($popularTours as $item)
                     <a href="{{ route('tours.show', $item->slug) }}"
                         class="relative rounded-lg overflow-hidden shadow-lg group">
-                        <img src="{{ imageOrDefault($feature->media?->first()->url, 'card') }}"
+                        <img src="{{ imageOrDefault($item->media?->first()->url, 'card') }}"
                             alt="{{ $item->titlex }}"
                             class="w-full h-64 object-cover transition-transform group-hover:scale-105">
                         <div class="absolute inset-0 bg-black/50 flex flex-col justify-end p-4">
