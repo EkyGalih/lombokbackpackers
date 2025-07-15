@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('slug')->unique();
             $table->json('excerpt')->nullable();
             $table->json('content');
-            $table->enum('status', ['draft', 'published'])->default('draft');
+            $table->boolean('status')->default(false);
             $table->json('tags')->nullable();
             $table->unsignedBigInteger('author_id');
             $table->softDeletes();

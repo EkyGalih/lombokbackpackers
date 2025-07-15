@@ -120,25 +120,27 @@ class PostsResource extends Resource
 
                             Grid::make(12)
                                 ->schema([
-                                    Select::make('status')
-                                        ->columnSpan(6)
-                                        ->options([
-                                            'draft' => 'Draft',
-                                            'published' => 'Published',
-                                        ])->default('draft'),
-                                    TagsInput::make('tags')
-                                        ->label('Tags')
-                                        ->dehydrateStateUsing(fn($state) => $state ?? [])
-                                        ->columnSpan(6),
+                                    Grid::make(12)
+                                        ->schema([
+                                            TagsInput::make('tags')
+                                                ->label('Tags')
+                                                ->dehydrateStateUsing(fn($state) => $state ?? [])
+                                                ->columnSpan(6),
+                                            CuratorPicker::make('media')
+                                                ->label('Thumbnail')
+                                                ->multiple()
+                                                ->columnSpan(6),
+                                        ]),
                                 ]),
+                            Toggle::make('status')
+                                ->label('Published?')
+                                ->inline(false)
+                                ->onColor('success')
+                                ->offColor('danger')
+                                ->onIcon('heroicon-m-check')
+                                ->offIcon('heroicon-m-x-mark')
+                                ->required(),
 
-                            Grid::make(12)
-                                ->schema([
-                                    CuratorPicker::make('media')
-                                        ->label('Thumbnail')
-                                        ->multiple()
-                                        ->columnSpan(6),
-                                ]),
                             Hidden::make('author_id')->default(auth()->id()),
                         ]),
                         Tab::make('SEO')->schema([

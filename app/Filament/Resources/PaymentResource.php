@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources;
 
+use App\Enums\BookingStatus;
 use App\Filament\Resources\PaymentResource\Pages;
 use App\Filament\Resources\PaymentResource\RelationManagers;
 use App\Models\Payment;
@@ -47,11 +48,7 @@ class PaymentResource extends Resource
 
             Forms\Components\Select::make('status')
                 ->label('Status')
-                ->options([
-                    'waiting' => 'Menunggu Konfirmasi',
-                    'confirmed' => 'Dikonfirmasi',
-                    'rejected' => 'Ditolak',
-                ])
+                ->options(BookingStatus::formOptions())
                 ->required(),
         ]);
     }
@@ -60,15 +57,17 @@ class PaymentResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('booking.user.name')->label('Pemesan'),
-                Tables\Columns\TextColumn::make('amount')->label('Jumlah')->money('IDR', true),
-                Tables\Columns\ImageColumn::make('proof_image')->label('Bukti')->size(50),
-                Tables\Columns\TextColumn::make('payment_date')->label('Tanggal'),
-                Tables\Columns\BadgeColumn::make('status')->colors([
-                    'warning' => 'waiting',
-                    'success' => 'confirmed',
-                    'danger' => 'rejected',
-                ]),
+                Tables\Columns\TextColumn::make('booking.user.name')->label('Customer'),
+                Tables\Columns\TextColumn::make('code_payment')->label('Booking Code'),
+                Tables\Columns\TextColumn::make('amount')->label('Payed')->money('IDR', true),
+                Tables\Columns\ImageColumn::make('media.0.path')->label('Proof File')->size(50),
+                Tables\Columns\TextColumn::make('paid_at')->date('d M Y')->label('Payment Date'),
+                Tables\Columns\BadgeColumn::make('status')
+                    ->label('Status')
+                    ->formatStateUsing(fn(string $state) => BookingStatus::from($state)->label())
+                    ->colors(fn(string $state) => [
+                        BookingStatus::from($state)->color() => $state,
+                    ])
             ])
             ->filters([
                 //
@@ -94,7 +93,7 @@ class PaymentResource extends Resource
     {
         return [
             'index' => Pages\ListPayments::route('/'),
-            'create' => Pages\CreatePayment::route('/create'),
+            // 'create' => Pages\CreatePayment::route('/create'),
             'edit' => Pages\EditPayment::route('/{record}/edit'),
         ];
     }

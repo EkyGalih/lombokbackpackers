@@ -32,18 +32,18 @@ class ServicesResource extends Resource
     {
         return $form
             ->schema([
+                TextInput::make('title')
+                    ->label('Title')
+                    ->columnSpanFull()
+                    ->formatStateUsing(function ($state) {
+                        if (is_array($state)) {
+                            return $state[app()->getLocale()] ?? '';
+                        }
+                        return $state;
+                    })
+                    ->required(),
                 Grid::make(12)
                     ->schema([
-                        TextInput::make('title')
-                            ->label('Title')
-                            ->columnSpan(6)
-                            ->formatStateUsing(function ($state) {
-                                if (is_array($state)) {
-                                    return $state[app()->getLocale()] ?? '';
-                                }
-                                return $state;
-                            })
-                            ->required(),
                         RichEditor::make('description')
                             ->columnSpan(6)
                             ->formatStateUsing(function ($state) {
@@ -53,10 +53,11 @@ class ServicesResource extends Resource
                                 return $state;
                             })
                             ->label('Description'),
+                        CuratorPicker::make('media')
+                            ->label('Thumbnail')
+                            ->columnSpan(6)
+                            ->multiple(),
                     ]),
-                CuratorPicker::make('media')
-                    ->label('Thumbnail')
-                    ->multiple(),
             ]);
     }
 
@@ -104,7 +105,7 @@ class ServicesResource extends Resource
     {
         return [
             'index' => Pages\ListServices::route('/'),
-            'create' => Pages\CreateServices::route('/create'),
+            // 'create' => Pages\CreateServices::route('/create'),
             'edit' => Pages\EditServices::route('/{record}/edit'),
         ];
     }

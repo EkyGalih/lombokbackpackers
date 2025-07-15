@@ -15,13 +15,13 @@ enum BookingStatus: string
     public function label(): string
     {
         return match ($this) {
-            self::Pending   => 'Menunggu Pembayaran',
-            self::Waiting   => 'Menunggu Konfirmasi',
-            self::Approved  => 'Disetujui',
-            self::Rejected  => 'Ditolak',
-            self::Cancelled => 'Dibatalkan',
-            self::Expired   => 'Kadaluarsa',
-            self::Refunded  => 'Dana Dikembalikan',
+            self::Pending   => 'Waiting Payment',
+            self::Waiting   => 'Waiting Confirmation',
+            self::Approved  => 'Approved',
+            self::Rejected  => 'Rejected',
+            self::Cancelled => 'Cancelled',
+            self::Expired   => 'Expired',
+            self::Refunded  => 'Refunded',
         };
     }
 
@@ -36,5 +36,18 @@ enum BookingStatus: string
             self::Expired   => 'gray',
             self::Refunded  => 'info',
         };
+    }
+
+    public static function formOptions(): array
+    {
+        return collect(self::cases())
+            ->filter(fn(self $case) => in_array($case, [
+                self::Approved,
+                self::Rejected,
+                self::Cancelled,
+                self::Refunded
+            ]))
+            ->mapWithKeys(fn(self $case) => [$case->value => $case->label()])
+            ->toArray();
     }
 }

@@ -63,7 +63,7 @@ class GalleryResource extends Resource
                             ->disabledOn('edit')
                             ->required(),
 
-                        Forms\Components\Textarea::make('description')
+                        Forms\Components\RichEditor::make('description')
                             ->columnSpanFull(),
 
                         CuratorPicker::make('images')
@@ -94,6 +94,10 @@ class GalleryResource extends Resource
             ->columns([
                 Tables\Columns\TextColumn::make('name')
                     ->searchable(),
+
+                Tables\Columns\TextColumn::make('description')
+                    ->label('Description')
+                    ->html(),
 
                 Tables\Columns\TextColumn::make('type')
                     ->label('Gallery type')
@@ -127,7 +131,7 @@ class GalleryResource extends Resource
     {
         return [
             'index' => Pages\ListGalleries::route('/'),
-            'create' => Pages\CreateGallery::route('/create'),
+            // 'create' => Pages\CreateGallery::route('/create'),
             'edit' => Pages\EditGallery::route('/{record}/edit'),
         ];
     }

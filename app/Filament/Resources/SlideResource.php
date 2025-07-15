@@ -111,7 +111,7 @@ class SlideResource extends Resource
     {
         return [
             'index' => Pages\ListSlides::route('/'),
-            'create' => Pages\CreateSlide::route('/create'),
+            // 'create' => Pages\CreateSlide::route('/create'),
             'edit' => Pages\EditSlide::route('/{record}/edit'),
         ];
     }

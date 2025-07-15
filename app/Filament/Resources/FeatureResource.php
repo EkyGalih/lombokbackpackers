@@ -29,31 +29,32 @@ class FeatureResource extends Resource
     {
         return $form
             ->schema([
+                TextInput::make('title')
+                    ->label('Title')
+                    ->columnSpanFull()
+                    ->formatStateUsing(function ($state) {
+                        if (is_array($state)) {
+                            return $state[app()->getLocale()] ?? '';
+                        }
+                        return $state;
+                    })
+                    ->required(),
                 Grid::make(12)
                     ->schema([
-                        TextInput::make('title')
-                            ->label('Title')
-                            ->columnSpan(6)
-                            ->formatStateUsing(function ($state) {
-                                if (is_array($state)) {
-                                    return $state[app()->getLocale()] ?? '';
-                                }
-                                return $state;
-                            })
-                            ->required(),
                         RichEditor::make('description')
-                            ->columnSpan(6)
                             ->formatStateUsing(function ($state) {
                                 if (is_array($state)) {
                                     return $state[app()->getLocale()] ?? '';
                                 }
                                 return $state;
                             })
+                            ->columnSpan(6)
                             ->label('Description'),
+                        CuratorPicker::make('media')
+                            ->label('Thumbnail')
+                            ->columnSpan(6)
+                            ->multiple()
                     ]),
-                CuratorPicker::make('media')
-                    ->label('Thumbnail')
-                    ->multiple(),
             ]);
     }
 
@@ -101,7 +102,7 @@ class FeatureResource extends Resource
     {
         return [
             'index' => Pages\ListFeatures::route('/'),
-            'create' => Pages\CreateFeature::route('/create'),
+            // 'create' => Pages\CreateFeature::route('/create'),
             'edit' => Pages\EditFeature::route('/{record}/edit'),
         ];
     }

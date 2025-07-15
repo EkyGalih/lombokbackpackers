@@ -25,4 +25,9 @@ class CreateServices extends CreateRecord
             $this->record->media()->sync($this->mediaIds);
         }
     }
+
+    protected function getRedirectUrl(): string
+    {
+        return $this->getResource()::getUrl('index');
+    }
 }

@@ -57,4 +57,9 @@ class EditTours extends EditRecord
             $this->record->seoMeta()->updateOrCreate([], $seoData);
         }
     }
+
+    protected function getRedirectUrl(): string
+    {
+        return $this->getResource()::getUrl('index');
+    }
 }

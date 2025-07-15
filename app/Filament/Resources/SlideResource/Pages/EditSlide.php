@@ -39,4 +39,9 @@ class EditSlide extends EditRecord
             $this->record->media()->sync($this->mediaIds);
         }
     }
+
+    protected function getRedirectUrl(): string
+    {
+        return $this->getResource()::getUrl('index');
+    }
 }
