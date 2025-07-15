@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Mail\ConfirmedPaymentMail;
 use App\Models\Booking;
 use App\Models\Tour;
+use App\Settings\WebsiteSettings;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -69,5 +70,28 @@ class BookingController extends Controller
         $filename = 'invoice-' . $booking->payment->code_payment . '.pdf';
 
         return $pdf->download($filename);
+    }
+
+    public function booking($id)
+    {
+        // Ambil data paket tour
+        $tour = Tour::findOrFail($id);
+
+        // Nomor WhatsApp Admin/CS
+        $nomorCS = app(WebsiteSettings::class)->contact_phone; // Ganti dengan nomor CS kamu (tanpa + atau 0 di depan)
+
+        // Buat pesan
+        $pesan = urlencode(
+            "Halo, saya ingin booking paket tour berikut:\n"
+            . "Nama Paket: {$tour->name}\n"
+            // . "Harga: Rp " . number_format($tour->price) . "\n"
+            . "Terima kasih."
+        );
+
+        // Buat URL WhatsApp
+        $waUrl = "https://wa.me/{$nomorCS}?text={$pesan}";
+
+        // Redirect ke WhatsApp
+        return redirect()->away($waUrl);
     }
 }

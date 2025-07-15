@@ -23,10 +23,14 @@
                     <p class="text-gray-800 font-semibold rounded border border-gray-200 px-3 py-2 text-justify"
                         style="border-radius: 0.25rem;">
                         Packet
-                        @if (!empty($tour->packet))
+                        @if (!empty($tour->packet) && is_array($tour->packet))
                             @foreach ($tour->packet as $item)
-                                <span class="text-sm block">{{ $item['value'] }}</span>
+                                <span class="text-sm block">
+                                    {{ is_array($item) ? $item['value'] ?? '' : $item }}
+                                </span>
                             @endforeach
+                        @else
+                            <span class="text-sm block text-gray-500">Tidak ada paket.</span>
                         @endif
                     </p>
                 </div>
@@ -197,14 +201,14 @@
 
             {{-- KANAN: Book A Trip --}}
             <div class="w-full md:w-2/4 bg-teal-100/30 rounded-lg p-6 flex-shrink-0">
-                <h3 class="text-xl font-bold mb-4">Book A Trip:</h3>
+                {{-- <h3 class="text-xl font-bold mb-4">Book A Trip:</h3> --}}
 
-                <form method="POST" action="{{ route('bookings.store') }}" class="space-y-6">
+                <form method="POST" action="{{ route('booking_now', $tour->id) }}" class="space-y-6">
                     @csrf
-
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        {{-- Name --}}
-                        <div>
+                    {{-- <input type="hidden" name="tour_id" value="{{ $tour->id }}"> --}}
+                    {{-- <div class="grid grid-cols-1 md:grid-cols-2 gap-6"> --}}
+                    {{-- Name --}}
+                    {{-- <div>
                             <input type="hidden" name="user_id" value="{{ Auth::user()?->id }}">
                             <input type="hidden" name="tour_id" value="{{ $tour->id }}">
                             <label for="name" class="block text-sm font-medium text-gray-700">Name *</label>
@@ -212,76 +216,80 @@
                                 value="{{ Auth::user()->name ?? '' }}"
                                 class="mt-1 block w-full rounded-lg border-gray-300 shadow-sm focus:border-lime-500 focus:ring-lime-500 transition placeholder-gray-400"
                                 placeholder="Your full name" required>
-                        </div>
+                        </div> --}}
 
-                        {{-- City --}}
-                        <div>
+                    {{-- City --}}
+                    {{-- <div>
                             <label for="city" class="block text-sm font-medium text-gray-700">City of Residence
                                 *</label>
                             <input type="text" name="city" id="city"
                                 value="{{ Auth::user()?->customer?->nationality }}"
                                 class="mt-1 block w-full rounded-lg border-gray-300 shadow-sm focus:border-lime-500 focus:ring-lime-500 transition placeholder-gray-400 {{ Auth::check() ? 'bg-gray-100 cursor-not-allowed' : '' }}"
                                 {{ Auth::check() ? 'readonly' : '' }} placeholder="City name" required>
-                        </div>
+                        </div> --}}
 
-                        {{-- Email --}}
-                        <div>
+                    {{-- Email --}}
+                    {{-- <div>
                             <label for="email" class="block text-sm font-medium text-gray-700">Email *</label>
                             <input type="email" name="email" id="email"
                                 value="{{ Auth::user()->email ?? '' }}"
                                 class="mt-1 block w-full rounded-lg border-gray-300 shadow-sm focus:border-lime-500 focus:ring-lime-500 transition placeholder-gray-400"
                                 placeholder="you@example.com" required>
-                        </div>
+                        </div> --}}
 
-                        {{-- Phone --}}
-                        <div>
+                    {{-- Phone --}}
+                    {{-- <div>
                             <label for="phone" class="block text-sm font-medium text-gray-700">Phone Number
                                 *</label>
                             <input type="text" name="phone" id="phone"
                                 value="{{ Auth::user()->customer->phone ?? '' }}"
                                 class="mt-1 block w-full rounded-lg border-gray-300 shadow-sm focus:border-lime-500 focus:ring-lime-500 transition placeholder-gray-400"
                                 placeholder="+62…" required>
-                        </div>
+                        </div> --}}
 
-                        {{-- Date --}}
-                        <div>
+                    {{-- Date --}}
+                    {{-- <div>
                             <label for="travel_date" class="block text-sm font-medium text-gray-700">Date of Travel
                                 *</label>
                             <input type="date" name="travel_date" id="travel_date"
                                 class="mt-1 block w-full rounded-lg border-gray-300 shadow-sm focus:border-lime-500 focus:ring-lime-500 transition placeholder-gray-400"
                                 required>
-                        </div>
+                        </div> --}}
 
-                        {{-- Packet --}}
-                        <div>
+                    {{-- Packet --}}
+                    {{-- <div>
                             <label for="packet" class="block text-sm font-medium text-gray-700">Packet *</label>
                             <select name="packet" id="packet"
                                 class="mt-1 block w-full rounded-lg border-gray-300 shadow-sm focus:border-lime-500 focus:ring-lime-500 transition placeholder-gray-400"
                                 required>
                                 <option value="" disabled selected>Choose a packet</option>
-                                @foreach ($tour->packet as $item)
-                                    <option value="{{ $item['value'] }}">{{ $item['value'] }}</option>
-                                @endforeach
+                                @if (!empty($tour->packet) && is_array($tour->packet))
+                                    @foreach ($tour->packet as $item)
+                                        <option value="{{ $item['value'] }}">{{ $item['value'] }}</option>
+                                    @endforeach
+                                @else
+                                    <option value="" disabled>Tidak ada paket.</option>
+                                @endif
                             </select>
                         </div>
-                    </div>
+                    </div> --}}
 
                     {{-- Message --}}
-                    <div>
+                    {{-- <div>
                         <label for="message" class="block text-sm font-medium text-gray-700">Message *</label>
                         <textarea name="notes" id="message" rows="3"
                             class="mt-1 block w-full rounded-lg border-gray-300 shadow-sm focus:border-lime-500 focus:ring-lime-500 transition placeholder-gray-400"
                             placeholder="Write something about your trip…"></textarea>
-                    </div>
+                    </div> --}}
 
                     {{-- Submit --}}
                     <div>
                         <button type="submit"
                             class="w-full inline-flex justify-center items-center rounded-lg bg-lime-600 px-6 py-3 text-white font-semibold shadow-sm hover:bg-lime-700 hover:shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-lime-500 transition">
-                            Book Online
+                            Book Now
                         </button>
                     </div>
-                </form>
+                    {{-- </form> --}}
             </div>
         </div>
     </section>

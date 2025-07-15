@@ -51,17 +51,17 @@
                                 </ul>
                             @endif
 
-                            @guest
+                            {{-- @guest
                                 <a href="{{ route('login') }}"
                                     class="bg-lime-300 text-slate-900 px-5 py-2 rounded-lg shadow hover:bg-lime-200 transition">
                                     Masuk
                                 </a>
                             @else
-                                <a href="{{ route('profile.edit') }}"
-                                    class="bg-lime-300 text-slate-900 px-5 py-2 rounded-lg shadow hover:bg-lime-200 transition">
-                                    My Account
-                                </a>
-                            @endguest
+                            @endguest --}}
+                            <a href="https://wa.me/{{ app(\App\Settings\WebsiteSettings::class)->contact_phone }}?text={{ urlencode("halo saya ingin pesan paket tour") }}" target="_blank"
+                                class="bg-lime-300 text-slate-900 px-5 py-2 rounded-lg shadow hover:bg-lime-200 transition">
+                                Book Now
+                            </a>
                         </div>
 
                         {{-- Hamburger Button (< lg) --}}
@@ -116,11 +116,11 @@
                     showModal: false,
                     modalIndex: 0,
                     slugs: {
-                        @foreach ($categories as $category)
+                        @foreach ($categories->take(4) as $category)
                 '{{ $category->id }}': '{{ $category->slug }}', @endforeach
                     },
                     images: {
-                        @foreach ($categories as $category)
+                        @foreach ($categories->take(4) as $category)
                 '{{ $category->id }}': [
                     @foreach ($category->tours as $tour)
                         '{{ imageOrDefault($tour->media?->first()?->url, 'card') }}', @endforeach
@@ -200,7 +200,7 @@
                     {{-- TABS --}}
                     <div
                         class="z-30 grid grid-cols-2 gap-2 px-2 mb-8 mt-8 sm:mt-12 sm:flex sm:flex-wrap sm:justify-center sm:gap-4 sm:px-4 sm:mb-12">
-                        @foreach ($categories as $category)
+                        @foreach ($categories->take(4) as $category)
                             <button @click="activeTab = '{{ $category->id }}'"
                                 :class="activeTab === '{{ $category->id }}'
                                     ?
@@ -236,7 +236,7 @@
                 </h1>
 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-                    @foreach ($features as $feature)
+                    @foreach ($features->take(6) as $feature)
                         <div>
                             <div class="text-2xl mb-4">
                                 <div class="flex items-center justify-start">
@@ -302,13 +302,13 @@
             <h2 class="text-sm font-semibold tracking-widest text-cyan-950 uppercase mb-2">
                 Paket Tour Unggulan
             </h2>
-            <h2 class="text-6xl font-black mb-8 text-cyan-950 leading-tight tracking-tight">
+            <h2 class="text-5xl font-black mb-8 text-cyan-950 leading-tight tracking-tight">
                 Pilih Paket Perjalananmu
             </h2>
 
             @if ($categories->count())
                 <div class="grid gap-6 md:grid-cols-4" id="paket">
-                    @foreach ($categories as $category)
+                    @foreach ($categories->take(8) as $category)
                         <div class="group relative bg-white rounded-lg overflow-hidden shadow-lg transform transition-all ease-in-out duration-300 hover:shadow-none hover:custom-rounded-br"
                             style="--tw-rounded-br: 60px;">
 
@@ -373,7 +373,7 @@
                 {{-- Fitur kiri --}}
                 <div class="space-y-4">
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        @foreach ($features as $feature)
+                        @foreach ($features->take(4) as $feature)
                             <div
                                 class="relative group text-white p-4 rounded overflow-hidden bg-teal-900 hover:bg-lime-500 rounded-br-lg hover:rounded-br-3xl hover:rounded-tl-3xl transition-all duration-500 ease-in-out min-h-64">
 
@@ -416,7 +416,7 @@
                 <div>
                     <div class="swiper">
                         <div class="swiper-wrapper">
-                            @foreach ($slides as $slide)
+                            @foreach ($slides->take(3) as $slide)
                                 <div class="swiper-slide relative">
                                     <img src="{{ imageOrDefault($slide->media?->first()?->url, 'card') }}"
                                         class="w-full object-cover rounded-lg h-96">
@@ -444,7 +444,7 @@
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
 
                 <!-- Card Popular Tour -->
-                @foreach ($popularTours as $item)
+                @foreach ($popularTours->take(6) as $item)
                     <a href="{{ route('tours.show', $item->slug) }}"
                         class="relative rounded-lg overflow-hidden shadow-lg group">
                         <img src="{{ imageOrDefault($item->media?->first()?->url, 'card') }}"
@@ -518,7 +518,7 @@
             <!-- Cards -->
             <div class="grid gap-6 md:grid-cols-3">
                 <!-- Card -->
-                @foreach ($posts as $post)
+                @foreach ($posts->take(3) as $post)
                     <div class="relative rounded overflow-hidden shadow hover:shadow-lg transition group">
                         <img src="{{ $post->media?->first()?->url ?? asset('defaults/no-image.jpg') }}"
                             alt=""

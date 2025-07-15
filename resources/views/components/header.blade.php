@@ -47,17 +47,18 @@
                 </ul>
             @endif
 
-            @guest
+            {{-- @guest
                 <a href="{{ route('login') }}"
                     class="bg-lime-300 text-slate-900 px-5 py-2 rounded-lg shadow hover:bg-lime-200 transition">
                     Masuk
                 </a>
-            @else
-                <a href="{{ route('profile.edit') }}"
-                    class="bg-lime-300 text-slate-900 px-5 py-2 rounded-lg shadow hover:bg-lime-200 transition">
-                    My Account
-                </a>
-            @endguest
+            @else --}}
+            <a href="https://wa.me/{{ app(\App\Settings\WebsiteSettings::class)->contact_phone }}?text={{ urlencode('halo saya ingin pesan paket tour') }}"
+                target="_blank"
+                class="bg-lime-300 text-slate-900 px-5 py-2 rounded-lg shadow hover:bg-lime-200 transition">
+                Book Now
+            </a>
+            {{-- @endguest --}}
         </div>
 
         {{-- Hamburger Button (< lg) --}}
