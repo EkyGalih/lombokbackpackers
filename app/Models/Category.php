@@ -33,7 +33,7 @@ class Category extends Model
                 $nameForSlug = $name;
             }
 
-            $category->slug = Str::slug($nameForSlug) . '-' . Str::random(5);
+            $category->slug = Str::slug($nameForSlug);
         });
     }
 

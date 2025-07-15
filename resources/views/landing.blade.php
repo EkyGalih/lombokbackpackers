@@ -43,13 +43,6 @@
 
                         {{-- Desktop Menu (≥ lg) --}}
                         <div class="hidden lg:flex space-x-8 items-center">
-                            @php
-                                $menu = \App\Models\Navigations::whereNull('parent_id')
-                                    ->with(['childrenRecursive', 'parent'])
-                                    ->orderBy('order')
-                                    ->get();
-                            @endphp
-
                             @if ($menu->isNotEmpty())
                                 <ul class="flex space-x-4">
                                     @foreach ($menu as $item)

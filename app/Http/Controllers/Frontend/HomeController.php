@@ -10,7 +10,7 @@ use App\Models\Posts;
 use App\Models\Slides;
 use App\Models\Tour;
 use App\Settings\WebsiteSettings;
-use Illuminate\Http\Request;
+use Biostate\FilamentMenuBuilder\Models\Menu;
 
 class HomeController extends Controller
 {
@@ -20,7 +20,11 @@ class HomeController extends Controller
         $headerImage = app(WebsiteSettings::class)->header_image;
         $headerTitle = app(WebsiteSettings::class)->header_title;
         $headerSubTitle = app(WebsiteSettings::class)->header_sub_title;
-
+        $MainMenu = Menu::first();
+        $menu = $MainMenu?->items()
+            ->with('children.children.children')
+            ->defaultOrder()
+            ->get();
 
         // Fetch the latest tours, categories, and features`
         $tours = Tour::latest()->take(6)->get();
@@ -39,6 +43,7 @@ class HomeController extends Controller
 
         // Return the landing view with the fetched data
         return view('landing', compact(
+            'menu',
             'tours',
             'categories',
             'features',

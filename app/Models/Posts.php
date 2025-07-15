@@ -38,7 +38,7 @@ class Posts extends Model
                 $titleForSlug = $title;
             }
 
-            $tour->slug = Str::slug($titleForSlug) . '-' . Str::random(5);
+            $tour->slug = Str::slug($titleForSlug);
         });
     }
 

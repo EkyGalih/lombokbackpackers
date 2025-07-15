@@ -7,7 +7,7 @@
             class="flex items-center justify-between w-full px-2 py-1 hover:underline gap-1">
             <span>{{ $item->name }}</span>
 
-            @if ($item->childrenRecursive->count())
+            @if ($item->children->count())
                 <svg xmlns="http://www.w3.org/2000/svg"
                     class="h-3.5 w-3.5 text-current transform transition-transform translate-y-0.5"
                     :class="open ? 'rotate-180' : ''" viewBox="0 0 20 20" fill="currentColor">
@@ -20,7 +20,7 @@
     </div>
 
     {{-- Child menu --}}
-    @if ($item->childrenRecursive->count())
+    @if ($item->children->count())
         <ul x-show="open" x-transition
             class="
                 md:absolute md:left-0 md:mt-1 md:bg-gradient-to-tr md:from-white md:to-slate-100 md:text-slate-900 md:p-2 md:rounded md:shadow md:z-50 md:min-w-max
@@ -29,7 +29,7 @@
                 mt-1
             "
             :class="open ? 'block' : 'hidden'">
-            @foreach ($item->childrenRecursive as $child)
+            @foreach ($item->children as $child)
                 <x-menu-item :item="$child" :depth="$depth + 1" />
             @endforeach
         </ul>

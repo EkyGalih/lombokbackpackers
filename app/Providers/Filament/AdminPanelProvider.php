@@ -11,6 +11,8 @@ use App\Filament\Resources\SystemStatusWidgetResource\Widgets\SystemStatusWidget
 use App\Filament\Resources\TourCompositionChartResource\Widgets\TourCompositionChart;
 use App\Filament\Widgets\BookingPaymentChart;
 use Awcodes\Curator\CuratorPlugin;
+use Biostate\FilamentMenuBuilder\Filament\Resources\MenuItemResource;
+use Biostate\FilamentMenuBuilder\Filament\Resources\MenuResource;
 use Hasnayeen\Themes\ThemesPlugin;
 use Hasnayeen\Themes\Http\Middleware\SetTheme;
 use Filament\Http\Middleware\Authenticate;
@@ -109,6 +111,7 @@ class AdminPanelProvider extends PanelProvider
                     ->navigationIcon('heroicon-o-photo')
                     ->navigationGroup('Menu')
                     ->navigationSort(6),
+                \Biostate\FilamentMenuBuilder\FilamentMenuBuilderPlugin::make(),
             ]);
     }
 
@@ -116,6 +119,11 @@ class AdminPanelProvider extends PanelProvider
     {
         View::composer('filament::layouts.app.topbar.end', function ($view) {
             $view->with('localeSwitcher', view('components.locale-switcher'));
+        });
+
+        \Filament\Facades\Filament::serving(function () {
+            MenuResource::navigationGroup('Settings');
+            MenuItemResource::canViewAny(fn() => false);
         });
     }
 }

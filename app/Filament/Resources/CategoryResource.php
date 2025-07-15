@@ -5,8 +5,6 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\CategoryResource\Pages;
 use App\Models\Category;
 use Awcodes\Curator\Components\Forms\CuratorPicker;
-use Filament\Facades\Filament;
-use Filament\Forms;
 use Filament\Forms\Components\Grid;
 use Filament\Forms\Components\RichEditor;
 use Filament\Forms\Components\TextInput;
@@ -15,9 +13,6 @@ use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Columns\ImageColumn;
 use Filament\Tables\Table;
-use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Str;
-use Stichoza\GoogleTranslate\GoogleTranslate;
 
 class CategoryResource extends Resource
 {
