@@ -22,6 +22,7 @@ class HomeController extends Controller
         $headerSubTitle = app(WebsiteSettings::class)->header_sub_title;
         $MainMenu = Menu::first();
         $menu = $MainMenu?->items()
+            ->whereNull('parent_id')
             ->with('children.children.children')
             ->defaultOrder()
             ->get() ?? collect();

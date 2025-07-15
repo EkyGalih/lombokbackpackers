@@ -5,7 +5,7 @@
     <div>
         <button @click="open = !open" type="button"
             class="flex items-center justify-between w-full px-2 py-1 hover:underline gap-1">
-            <span>{{ $item->name }}</span>
+            <a href="{{ config('app.url') . $item->url }}">{{ $item->name }}</a>
 
             @if ($item->children->count())
                 <svg xmlns="http://www.w3.org/2000/svg"
