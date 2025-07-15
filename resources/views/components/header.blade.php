@@ -84,22 +84,23 @@
             </ul>
         @endif
 
-        @guest
+        {{-- @guest
             <a href="{{ route('login') }}"
                 class="block py-2 px-3 rounded-lg hover:bg-cyan-600 hover:text-cyan-200 transition">
                 Masuk
-            </a>
+            </a> --}}
 
-            <a href="{{ route('register') }}"
-                class="block bg-cyan-300 text-orange-950 px-5 py-2 rounded-lg mt-2 hover:bg-cyan-600 text-center shadow transition">
-                Daftar
-            </a>
-        @else
+        <a href="https://wa.me/{{ app(\App\Settings\WebsiteSettings::class)->contact_phone }}?text={{ urlencode('halo saya ingin pesan paket tour') }}"
+            target="_blank"
+            class="block bg-lime-300 text-orange-950 px-5 py-2 rounded-lg mt-2 hover:bg-lime-200 text-center shadow transition">
+            Book Now
+        </a>
+        {{-- @else
             <a href="{{ route('profile.edit') }}"
                 class="block bg-cyan-300 text-orange-950 px-5 py-2 rounded-lg mt-2 hover:bg-cyan-600 text-center shadow transition">
                 My Account
             </a>
-        @endguest
+        @endguest --}}
     </div>
 </header>
 
