@@ -29,10 +29,14 @@
         {{-- Desktop Menu (≥ lg) --}}
         <div class="hidden lg:flex space-x-8 items-center">
             @php
-                $menu = \App\Models\Navigations::whereNull('parent_id')
-                    ->with(['childrenRecursive', 'parent'])
-                    ->orderBy('order')
-                    ->get();
+                $MainMenu = \Biostate\FilamentMenuBuilder\Models\Menu::first();
+                $menu =
+                    $MainMenu
+                        ?->items()
+                        ->whereNull('parent_id')
+                        ->with('children.children.children')
+                        ->defaultOrder()
+                        ->get() ?? collect();
             @endphp
 
             @if ($menu->isNotEmpty())

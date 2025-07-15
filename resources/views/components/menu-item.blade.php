@@ -3,9 +3,20 @@
 <li class="relative" x-data="{ open: false }" @click.outside="open = false">
     {{-- Item utama --}}
     <div>
-        <button @click="open = !open" type="button"
-            class="flex items-center justify-between w-full px-2 py-1 hover:underline gap-1">
-            <a href="{{ config('app.url') . $item->url }}">{{ $item->name }}</a>
+        <button
+            @if($item->children->count())
+                @click="open = !open"
+            @endif
+            type="button"
+            class="flex items-center justify-between w-full px-2 py-1 hover:underline gap-1"
+        >
+            @if ($item->children->count())
+                {{-- Parent: hanya span --}}
+                <span>{{ $item->name }}</span>
+            @else
+                {{-- Leaf: link --}}
+                <a href="{{ config('app.url') . $item->url }}">{{ $item->name }}</a>
+            @endif
 
             @if ($item->children->count())
                 <svg xmlns="http://www.w3.org/2000/svg"
