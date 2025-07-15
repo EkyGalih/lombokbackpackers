@@ -24,7 +24,7 @@ class HomeController extends Controller
         $menu = $MainMenu?->items()
             ->with('children.children.children')
             ->defaultOrder()
-            ->get();
+            ->get() ?? collect();
 
         // Fetch the latest tours, categories, and features`
         $tours = Tour::latest()->take(6)->get();
