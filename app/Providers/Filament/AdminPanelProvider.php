@@ -24,7 +24,6 @@ use Filament\Pages;
 use Filament\Panel;
 use Filament\PanelProvider;
 use Filament\Support\Colors\Color;
-use Filament\Widgets;
 use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
 use Illuminate\Cookie\Middleware\EncryptCookies;
 use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
@@ -42,29 +41,19 @@ class AdminPanelProvider extends PanelProvider
             ->id('admin')
             ->path('admin')
             ->login()
+            ->profile(\App\Filament\Resources\EditProfileResource\Pages\EditProfile::class)
+            ->spa()
+            ->breadcrumbs(false)
             ->colors([
                 'primary' => Color::Amber,
             ])
             ->userMenuItems([
-                // Locale sekarang (hanya label)
                 UserMenuItem::make()
                     ->label('🌐: ' . strtoupper(app()->getLocale()))
                     ->icon('heroicon-o-language')
-                    ->url('#'),
-
-                // // Link ke ID (hanya kalau bukan ID)
-                // UserMenuItem::make()
-                //     ->label('🇮🇩 ID')
-                //     ->url('/locale/id')
-                //     ->visible(fn() => app()->getLocale() !== 'id')
-                //     ->icon('heroicon-o-arrow-path'),
-
-                // // Link ke EN (hanya kalau bukan EN)
-                // UserMenuItem::make()
-                //     ->label('en EN')
-                //     ->url('/locale/en')
-                //     ->visible(fn() => app()->getLocale() !== 'en')
-                //     ->icon('heroicon-o-arrow-path'),
+                    ->url(fn() => route('admin-lang.switch', [
+                        'locale' => app()->getLocale() === 'id' ? 'en' : 'id',
+                    ])),
             ])
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')
             ->discoverPages(in: app_path('Filament/Pages'), for: 'App\\Filament\\Pages')
