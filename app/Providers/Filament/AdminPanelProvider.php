@@ -2,6 +2,7 @@
 
 namespace App\Providers\Filament;
 
+use App\Filament\Auth\Login;
 use App\Filament\Resources\ActivitiesWidgetResource\Widgets\ActivitiesWidget;
 use App\Filament\Resources\BookingPaymentChartResource\Widgets\BookingPaymentChart as WidgetsBookingPaymentChart;
 use App\Filament\Resources\CustomAccountWidgetResource\Widgets\CustomAccountWidget;
@@ -40,7 +41,7 @@ class AdminPanelProvider extends PanelProvider
             ->default()
             ->id('admin')
             ->path('admin')
-            ->login()
+            ->login(Login::class)
             ->profile(\App\Filament\Resources\EditProfileResource\Pages\EditProfile::class)
             ->spa()
             ->breadcrumbs(false)
