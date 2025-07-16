@@ -36,22 +36,6 @@ Route::middleware('auth')->group(function () {
         Route::get('/invoice/{booking}/download', [InvoiceController::class, 'download'])
             ->name('invoice.download');
     });
-
-
-
-    Route::get('/locale/{locale}', function (string $locale) {
-        session()->put('locale', $locale);
-
-        // Force reload untuk Livewire
-        return redirect(url()->previous() . '?_=' . $locale);
-    });
-
-    Route::get('/debug-locale/{locale}', function () {
-        return [
-            'session_locale' => session('locale'),
-            'app_locale' => app()->getLocale(),
-        ];
-    });
 });
 
 Route::post('booking/{id}', [BookingController::class, 'booking'])->name('booking_now');
@@ -85,3 +69,27 @@ Route::get('/verify-email/{id}/{hash}', function ($id, $hash) {
 
     return redirect()->route('dashboard')->with('status', 'Email berhasil diverifikasi!');
 })->middleware(['signed'])->name('verification.verify');
+
+Route::get('/set-foo', function () {
+    session(['foo' => 'bar']);
+    return 'Session foo set to bar';
+});
+
+Route::get('/get-foo', function () {
+    return 'Session foo is: ' . session('foo', 'not set');
+});
+
+Route::get('/debug-session', function () {
+    return session()->getId();
+});
+
+Route::get('/lang/{locale}', function ($locale) {
+    if (! in_array($locale, ['en', 'id'])) {
+        abort(400);
+    }
+    session(['locale' => $locale]);
+    session()->save(); // <<== penting untuk memastikan session tersimpan ke DB
+
+    // return dd(session());
+    return back();
+})->name('lang.switch');

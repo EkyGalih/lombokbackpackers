@@ -12,7 +12,7 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware): void {
-        $middleware->append(SetLocale::class);
+        $middleware->web(SetLocale::class);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         //

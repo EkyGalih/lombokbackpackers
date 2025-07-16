@@ -20,9 +20,18 @@
                             📞 {{ app(\App\Settings\WebsiteSettings::class)->contact_phone ?? '0812-3456-7890' }}
                         </div>
                         <div class="space-x-3 text-center sm:text-right">
-                            <a href="#" class="hover:underline">Facebook</a>
-                            <a href="#" class="hover:underline">Instagram</a>
-                            <a href="#" class="hover:underline">Twitter</a>
+                            <div class="ml-4">
+                                <a href="{{ route('lang.switch', 'id') }}"
+                                    class="{{ app()->getLocale() == 'id' ? 'font-bold underline' : '' }}">
+                                    ID
+                                </a>
+                                |
+                                <a href="{{ route('lang.switch', 'en') }}"
+                                    class="{{ app()->getLocale() == 'en' ? 'font-bold underline' : '' }}">
+                                    EN
+                                </a>
+                            </div>
+
                         </div>
                     </div>
                 </div>
@@ -58,9 +67,10 @@
                                 </a>
                             @else
                             @endguest --}}
-                            <a href="https://wa.me/{{ app(\App\Settings\WebsiteSettings::class)->contact_phone }}?text={{ urlencode("halo saya ingin pesan paket tour") }}" target="_blank"
+                            <a href="https://wa.me/{{ app(\App\Settings\WebsiteSettings::class)->contact_phone }}?text={{ urlencode('halo saya ingin pesan paket tour') }}"
+                                target="_blank"
                                 class="bg-lime-300 text-slate-900 px-5 py-2 rounded-lg shadow hover:bg-lime-200 transition">
-                                Book Now
+                                {{ __('button.book_now') }}
                             </a>
                         </div>
 
@@ -97,10 +107,11 @@
                                 Masuk
                             </a> --}}
 
-                            <a href="https://wa.me/{{ app(\App\Settings\WebsiteSettings::class)->contact_phone }}?text={{ urlencode("halo saya ingin pesan paket tour") }}" target="_blank"
-                                class="block bg-lime-300 text-orange-950 px-5 py-2 rounded-lg mt-2 hover:bg-lime-200 text-center shadow transition">
-                                Book Now
-                            </a>
+                        <a href="https://wa.me/{{ app(\App\Settings\WebsiteSettings::class)->contact_phone }}?text={{ urlencode('halo saya ingin pesan paket tour') }}"
+                            target="_blank"
+                            class="block bg-lime-300 text-orange-950 px-5 py-2 rounded-lg mt-2 hover:bg-lime-200 text-center shadow transition">
+                            {{ __('button.book_now') }}
+                        </a>
                         {{-- @else
                             <a href="{{ route('profile.edit') }}"
                                 class="block bg-cyan-300 text-orange-950 px-5 py-2 rounded-lg mt-2 hover:bg-cyan-600 text-center shadow transition">
@@ -194,7 +205,7 @@
                         </div>
                         <a :href="'{{ route('categories.show', '_SLUG_') }}'.replace('_SLUG_', slugs[activeTab])"
                             class="bg-lime-300 text-slate-900 font-semibold px-6 py-3 rounded-lg shadow rounded-br-3xl hover:bg-lime-200 transition">
-                            Explore More
+                            {{ __('button.explore') }}
                         </a>
                     </div>
                     {{-- TABS --}}
@@ -227,12 +238,10 @@
 
             <!-- Right: Content -->
             <div class="md:w-1/2 px-6">
-                <p class="text-sm uppercase tracking-widest text-gray-500 mb-2">Dapatkan Pengalaman yang disesuaikan
+                <p class="text-sm uppercase tracking-widest text-gray-500 mb-2">{{ __('features.title') }}
                 </p>
                 <h1 class="text-4xl font-bold leading-tight mb-6">
-                    <span class="bg-lime-200 px-1">Paspor Anda Menuju <span
-                            class="bg-lime-200 px-1">Petualangan</span>
-                        Yang Tak Terlupakan</span><br>
+                    <span class="bg-teal-900-200 hover:bg-lime-400 px-1">{{ __('features.subtitle') }}</span><br>
                 </h1>
 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
@@ -247,13 +256,13 @@
                             <h2 class="text-lg font-bold hover:text-lime-400 cursor-pointer mb-4">
                                 {{ $feature->title }}
                             </h2>
-                            <p class="text-gray-600 text-sm">{{ $feature->description }}</p>
+                            <p class="text-gray-600 text-sm">{!! $feature->description !!}</p>
                         </div>
                     @endforeach
                 </div>
 
                 <a href="#offerings" class="inline-block bg-lime-200 text-gray-800 px-6 py-3 rounded font-semibold">
-                    Discover Our Offerings
+                    {{ __('button.offering') }}
                 </a>
 
                 <div class="flex items-center mt-6">
@@ -300,10 +309,10 @@
     <section class="bg-sky-100 py-16">
         <div class="container mx-auto px-6 text-center">
             <h2 class="text-sm font-semibold tracking-widest text-cyan-950 uppercase mb-2">
-                Paket Tour Unggulan
+                {{ __('tours.title') }}
             </h2>
             <h2 class="text-5xl font-black mb-8 text-cyan-950 leading-tight tracking-tight">
-                Pilih Paket Perjalananmu
+                {{ __('tours.subtitle') }}
             </h2>
 
             @if ($categories->count())
@@ -338,7 +347,7 @@
                                 class="absolute bottom-4 left-0 right-0 flex justify-center opacity-0 group-hover:opacity-100 transform translate-y-6 group-hover:translate-y-0 transition-all duration-1000 ease-in-out z-30">
                                 <a href="{{ route('categories.show', $category->slug) }}"
                                     class="bg-transparent px-4 py-2 rounded text-white text-sm font-semibold shadow underline hover:underline-offset-1 transition">
-                                    Browse Trips
+                                    {{ __('button.trips') }}
                                 </a>
                             </div>
                         </div>
@@ -349,7 +358,7 @@
                 <div class="mt-10">
                     <a href="{{ route('categories.index') }}"
                         class="inline-block bg-teal-900 text-white px-6 py-3 rounded-lg rounded-br-3xl shadow hover:bg-lime-300 hover:text-slate-900 transition">
-                        Explore All Destinations
+                        {{ __('button.destination') }}
                     </a>
                 </div>
             @else
@@ -363,10 +372,10 @@
     <section class="bg-white py-16">
         <div class="container mx-auto px-6 text-center">
             <h2 class="text-sm font-semibold tracking-widest text-cyan-950 uppercase mb-2">
-                Kenapa Memilih Kami
+                {{ __('WhyUs.title') }}
             </h2>
             <h2 class="text-5xl font-black mb-8 text-cyan-950 leading-tight tracking-tight">
-                Pengalaman Perjalanan Terbaik
+                {{ __('WhyUs.subtitle') }}
             </h2>
 
             <section class="grid grid-cols-1 md:grid-cols-2 gap-8 p-8">
@@ -437,8 +446,8 @@
     {{-- wisata populer --}}
     <section class="py-12 bg-sky-100">
         <div class="container mx-auto px-4">
-            <h2 class="text-3xl font-bold text-center text-teal-800 mb-10">
-                Wisata Populer
+            <h2 class="text-3xl font-bold text-center text-teal-900 mb-10">
+                {{ __('PopularTrips.title') }}
             </h2>
 
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -487,7 +496,7 @@
                                 class="opacity-0 translate-y-4 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300 inline-block mt-1">
                                 <button
                                     class="px-3 py-1 text-sm bg-teal-700 text-white rounded hover:bg-teal-300 hover:text-teal-900 transition-colors">
-                                    Explore Trip →
+                                    {{ __('button.trips') }} →
                                 </button>
                             </span>
 
@@ -504,14 +513,13 @@
             <!-- Header -->
             <div class="flex flex-col md:flex-row md:items-center md:justify-between mb-12">
                 <div>
-                    <p class="text-sm uppercase tracking-widest text-gray-500 mb-2">News & Trends in Travel</p>
-                    <h2 class="text-4xl font-bold text-gray-900">News, Tips & Destination Stories</h2>
+                    <p class="text-sm uppercase tracking-widest text-gray-500 mb-2">{{ __('blogs.title') }}</p>
+                    <h2 class="text-4xl font-bold text-gray-900">{{ __('blogs.subtitle') }}</h2>
                 </div>
                 <div class="max-w-xl text-gray-600 mt-4 md:mt-0">
-                    Blandit conubia ullamcorper nullam dictum non. Tincidunt augue interdum velit euismod in
-                    pellentesque. Molestie nunc non blandit massa enim.
+                    {{ __('blogs.caption') }}
                     <br>
-                    <a href="#" class="text-blue-700 underline font-medium">View All Blogs</a>
+                    <a href="#" class="text-blue-700 underline font-medium">{{ __('button.view_all') }}</a>
                 </div>
             </div>
 
@@ -544,9 +552,9 @@
     <section class="relative bg-gradient-to-r from-teal-100 via-white to-teal-100 py-16 overflow-hidden">
         <div class="max-w-5xl mx-auto px-4">
             <div class="text-center mb-12">
-                <h2 class="text-4xl font-bold text-gray-900 mb-4 animate-fade-in-down">Hubungi Kami</h2>
+                <h2 class="text-4xl font-bold text-gray-900 mb-4 animate-fade-in-down">{{ __('contactUs.title') }}</h2>
                 <p class="text-gray-600 animate-fade-in-up">
-                    Hubungi kami kapan saja. Berikut cara menghubungi tim kami.
+                    {{ __('contactUs.subtitle') }}
                 </p>
             </div>
 
@@ -555,7 +563,7 @@
                     <div class="flex items-start space-x-4 animate-slide-in-left">
                         <div class="text-lime-500 text-3xl">📍</div>
                         <div>
-                            <h4 class="font-semibold text-gray-900">Our Office</h4>
+                            <h4 class="font-semibold text-gray-900">{{ __('contactUs.office') }}</h4>
                             <p class="text-gray-600">
                                 {{ app(\App\Settings\WebsiteSettings::class)->contact_address }}
                             </p>
@@ -565,7 +573,7 @@
                     <div class="flex items-start space-x-4 animate-slide-in-right delay-200">
                         <div class="text-lime-500 text-3xl">🌐</div>
                         <div>
-                            <h4 class="font-semibold text-gray-900">Follow Us</h4>
+                            <h4 class="font-semibold text-gray-900">{{ __('contactUs.follow') }}</h4>
                             <div class="flex space-x-4 mt-2">
                                 <a href="{{ app(\App\Settings\WebsiteSettings::class)->social_facebook }}"
                                     class="text-gray-500 hover:text-lime-500 transition" aria-label="Facebook">
@@ -600,7 +608,7 @@
                     <div class="flex items-start space-x-4 animate-slide-in-right">
                         <div class="text-lime-500 text-3xl">📞</div>
                         <div>
-                            <h4 class="font-semibold text-gray-900">Phone</h4>
+                            <h4 class="font-semibold text-gray-900">{{ __('contactUs.phone') }}</h4>
                             <p class="text-gray-600">{{ app(\App\Settings\WebsiteSettings::class)->contact_phone }}
                             </p>
                         </div>
