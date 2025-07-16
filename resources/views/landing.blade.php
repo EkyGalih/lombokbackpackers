@@ -20,18 +20,43 @@
                             📞 {{ app(\App\Settings\WebsiteSettings::class)->contact_phone ?? '0812-3456-7890' }}
                         </div>
                         <div class="space-x-3 text-center sm:text-right">
-                            <div class="ml-4">
+                            <div class="ml-4 inline-flex gap-2">
                                 <a href="{{ route('lang.switch', 'id') }}"
-                                    class="{{ app()->getLocale() == 'id' ? 'font-bold underline' : '' }}">
+                                    class="inline-flex items-center gap-1 {{ app()->getLocale() == 'id' ? 'font-bold underline' : '' }}">
+                                    <svg class="w-4 h-4" viewBox="0 0 512 512">
+                                        <circle cx="256" cy="256" r="256" fill="#fff" />
+                                        <path fill="#e70000" d="M256,0
+                                            A256,256 0 0,1 512,256
+                                            L0,256
+                                            A256,256 0 0,1 256,0z" />
+                                    </svg>
+
                                     ID
                                 </a>
                                 |
                                 <a href="{{ route('lang.switch', 'en') }}"
-                                    class="{{ app()->getLocale() == 'en' ? 'font-bold underline' : '' }}">
+                                    class="inline-flex items-center gap-1 {{ app()->getLocale() == 'en' ? 'font-bold underline' : '' }}">
+                                    <svg class="w-6 h-6" viewBox="0 0 60 30">
+                                        <clipPath id="circle">
+                                            <circle cx="30" cy="15" r="15" />
+                                        </clipPath>
+                                        <clipPath id="s">
+                                            <path d="M30,15 h30 v15 h-30 z M0,0 h30 v15 h-30 z" />
+                                        </clipPath>
+                                        <g clip-path="url(#circle)">
+                                            <path d="M0,0 v30 h60 v-30 z" fill="#012169" />
+                                            <path d="M0,0 L60,30 M60,0 L0,30" stroke="#fff" stroke-width="6" />
+                                            <path d="M0,0 L60,30 M60,0 L0,30" clip-path="url(#s)" stroke="#c8102e"
+                                                stroke-width="4" />
+                                            <path d="M30,0 v30 M0,15 h60" stroke="#fff" stroke-width="10" />
+                                            <path d="M30,0 v30 M0,15 h60" stroke="#c8102e" stroke-width="6" />
+                                        </g>
+                                    </svg>
                                     EN
                                 </a>
                             </div>
                         </div>
+
                     </div>
                 </div>
 
@@ -551,7 +576,8 @@
     <section class="relative bg-gradient-to-r from-teal-100 via-white to-teal-100 py-16 overflow-hidden">
         <div class="max-w-5xl mx-auto px-4">
             <div class="text-center mb-12">
-                <h2 class="text-4xl font-bold text-gray-900 mb-4 animate-fade-in-down">{{ __('contactUs.title') }}</h2>
+                <h2 class="text-4xl font-bold text-gray-900 mb-4 animate-fade-in-down">{{ __('contactUs.title') }}
+                </h2>
                 <p class="text-gray-600 animate-fade-in-up">
                     {{ __('contactUs.subtitle') }}
                 </p>
