@@ -2,8 +2,8 @@
     <x-slot name="nav">
         <section class="relative h-screen overflow-hidden">
             {{-- Background Gambar --}}
-            <img src="{{ asset(app(\App\Settings\WebsiteSettings::class)->header_image) ?? asset('defaults/no-image-header.png') }}"
-                alt="{{ app('storage/'.\App\Settings\WebsiteSettings::class)->site_name }}"
+            <img src="{{ asset('storage/'.app(\App\Settings\WebsiteSettings::class)->header_image) ?? asset('defaults/no-image-header.png') }}"
+                alt="{{ app(\App\Settings\WebsiteSettings::class)->site_name }}"
                 class="absolute inset-0 w-full h-full object-fill opacity-90 z-0">
 
             {{-- Overlay warna gradasi jika mau --}}

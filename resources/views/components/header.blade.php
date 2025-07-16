@@ -50,7 +50,7 @@
     <div class="container mx-auto flex justify-between items-center px-6 py-4">
         {{-- Logo --}}
         <a href="{{ url('/') }}" class="flex items-center space-x-3 text-2xl font-bold text-slate-800">
-            <img src="{{ imageOrDefault(app(\App\Settings\WebsiteSettings::class)->site_logo, 'card') }}"
+            <img src="{{ asset('storage/'.app(\App\Settings\WebsiteSettings::class)->site_logo) }}"
                 alt="{{ app(\App\Settings\WebsiteSettings::class)->site_name ?? config('app.name') }}"
                 class="h-10 w-10 object-cover rounded-full shadow bg-white" />
             <span>{{ app(\App\Settings\WebsiteSettings::class)->site_name ?? config('app.name') }}</span>
@@ -136,7 +136,7 @@
 
 <section class="relative h-44 overflow-hidden">
     {{-- Background Gambar --}}
-    <img src="{{ $image ?? imageOrDefault(app(\App\Settings\WebsiteSettings::class)->header_image, 'header') }}"
+    <img src="{{ $image ?? asset('storage/'.app(\App\Settings\WebsiteSettings::class)->header_image) }}"
         alt="{{ $alt ?? app(\App\Settings\WebsiteSettings::class)->site_name }}"
         class="absolute inset-0 w-full h-full object-cover opacity-50 filter blur-sm z-0">
 
