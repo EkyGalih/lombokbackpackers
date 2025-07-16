@@ -70,19 +70,6 @@ Route::get('/verify-email/{id}/{hash}', function ($id, $hash) {
     return redirect()->route('dashboard')->with('status', 'Email berhasil diverifikasi!');
 })->middleware(['signed'])->name('verification.verify');
 
-Route::get('/set-foo', function () {
-    session(['foo' => 'bar']);
-    return 'Session foo set to bar';
-});
-
-Route::get('/get-foo', function () {
-    return 'Session foo is: ' . session('foo', 'not set');
-});
-
-Route::get('/debug-session', function () {
-    return session()->getId();
-});
-
 Route::get('/lang/{locale}', function ($locale) {
     if (! in_array($locale, ['en', 'id'])) {
         abort(400);

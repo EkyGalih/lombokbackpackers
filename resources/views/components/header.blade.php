@@ -5,9 +5,17 @@
             📞 {{ app(\App\Settings\WebsiteSettings::class)->contact_phone ?? '0812-3456-7890' }}
         </div>
         <div class="space-x-3 text-center sm:text-right">
-            <a href="#" class="hover:underline">Facebook</a>
-            <a href="#" class="hover:underline">Instagram</a>
-            <a href="#" class="hover:underline">Twitter</a>
+            <div class="ml-4">
+                <a href="{{ route('lang.switch', 'id') }}"
+                    class="{{ app()->getLocale() == 'id' ? 'font-bold underline' : '' }}">
+                    ID
+                </a>
+                |
+                <a href="{{ route('lang.switch', 'en') }}"
+                    class="{{ app()->getLocale() == 'en' ? 'font-bold underline' : '' }}">
+                    EN
+                </a>
+            </div>
         </div>
     </div>
 </div>
@@ -56,7 +64,7 @@
             <a href="https://wa.me/{{ app(\App\Settings\WebsiteSettings::class)->contact_phone }}?text={{ urlencode('halo saya ingin pesan paket tour') }}"
                 target="_blank"
                 class="bg-lime-300 text-slate-900 px-5 py-2 rounded-lg shadow hover:bg-lime-200 transition">
-                Book Now
+                {{ __('button.book_now') }}
             </a>
             {{-- @endguest --}}
         </div>
@@ -90,10 +98,10 @@
                 Masuk
             </a> --}}
 
-        <a href="https://wa.me/{{ app(\App\Settings\WebsiteSettings::class)->contact_phone }}?text={{ urlencode('halo saya ingin pesan paket tour') }}"
+        <a href="https://wa.me/{{ app(\App\Settings\WebsiteSettings::class)->contact_phone }}?text={{ urlencode(__('message.message')) }}"
             target="_blank"
             class="block bg-lime-300 text-orange-950 px-5 py-2 rounded-lg mt-2 hover:bg-lime-200 text-center shadow transition">
-            Book Now
+            {{ __('button.book_now') }}
         </a>
         {{-- @else
             <a href="{{ route('profile.edit') }}"

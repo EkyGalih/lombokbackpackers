@@ -1,6 +1,7 @@
 <x-guest-layout>
     <x-slot name="nav">
-        <x-header title="Destinasi Wisata" breadcrumb="Destination > {{ $category->name }}"
+        <x-header title="{{ __('destination.title') }}"
+            breadcrumb="{{ __('destination.breadcrumb') }} > {{ $category->name }}"
             image="{{ imageOrDefault($category->media?->first()?->url, 'header') }}" alt="{{ $category->name }}" />
     </x-slot>
     {{-- Paket Tour Section --}}
@@ -15,7 +16,8 @@
 
                             {{-- Gambar full --}}
                             <div class="overflow-hidden"> {{-- Tambahkan pembungkus supaya crop gambar ketika zoom --}}
-                                <img src="{{ imageOrDefault($tour->media?->first()?->url, 'card') }}" alt="{{ $tour->title }}"
+                                <img src="{{ imageOrDefault($tour->media?->first()?->url, 'card') }}"
+                                    alt="{{ $tour->title }}"
                                     class="w-full h-[500px] object-cover transform transition-transform duration-500 ease-in-out group-hover:scale-110">
                             </div>
 
@@ -28,13 +30,14 @@
 
                                 <p
                                     class="text-xl font-semibold text-white transition-all duration-700 ease-in-out group-hover:-translate-y-2 group-hover:text-lime-300">
-                                    Price From ({{ $category->formatCurrency($tour->lowest_price) }} -
+                                    {{ __('destination.price') }} ({{ $category->formatCurrency($tour->lowest_price) }}
+                                    -
                                     {{ $category->formatCurrency($tour->highest_price) }})
                                 </p>
 
                                 <a href="{{ route('tours.show', $tour->slug) }}"
                                     class="inline-block opacity-0 translate-y-2 group-hover:opacity-100 group-hover:translate-y-0 text-white font-bold underline transition-all duration-1000 ease-in-out">
-                                    Browse Trips
+                                    {{ __('button.trips') }}
                                 </a>
                             </div>
                         </div>

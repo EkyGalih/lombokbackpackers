@@ -4,7 +4,7 @@
 
 <x-guest-layout>
     <x-slot name="nav">
-        <x-header title="{{ $tour->title }}" breadcrumb="Destination > {{ $tour->category->name }}"
+        <x-header title="{{ $tour->title }}" breadcrumb="{{ __('destination.breadcrumb') }} > {{ $tour->category->name }}"
             image="{{ imageOrDefault($tour->media?->first()?->url, 'header') }}" alt="{{ $tour->name }}" />
     </x-slot>
     <div class="max-w-7xl mx-auto px-4">
@@ -22,7 +22,7 @@
                 <div class="flex items-center gap-4">
                     <p class="text-gray-800 font-semibold rounded border border-gray-200 px-3 py-2 text-justify"
                         style="border-radius: 0.25rem;">
-                        Packet
+                        {{ __('tours.packet') }}
                         @if (!empty($tour->packet) && is_array($tour->packet))
                             @foreach ($tour->packet as $item)
                                 <span class="text-sm block">
@@ -40,7 +40,7 @@
             <div
                 class="bg-blue-100 rounded-lg mt-6 p-4 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
                 <div class="text-gray-800 text-sm font-medium">
-                    Duration: {{ $tour->duration }}
+                    {{ __('tours.caption') }}: {{ $tour->duration }}
                 </div>
                 <div class="flex items-center gap-4">
                     <div class="flex gap-2">
@@ -97,7 +97,7 @@
             <div class="flex justify-center gap-2 mb-4 flex-wrap">
                 <button @click="tab = 'overview'" :class="tab === 'overview' ? 'bg-teal-900 text-white' : 'bg-lime-400'"
                     class="px-4 py-2 rounded shadow flex items-center gap-2">
-                    Overview
+                    {{ __('tours.overview') }}
                     <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 ml-1" fill="none" viewBox="0 0 24 24"
                         stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -106,7 +106,7 @@
                 </button>
                 <button @click="tab = 'info'" :class="tab === 'info' ? 'bg-teal-900 text-white' : 'bg-lime-400'"
                     class="px-4 py-2 rounded shadow flex items-center gap-2">
-                    Notes
+                    {{ __('tours.notes') }}
                     <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 ml-1" fill="none" viewBox="0 0 24 24"
                         stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -115,7 +115,7 @@
                 </button>
                 <button @click="tab = 'terms'" :class="tab === 'terms' ? 'bg-teal-900 text-white' : 'bg-lime-400'"
                     class="px-4 py-2 rounded shadow flex items-center gap-2">
-                    Itinerary
+                    {{ __('tours.itinerary') }}
                     <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 ml-1" fill="none" viewBox="0 0 24 24"
                         stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -183,7 +183,7 @@
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                     {{-- Includes --}}
                     <div>
-                        <h3 class="text-xl pace-y-2 text-gray-700 font-bold mb-4">Tour Price Includes:</h3>
+                        <h3 class="text-xl pace-y-2 text-gray-700 font-bold mb-4">{{ __('tours.include') }}:</h3>
                         <div class="prose prose-xs max-w-none text-gray-800">
                             {!! $tour->include !!}
                         </div>
@@ -191,7 +191,7 @@
 
                     {{-- Excludes --}}
                     <div class="md:border-l md:pl-6">
-                        <h3 class="text-xl space-y-2 text-gray-700 font-bold mb-4">Tour Price Excludes:</h3>
+                        <h3 class="text-xl space-y-2 text-gray-700 font-bold mb-4">{{ __('tours.exclude') }}:</h3>
                         <div class="prose prose-xs max-w-none text-gray-800">
                             {!! $tour->exclude !!}
                         </div>
@@ -286,7 +286,7 @@
                     <div>
                         <button type="submit"
                             class="w-full inline-flex justify-center items-center rounded-lg bg-lime-600 px-6 py-3 text-white font-semibold shadow-sm hover:bg-lime-700 hover:shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-lime-500 transition">
-                            Book Now
+                            {{ __('button.book_now') }}
                         </button>
                     </div>
                     {{-- </form> --}}

@@ -99,9 +99,8 @@
                     <li><a href="#"
                             class="hover:underline hover:text-cyan-300 transition-all duration-300">Tours</a></li>
                     <li><a href="#"
-                            class="hover:underline hover:text-cyan-300 transition-all duration-300">Bookings</a></li>
-                    <li><a href="#"
-                            class="hover:underline hover:text-cyan-300 transition-all duration-300">Contact</a></li>
+                            class="hover:underline hover:text-cyan-300 transition-all duration-300">Destinations</a>
+                    </li>
                     <li><a href="#" class="hover:underline hover:text-cyan-300 transition-all duration-300">About
                             Us</a></li>
                 </ul>
@@ -112,24 +111,27 @@
                 <h4 class="text-lg font-semibold mb-3">Contact</h4>
                 <p class="text-sm">📧 {{ app(\App\Settings\WebsiteSettings::class)->contact_email }}</p>
                 <p class="text-sm">📞 {{ app(\App\Settings\WebsiteSettings::class)->contact_phone }}</p>
-                <p class="text-sm mt-2">🌏 Follow us:</p>
+                <p class="text-sm mt-2">🌏 {{ __('contactUs.follow') }}:</p>
                 <div class="flex space-x-3 mt-2">
-                    <a href="#"
+                    <a href="{{ app(\App\Settings\WebsiteSettings::class)->social_facebook }}"
                         class="w-8 h-8 flex items-center justify-center rounded-full bg-white/10 hover:bg-cyan-600 transition-transform transform hover:rotate-12">
-                        <svg class="w-4 h-4" fill="currentColor">
-                            <use xlink:href="#icon-facebook"></use>
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                            <path
+                                d="M22 12c0-5.5228-4.4772-10-10-10S2 6.4772 2 12c0 5.0027 3.657 9.128 8.438 9.878V15.47H7.898v-3.47h2.54v-2.644c0-2.5078 1.493-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.24 0-1.627.77-1.627 1.562V12h2.773l-.443 3.47h-2.33v6.407C18.343 21.128 22 17.003 22 12Z" />
                         </svg>
                     </a>
-                    <a href="#"
+                    <a href="{{ app(\App\Settings\WebsiteSettings::class)->social_x }}"
                         class="w-8 h-8 flex items-center justify-center rounded-full bg-white/10 hover:bg-cyan-600 transition-transform transform hover:-rotate-12">
-                        <svg class="w-4 h-4" fill="currentColor">
-                            <use xlink:href="#icon-twitter"></use>
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                            <path
+                                d="M4.54 3h4.74l3.27 4.98L16.03 3h3.43l-5.52 7.49L20.74 21h-4.74l-3.6-5.46L8.03 21H4.6l5.74-7.8L4.54 3Zm3.13 1.08L15.19 20h1.14L8.83 4.08H7.67Z" />
                         </svg>
                     </a>
-                    <a href="#"
+                    <a href="{{ app(\App\Settings\WebsiteSettings::class)->social_instagram }}"
                         class="w-8 h-8 flex items-center justify-center rounded-full bg-white/10 hover:bg-cyan-600 transition-transform transform hover:rotate-12">
-                        <svg class="w-4 h-4" fill="currentColor">
-                            <use xlink:href="#icon-instagram"></use>
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                            <path
+                                d="M7 2C4.239 2 2 4.239 2 7v10c0 2.761 2.239 5 5 5h10c2.761 0 5-2.239 5-5V7c0-2.761-2.239-5-5-5H7Zm10 2c1.654 0 3 1.346 3 3v10c0 1.654-1.346 3-3 3H7c-1.654 0-3-1.346-3-3V7c0-1.654 1.346-3 3-3h10ZM12 7c-2.757 0-5 2.243-5 5s2.243 5 5 5 5-2.243 5-5-2.243-5-5-5Zm0 2c1.654 0 3 1.346 3 3s-1.346 3-3 3-3-1.346-3-3 1.346-3 3-3Zm4.5-3a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3Z" />
                         </svg>
                     </a>
                 </div>

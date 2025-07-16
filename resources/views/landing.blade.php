@@ -31,7 +31,6 @@
                                     EN
                                 </a>
                             </div>
-
                         </div>
                     </div>
                 </div>
@@ -67,7 +66,7 @@
                                 </a>
                             @else
                             @endguest --}}
-                            <a href="https://wa.me/{{ app(\App\Settings\WebsiteSettings::class)->contact_phone }}?text={{ urlencode('halo saya ingin pesan paket tour') }}"
+                            <a href="https://wa.me/{{ app(\App\Settings\WebsiteSettings::class)->contact_phone }}?text={{ urlencode(__('message.message')) }}"
                                 target="_blank"
                                 class="bg-lime-300 text-slate-900 px-5 py-2 rounded-lg shadow hover:bg-lime-200 transition">
                                 {{ __('button.book_now') }}

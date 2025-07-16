@@ -1,6 +1,6 @@
 <x-guest-layout>
     <x-slot name="nav">
-        <x-header title="Destinasi Wisata" breadcrumb="Destinasi Wisata" />
+        <x-header title="{{ __('destination.title') }}" breadcrumb="{{ __('destination.title') }}" />
     </x-slot>
     {{-- Paket Tour Section --}}
     <section class="bg-gray-100 py-16">
@@ -56,7 +56,7 @@
 
                         <!-- Destinations -->
                         <div class="bg-blue-100 p-4 rounded-lg">
-                            <h1 class="font-bold text-left mb-4 text-lg md:text-3xl">Destinations</h1>
+                            <h1 class="font-bold text-left mb-4 text-lg md:text-3xl">{{ __('destination.breadcrumb') }}</h1>
                             <div class="flex flex-wrap gap-2">
                                 @foreach ($categories as $dest)
                                     <button

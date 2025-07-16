@@ -82,10 +82,9 @@ class BookingController extends Controller
 
         // Buat pesan
         $pesan = urlencode(
-            "Halo, saya ingin booking paket tour berikut:\n"
-            . "Nama Paket: {$tour->name}\n"
+            __('message.message')."\n"
+            . "{$tour->title}\n"
             // . "Harga: Rp " . number_format($tour->price) . "\n"
-            . "Terima kasih."
         );
 
         // Buat URL WhatsApp
