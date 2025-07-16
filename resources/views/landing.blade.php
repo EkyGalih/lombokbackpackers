@@ -3,7 +3,7 @@
         <section class="relative h-screen overflow-hidden">
             {{-- Background Gambar --}}
             <img src="{{ asset(app(\App\Settings\WebsiteSettings::class)->header_image) ?? asset('defaults/no-image-header.png') }}"
-                alt="{{ app(\App\Settings\WebsiteSettings::class)->site_name }}"
+                alt="{{ app('storage/'.\App\Settings\WebsiteSettings::class)->site_name }}"
                 class="absolute inset-0 w-full h-full object-fill opacity-90 z-0">
 
             {{-- Overlay warna gradasi jika mau --}}
@@ -67,7 +67,7 @@
                     <div class="container mx-auto flex justify-between items-center px-6 py-4">
                         {{-- Logo --}}
                         <a href="{{ url('/') }}" class="flex items-center space-x-3 text-2xl font-bold text-white">
-                            <img src="{{ asset(app(\App\Settings\WebsiteSettings::class)->site_logo) ?? asset('defaults/no-image.png') }}"
+                            <img src="{{ asset('storage/'.app(\App\Settings\WebsiteSettings::class)->site_logo) ?? asset('defaults/no-image.png') }}"
                                 alt="{{ app(\App\Settings\WebsiteSettings::class)->site_name ?? config('app.name') }}"
                                 class="h-10 w-10 object-cover rounded-full shadow bg-white" />
                             <span>{{ app(\App\Settings\WebsiteSettings::class)->site_name ?? config('app.name') }}</span>
