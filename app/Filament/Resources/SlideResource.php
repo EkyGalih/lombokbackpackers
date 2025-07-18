@@ -3,11 +3,8 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\SlideResource\Pages;
-use App\Filament\Resources\SlideResource\RelationManagers;
 use App\Models\Slides;
 use Awcodes\Curator\Components\Forms\CuratorPicker;
-use Dom\Text;
-use Filament\Forms;
 use Filament\Forms\Components\Grid;
 use Filament\Forms\Components\RichEditor;
 use Filament\Forms\Components\TextInput;
@@ -19,8 +16,6 @@ use Filament\Tables\Actions\EditAction;
 use Filament\Tables\Columns\ImageColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class SlideResource extends Resource
 {

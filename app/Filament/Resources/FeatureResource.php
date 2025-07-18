@@ -5,7 +5,6 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\FeatureResource\Pages;
 use App\Models\Features;
 use Awcodes\Curator\Components\Forms\CuratorPicker;
-use Filament\Forms;
 use Filament\Forms\Components\Grid;
 use Filament\Forms\Components\RichEditor;
 use Filament\Forms\Components\TextInput;

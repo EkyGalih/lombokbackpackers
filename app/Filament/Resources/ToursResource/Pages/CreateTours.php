@@ -3,6 +3,7 @@
 namespace App\Filament\Resources\ToursResource\Pages;
 
 use App\Filament\Resources\ToursResource;
+use App\Models\Category;
 use Filament\Resources\Pages\CreateRecord;
 use Illuminate\Support\Str;
 
@@ -14,20 +15,20 @@ class CreateTours extends CreateRecord
     {
         unset($data['seoMeta']); // Buang seoMeta
 
-        // Cari kategori dengan name->id sama (case-insensitive)
-        $category = \App\Models\Category::whereRaw(
-            'LOWER(JSON_UNQUOTE(JSON_EXTRACT(name, "$.id"))) = ?',
-            [strtolower($data['category_name'])]
-        )->first();
+        $slug = Str::slug($data['category_name']);
 
-        if (! $category) {
-            $category = \App\Models\Category::create([
-                'id' => \Illuminate\Support\Str::uuid()->toString(),
+        // cati kategory yang sudah ada berdasarkan slug
+        $category = Category::whereRaw('LOWER(slug) = ?', [strtolower($slug)])->first();
+
+        if (!$category) {
+            // kalau belum ada, buat slug unik
+            $category = Category::create([
+                'id' => Str::uuid()->toString(),
                 'name' => [
                     'en' => $data['category_name'],
                     'id' => $data['category_name'],
                 ],
-                'slug' => Str::slug($data['category_name']),
+                'slug' => $slug,
             ]);
         }
 
