@@ -50,7 +50,7 @@
     <div class="container mx-auto flex justify-between items-center px-6 py-4">
         {{-- Logo --}}
         <a href="{{ url('/') }}" class="flex items-center space-x-3 text-2xl font-bold text-slate-800">
-            <img src="{{ asset('storage/'.app(\App\Settings\WebsiteSettings::class)->site_logo) }}"
+            <img src="{{ asset('storage/' . app(\App\Settings\WebsiteSettings::class)->site_logo) }}"
                 alt="{{ app(\App\Settings\WebsiteSettings::class)->site_name ?? config('app.name') }}"
                 class="h-10 w-10 object-cover rounded-full shadow bg-white" />
             <span>{{ app(\App\Settings\WebsiteSettings::class)->site_name ?? config('app.name') }}</span>
@@ -83,11 +83,7 @@
                     Masuk
                 </a>
             @else --}}
-            <a href="https://wa.me/{{ app(\App\Settings\WebsiteSettings::class)->contact_phone }}?text={{ urlencode('halo saya ingin pesan paket tour') }}"
-                target="_blank"
-                class="bg-lime-300 text-slate-900 px-5 py-2 rounded-lg shadow hover:bg-lime-200 transition">
-                {{ __('button.book_now') }}
-            </a>
+            <x-booking-modal />
             {{-- @endguest --}}
         </div>
 
@@ -120,11 +116,7 @@
                 Masuk
             </a> --}}
 
-        <a href="https://wa.me/{{ app(\App\Settings\WebsiteSettings::class)->contact_phone }}?text={{ urlencode(__('message.message')) }}"
-            target="_blank"
-            class="block bg-lime-300 text-orange-950 px-5 py-2 rounded-lg mt-2 hover:bg-lime-200 text-center shadow transition">
-            {{ __('button.book_now') }}
-        </a>
+        <x-booking-modal />
         {{-- @else
             <a href="{{ route('profile.edit') }}"
                 class="block bg-cyan-300 text-orange-950 px-5 py-2 rounded-lg mt-2 hover:bg-cyan-600 text-center shadow transition">
@@ -136,7 +128,7 @@
 
 <section class="relative h-44 overflow-hidden">
     {{-- Background Gambar --}}
-    <img src="{{ $image ?? asset('storage/'.app(\App\Settings\WebsiteSettings::class)->header_image) }}"
+    <img src="{{ $image ?? asset('storage/' . app(\App\Settings\WebsiteSettings::class)->header_image) }}"
         alt="{{ $alt ?? app(\App\Settings\WebsiteSettings::class)->site_name }}"
         class="absolute inset-0 w-full h-full object-cover opacity-50 filter blur-sm z-0">
 
@@ -153,9 +145,9 @@
                 {{ $title }}
             </h1>
             @if ($breadcrumb != null)
-            <p class="text-xs md:text-sm mb-4 font-semibold text-white drop-shadow">
-                Home > {{ $breadcrumb }}
-            </p>
+                <p class="text-xs md:text-sm mb-4 font-semibold text-white drop-shadow">
+                    Home > {{ $breadcrumb }}
+                </p>
             @endif
         </div>
     </div>
