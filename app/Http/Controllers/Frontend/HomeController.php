@@ -28,11 +28,19 @@ class HomeController extends Controller
             ->get() ?? collect();
 
         // Fetch the latest tours, categories, and features`
+        $data = Tour::orderByDesc('updated_at')->get();
+        $programs = $data->map(function ($tour) {
+            return [
+                'id' => $tour->id,
+                'title' => $tour->title,
+                'packet' => $tour->packet,
+            ];
+        });
         $tours = Tour::latest()->take(6)->get();
         $categories = Category::with(['tours'])->get();
         $features = Features::all();
         $popularTours = Tour::orderByDesc('rating')->take(6)->get();
-        $slides = Slides::limit(3)->orderByDesc('updated_at')->get();
+        $slides = Category::orderByDesc('updated_at')->get();
         $features = Features::limit(4)->orderByDesc('updated_at')->get();
         $posts = Posts::limit(3)->orderByDesc('updated_at')->get();
         $customers = Customer::with('user')->whereHas(
@@ -46,6 +54,7 @@ class HomeController extends Controller
         return view('landing', compact(
             'menu',
             'tours',
+            'programs',
             'categories',
             'features',
             'popularTours',

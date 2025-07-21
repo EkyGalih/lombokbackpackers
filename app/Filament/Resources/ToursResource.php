@@ -11,7 +11,6 @@ use Filament\Forms\Components\Grid;
 use Filament\Forms\Components\Hidden;
 use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\RichEditor;
-use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Tabs;
 use Filament\Forms\Components\Tabs\Tab;
 use Filament\Forms\Components\Textarea;
@@ -45,6 +44,7 @@ class ToursResource extends Resource
                         Hidden::make('user_id')->default(auth()->id()),
                         TextInput::make('title')
                             ->required()
+                            ->placeholder('e.g: Traveling with us 4 days, 3 nights to komodo island')
                             ->live(onBlur: true)
                             ->formatStateUsing(function ($state) {
                                 if (is_array($state)) {
@@ -61,6 +61,7 @@ class ToursResource extends Resource
                         Grid::make(12)->schema([
                             TextInput::make('category_name')
                                 ->label('Category')
+                                ->placeholder('ambil berdasarkan category yang sudah ada atau buat baru')
                                 ->datalist(
                                     Category::pluck('name')->toArray()
                                 )
@@ -156,6 +157,7 @@ class ToursResource extends Resource
                             ->schema([
                                 TextInput::make('value')
                                     ->label('Packet (Price & Person)')
+                                    ->placeholder('e.g: 1 Person, 500.000 or 1 pack, 1.000.000')
                                     ->required(),
                             ])
                             ->formatStateUsing(function ($state) {

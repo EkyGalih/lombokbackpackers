@@ -152,9 +152,11 @@
             <h1 class="text-4xl md:text-6xl font-extrabold mb-2 text-white drop-shadow-lg">
                 {{ $title }}
             </h1>
+            @if ($breadcrumb != null)
             <p class="text-xs md:text-sm mb-4 font-semibold text-white drop-shadow">
                 Home > {{ $breadcrumb }}
             </p>
+            @endif
         </div>
     </div>
 </section>

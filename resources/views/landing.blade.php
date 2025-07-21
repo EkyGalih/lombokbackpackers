@@ -2,7 +2,7 @@
     <x-slot name="nav">
         <section class="relative h-screen overflow-hidden">
             {{-- Background Gambar --}}
-            <img src="{{ asset('storage/'.app(\App\Settings\WebsiteSettings::class)->header_image) ?? asset('defaults/no-image-header.png') }}"
+            <img src="{{ asset('storage/' . app(\App\Settings\WebsiteSettings::class)->header_image) ?? asset('defaults/no-image-header.png') }}"
                 alt="{{ app(\App\Settings\WebsiteSettings::class)->site_name }}"
                 class="absolute inset-0 w-full h-full object-fill opacity-90 z-0">
 
@@ -67,7 +67,7 @@
                     <div class="container mx-auto flex justify-between items-center px-6 py-4">
                         {{-- Logo --}}
                         <a href="{{ url('/') }}" class="flex items-center space-x-3 text-2xl font-bold text-white">
-                            <img src="{{ asset('storage/'.app(\App\Settings\WebsiteSettings::class)->site_logo) ?? asset('defaults/no-image.png') }}"
+                            <img src="{{ asset('storage/' . app(\App\Settings\WebsiteSettings::class)->site_logo) ?? asset('defaults/no-image.png') }}"
                                 alt="{{ app(\App\Settings\WebsiteSettings::class)->site_name ?? config('app.name') }}"
                                 class="h-10 w-10 object-cover rounded-full shadow bg-white" />
                             <span>{{ app(\App\Settings\WebsiteSettings::class)->site_name ?? config('app.name') }}</span>
@@ -90,11 +90,135 @@
                                 </a>
                             @else
                             @endguest --}}
-                            <a href="https://wa.me/{{ app(\App\Settings\WebsiteSettings::class)->contact_phone }}?text={{ urlencode(__('message.message')) }}"
-                                target="_blank"
-                                class="bg-lime-300 text-slate-900 px-5 py-2 rounded-lg shadow hover:bg-lime-200 transition">
-                                {{ __('button.book_now') }}
-                            </a>
+
+                            <div x-data="{ open: false }" class="relative">
+                                <!-- Tombol -->
+                                <button @click="open = true"
+                                    class="bg-lime-300 text-slate-900 px-5 py-2 rounded-lg shadow hover:bg-lime-200 transition">
+                                    {{ __('button.book_now') }}
+                                </button>
+
+                                <!-- Overlay -->
+                                <div x-show="open" x-transition:enter="transition ease-out duration-300"
+                                    x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100"
+                                    x-transition:leave="transition ease-in duration-200"
+                                    x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0"
+                                    class="fixed inset-0 bg-black bg-opacity-50 z-40">
+                                </div>
+
+                                <!-- Modal -->
+                                <div x-show="open" x-transition:enter="transition ease-out duration-300"
+                                    x-transition:enter-start="opacity-0 translate-y-4 scale-95"
+                                    x-transition:enter-end="opacity-100 translate-y-0 scale-100"
+                                    x-transition:leave="transition ease-in duration-200"
+                                    x-transition:leave-start="opacity-100 translate-y-0 scale-100"
+                                    x-transition:leave-end="opacity-0 translate-y-4 scale-95"
+                                    class="fixed inset-0 z-50 flex items-center justify-center p-4">
+                                    <div @click.away="open = false"
+                                        class="bg-white rounded-xl shadow-2xl p-8 w-full max-w-lg relative">
+
+                                        <!-- Close button -->
+                                        <button @click="open = false"
+                                            class="absolute top-2 right-2 text-gray-400 hover:text-gray-600">
+                                            ✖
+                                        </button>
+
+                                        <h2 class="text-2xl font-bold mb-6 text-teal-600">
+                                            {{ __('message.form.title') }}
+                                        </h2>
+
+                                        <form method="POST" action="{{ route('book') }}" class="space-y-4">
+                                            @csrf
+                                            <div>
+                                                <label
+                                                    class="block text-sm font-medium text-gray-700">{{ __('message.form.name') }}</label>
+                                                <input type="text" name="nama" required
+                                                    class="mt-1 block w-full rounded-lg text-slate-900 border-gray-300 shadow-sm focus:ring-teal-500 focus:border-teal-500">
+                                            </div>
+
+                                            <div>
+                                                <label
+                                                    class="block text-sm font-medium text-gray-700">{{ __('message.form.pax') }}</label>
+                                                <input type="number" name="pax" required
+                                                    class="mt-1 block w-full rounded-lg text-slate-900 border-gray-300 shadow-sm focus:ring-teal-500 focus:border-teal-500">
+                                            </div>
+
+                                            <div>
+                                                <label
+                                                    class="block text-sm font-medium text-gray-700">{{ __('message.form.national') }}</label>
+                                                <input type="text" name="nationality" required
+                                                    class="mt-1 block w-full rounded-lg text-slate-900 border-gray-300 shadow-sm focus:ring-teal-500 focus:border-teal-500">
+                                            </div>
+
+                                            <div x-data="{
+                                                selectedProgram: '',
+                                                programs: @js($programs),
+                                                getPackets() {
+                                                    const prog = this.programs.find(p => p.id === this.selectedProgram);
+                                                    if (!prog) return [];
+                                                    const str = prog.packet ?? '';
+                                                    return str.split(',').map(s => s.trim());
+                                                }
+                                            }">
+                                                <!-- Program -->
+                                                <div>
+                                                    <label
+                                                        class="block text-sm font-medium text-gray-700">Program</label>
+                                                    <select name="program" x-model="selectedProgram"
+                                                        class="mt-1 block w-full rounded-lg text-slate-900 border-gray-300 shadow-sm focus:ring-teal-500 focus:border-teal-500">
+                                                        <option value="">Pilih Program</option>
+                                                        @foreach ($programs as $program)
+                                                            <option value="{{ $program['id'] }}">
+                                                                {{ $program['title'] ?? $program['title'] }}
+                                                            </option>
+                                                        @endforeach
+                                                    </select>
+                                                </div>
+
+                                                <!-- Packet -->
+                                                <div class="mt-4">
+                                                    <label
+                                                        class="block text-sm font-medium text-gray-700">Packet</label>
+                                                    <select name="packet" x-model="selectedPacket"
+                                                        class="mt-1 block w-full rounded-lg text-slate-900 border-gray-300 shadow-sm bg-gray-100">
+                                                        <option value="">Pilih Paket</option>
+                                                        <template x-for="pkt in getPackets()" :key="pkt">
+                                                            <option x-text="pkt" :value="pkt"></option>
+                                                        </template>
+                                                    </select>
+                                                </div>
+                                            </div>
+
+                                            <div>
+                                                <label
+                                                    class="block text-sm font-medium text-gray-700">{{ __('message.form.dep_date') }}</label>
+                                                <input type="date" name="dep_date" required
+                                                    class="mt-1 block w-full rounded-lg text-slate-900 border-gray-300 shadow-sm focus:ring-teal-500 focus:border-teal-500">
+                                            </div>
+
+                                            <div>
+                                                <label
+                                                    class="block text-sm font-medium text-gray-700">{{ __('message.form.message') }}</label>
+                                                <textarea name="pesan" rows="3"
+                                                    class="mt-1 block w-full rounded-lg text-slate-900 border-gray-300 shadow-sm focus:ring-teal-500 focus:border-teal-500"></textarea>
+                                            </div>
+
+                                            <div class="flex justify-end space-x-3 pt-4">
+                                                <button type="button" @click="open = false"
+                                                    class="px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition">
+                                                    {{ __('message.form.cancel') }}
+                                                </button>
+                                                <button type="submit"
+                                                    class="px-4 py-2 bg-gradient-to-r from-teal-600 to-lime-600 text-white rounded-lg shadow hover:from-teal-700 hover:to-lime-700 transition">
+                                                    {{ __('message.form.send') }}
+                                                </button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+
+
                         </div>
 
                         {{-- Hamburger Button (< lg) --}}
@@ -145,59 +269,8 @@
                 </header>
 
                 {{-- HERO --}}
-                <div x-data="{
-                    activeTab: '{{ $categories->first()?->id ?? '' }}',
-                    showModal: false,
-                    modalIndex: 0,
-                    slugs: {
-                        @foreach ($categories->take(4) as $category)
-                '{{ $category->id }}': '{{ $category->slug }}', @endforeach
-                    },
-                    images: {
-                        @foreach ($categories->take(4) as $category)
-                '{{ $category->id }}': [
-                    @foreach ($category->tours as $tour)
-                        '{{ imageOrDefault($tour->media?->first()?->url, 'card') }}', @endforeach
-                    ],
-                    @endforeach
-                }
-                }"
-                    class="relative flex flex-col items-center justify-center min-h-screen text-center px-4"
-                    @keydown.escape.window="showModal = false">
-
-                    {{-- MODAL GAMBAR --}}
-                    <div x-show="showModal" x-transition.opacity
-                        class="fixed inset-0 bg-black/70 flex items-center justify-center z-50"
-                        @click.self="showModal = false">
-                        <div class="relative bg-transparent rounded-lg shadow-lg h-full w-full overflow-hidden">
-
-                            <!-- Tombol close di luar gambar -->
-                            <button @click="showModal = false"
-                                class="absolute top-4 right-4 text-white text-3xl z-20">&times;</button>
-
-                            <!-- Gambar + panah -->
-                            <div class="relative flex items-center justify-center h-full w-full">
-                                <img :src="images[activeTab][modalIndex]" alt=""
-                                    class="w-96 h-96 object-cover rounded-lg">
-
-                                <!-- Tombol prev -->
-                                <button
-                                    @click="modalIndex = (modalIndex - 1 + images[activeTab].length) % images[activeTab].length"
-                                    class="absolute left-8 top-1/2 transform -translate-y-1/2 text-white text-4xl bg-transparent rounded-full w-10 h-10 flex items-center justify-center z-10">
-                                    &#10094;
-                                </button>
-
-                                <!-- Tombol next -->
-                                <button @click="modalIndex = (modalIndex + 1) % images[activeTab].length"
-                                    class="absolute right-8 top-1/2 transform -translate-y-1/2 text-white text-4xl bg-transparent rounded-full w-10 h-10 flex items-center justify-center z-10">
-                                    &#10095;
-                                </button>
-                            </div>
-
-                        </div>
-                    </div>
-
-                    <div class="text-center z-10 px-4 max-w-3xl">
+                <div class="relative flex flex-col items-center justify-center min-h-screen text-center px-4">
+                    <div class="z-10 px-4 w-full max-w-3xl -translate-y-10">
                         <h1
                             class="text-2xl sm:text-4xl md:text-6xl font-bold mb-2 sm:mb-4 bg-gradient-to-r from-white to-lime-300 bg-clip-text text-transparent">
                             {{ $headerTitle }}
@@ -205,45 +278,6 @@
                         <p class="text-sm sm:text-lg md:text-xl mb-4 sm:mb-8 text-white">
                             {{ $headerSubTitle }}
                         </p>
-
-                        <div class="flex flex-wrap justify-center gap-4 mb-12 sm:mb-20 relative">
-                            <template x-for="(img, index) in images[activeTab]" :key="activeTab + '-' + index">
-                                <div
-                                    class="relative group w-32 sm:w-40 md:w-52 h-32 sm:h-40 rounded-md shadow-md overflow-hidden border border-transparent transition-transform duration-500 ease-in-out hover:scale-105 hover:border-orange-400 hover:rounded-br-full">
-                                    <img :src="img" alt=""
-                                        class="w-full h-full object-cover rounded-md opacity-0 animate-fade-in-up transform transition-transform duration-300 group-hover:scale-105"
-                                        x-init="$el.classList.remove('opacity-0')">
-
-                                    <button @click="showModal = true; modalIndex = index"
-                                        class="absolute inset-0 flex items-center bg-gradient-to-r from-black/50 to-black/50 justify-center opacity-0 group-hover:opacity-100 transition duration-300">
-                                        <svg xmlns="http://www.w3.org/2000/svg"
-                                            class="h-8 w-8 sm:h-10 sm:w-10 text-white z-20" fill="none"
-                                            viewBox="0 0 24 24" stroke="currentColor">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                                        </svg>
-                                    </button>
-                                </div>
-                            </template>
-                        </div>
-                        <a :href="'{{ route('categories.show', '_SLUG_') }}'.replace('_SLUG_', slugs[activeTab])"
-                            class="bg-lime-300 text-slate-900 font-semibold px-6 py-3 rounded-lg shadow rounded-br-3xl hover:bg-lime-200 transition">
-                            {{ __('button.explore') }}
-                        </a>
-                    </div>
-                    {{-- TABS --}}
-                    <div
-                        class="z-30 grid grid-cols-2 gap-2 px-2 mb-8 mt-8 sm:mt-12 sm:flex sm:flex-wrap sm:justify-center sm:gap-4 sm:px-4 sm:mb-12">
-                        @foreach ($categories->take(4) as $category)
-                            <button @click="activeTab = '{{ $category->id }}'"
-                                :class="activeTab === '{{ $category->id }}'
-                                    ?
-                                    'bg-lime-300 text-slate-900' :
-                                    'bg-white bg-opacity-20 text-white'"
-                                class="font-semibold px-4 py-2 sm:px-8 sm:py-3 rounded-lg rounded-br-3xl w-full sm:w-72 text-center">
-                                {{ $loop->iteration }}. {{ $category->name }}
-                            </button>
-                        @endforeach
                     </div>
                 </div>
 
@@ -251,82 +285,43 @@
         </section>
     </x-slot>
 
-    {{-- services --}}
-    <section class="bg-white py-20">
-        <div class="container mx-auto flex flex-col md:flex-row items-center">
-            <!-- Left: Image -->
-            <div class="md:w-1/2 flex justify-center mb-8 md:mb-0">
-                <img src="{{ asset('defaults/features.jpg') }}" alt="Traveler" class="max-w-xs md:max-w-sm">
-            </div>
+    <section class="bg-gray-100 py-8 px-8">
+        <div class="relative w-full">
+            <div class="swiper w-full">
+                <div class="swiper-wrapper">
+                    @foreach ($slides as $slider)
+                        <div class="swiper-slide">
+                            <div class="container max-w-screen-xl mx-auto px-4">
+                                <div class="grid md:grid-cols-2 gap-8 items-center">
+                                    <!-- Gambar -->
+                                    <div class="overflow-hidden rounded-lg shadow-lg">
+                                        <img src="{{ $slider->media?->first()?->url }}"
+                                            alt="{{ $slider->name ?? '-' }}" class="w-full h-96 object-cover">
+                                    </div>
 
-            <!-- Right: Content -->
-            <div class="md:w-1/2 px-6">
-                <p class="text-sm uppercase tracking-widest text-gray-500 mb-2">{{ __('features.title') }}
-                </p>
-                <h1 class="text-4xl font-bold leading-tight mb-6">
-                    <span class="bg-teal-900-200 hover:bg-lime-400 px-1">{{ __('features.subtitle') }}</span><br>
-                </h1>
-
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-                    @foreach ($features->take(6) as $feature)
-                        <div>
-                            <div class="text-2xl mb-4">
-                                <div class="flex items-center justify-start">
-                                    <img src="{{ $feature->media?->first()?->url }}" alt="{{ $feature->title }}"
-                                        class="w-12 h-12 rounded-full object-cover mr-3">
+                                    <!-- Tulisan -->
+                                    <div class="space-y-4">
+                                        <h2 class="text-3xl md:text-4xl font-bold text-gray-800">
+                                            {{ $slider->name ?? '-' }}
+                                        </h2>
+                                        <p class="text-gray-600 text-lg">
+                                            {!! $slider->description ?? '-' !!}
+                                        </p>
+                                    </div>
                                 </div>
                             </div>
-                            <h2 class="text-lg font-bold hover:text-lime-400 cursor-pointer mb-4">
-                                {{ $feature->title }}
-                            </h2>
-                            <p class="text-gray-600 text-sm">{!! $feature->description !!}</p>
                         </div>
                     @endforeach
                 </div>
 
-                <a href="#offerings" class="inline-block bg-lime-200 text-gray-800 px-6 py-3 rounded font-semibold">
-                    {{ __('button.offering') }}
-                </a>
-
-                <div class="flex items-center mt-6">
-                    <div class="flex -space-x-5">
-                        @php
-                            $colors = [
-                                'bg-red-500',
-                                'bg-blue-500',
-                                'bg-green-500',
-                                'bg-yellow-500',
-                                'bg-purple-500',
-                                'bg-pink-500',
-                                'bg-teal-500',
-                                'bg-orange-500',
-                                'bg-cyan-500',
-                                'bg-indigo-500',
-                            ];
-                        @endphp
-
-                        @foreach ($customers->take(5) as $customer)
-                            @php
-                                $color = $colors[array_rand($colors)];
-                                $initials = collect(explode(' ', $customer->name))
-                                    ->map(fn($part) => \Illuminate\Support\Str::substr($part, 0, 1))
-                                    ->take(2)
-                                    ->join('');
-                            @endphp
-
-                            <div
-                                class="w-10 h-10 rounded-full border-2 border-white text-white flex items-center justify-center text-sm font-bold {{ $color }}">
-                                {{ $initials }}
-                            </div>
-                        @endforeach
-                    </div>
-                    <div class="ml-4 text-sm">
-                        <span class="text-lg font-bold">{{ $customers->count() }}</span> Active Travelers
-                    </div>
-                </div>
+                <!-- Navigasi -->
+                <div class="swiper-pagination mt-4"></div>
+                <div class="swiper-button-prev absolute -left-32"></div>
+                <div class="swiper-button-next absolute -right-32"></div>
             </div>
         </div>
     </section>
+
 
     {{-- Paket Tour Section --}}
     <section class="bg-sky-100 py-16">

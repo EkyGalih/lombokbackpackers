@@ -4,6 +4,7 @@ use App\Http\Controllers\Frontend\BookingController;
 use App\Http\Controllers\Frontend\CategoryController;
 use App\Http\Controllers\Frontend\HomeController;
 use App\Http\Controllers\Frontend\InvoiceController;
+use App\Http\Controllers\Frontend\PagesController;
 use App\Http\Controllers\Frontend\PaymentController;
 use App\Http\Controllers\Frontend\PostsController;
 use App\Http\Controllers\Frontend\TourController;
@@ -49,7 +50,8 @@ Route::middleware('auth')->group(function () {
     })->name('admin-lang.switch');
 });
 
-Route::post('booking/{id}', [BookingController::class, 'booking'])->name('booking_now');
+Route::post('booking', [BookingController::class, 'book'])->name('book');
+Route::post('booking/{id?}', [BookingController::class, 'booking'])->name('booking_now');
 
 Route::group(['prefix' => 'destinations'], function () {
     Route::get('/', [CategoryController::class, 'index'])->name('categories.index');
@@ -63,6 +65,10 @@ Route::group(['prefix' => 'tours'], function () {
 
 Route::group(['prefix' => 'blog'], function () {
     Route::get('/{slug}', [PostsController::class, 'show'])->name('blog.show');
+});
+
+Route::group(['prefix' => 'page'], function () {
+    Route::get('/{slug}', [PagesController::class, 'show'])->name('page.show');
 });
 
 require __DIR__ . '/auth.php';

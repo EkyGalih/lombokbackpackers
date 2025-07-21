@@ -45,14 +45,39 @@
         .swiper-pagination-bullet {
             width: 12px;
             height: 12px;
-            background: rgba(255, 255, 255, 0.5);
+            background: rgba(255, 255, 255, 0.3);
+            /* lebih samar dari 0.5 */
             border-radius: 0;
-            /* 👈 ini bikin jadi kotak */
+            /* kotak */
             margin: 0 4px;
+            transition: all 0.3s ease;
         }
 
         .swiper-pagination-bullet-active {
-            background: #fff;
+            background: rgba(255, 255, 255, 0.8);
+            /* lebih jelas */
+        }
+
+        .swiper-pagination {
+            bottom: 0px;
+            /* default */
+        }
+
+        .swiper-pagination {
+            bottom: -20px;
+            /* lebih ke bawah */
+        }
+
+        .swiper-button-prev,
+        .swiper-button-next {
+            color: #000;
+            opacity: 0.3;
+            transition: all 0.3s ease;
+        }
+
+        .swiper-button-prev:hover,
+        .swiper-button-next:hover {
+            opacity: 0.8;
         }
     </style>
     <link
@@ -72,6 +97,7 @@
         </div>
     </div> --}}
     {{-- Animasi plane loading --}}
+
     {{ $nav ?? '' }}
 
     {{ $slot }}
@@ -159,7 +185,7 @@
         new Swiper('.swiper', {
             loop: true,
             autoplay: {
-                delay: 3000,
+                delay: 9000,
                 disableOnInteraction: false
             },
             pagination: {

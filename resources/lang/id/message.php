@@ -2,6 +2,20 @@
 
 return [
     'message' => 'Hi. Saya ingin memesan paket wisata',
+    'form' => [
+        'title' => 'Form Pemesanan',
+        'name' => 'Nama',
+        'pax' => 'Jumlah Orang (Pax)',
+        'national' => 'Negara',
+        'program' => 'Destinasi Tujuan',
+        'packet' => 'Paket',
+        'dep_date' => 'Tanggal Kedatangan',
+        'message' => 'Pesan',
+        'people' => 'Orang',
+        'thanks' => 'Terima Kaish',
+        'cancel' => 'Batal',
+        'send' => 'Pesan'
+    ],
 
     '404' => [
         'title' => 'Konten Tidak Ditemukan',

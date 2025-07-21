@@ -2,6 +2,20 @@
 
 return [
     'message' => 'Hi. I want to order a tour package',
+    'form' => [
+        'title' => 'Order Form',
+        'name' => 'Name',
+        'pax' => 'Pax',
+        'national' => 'Nationality',
+        'program' => 'Destinations',
+        'packet' => 'Packet',
+        'dep_date' => 'Departure Date',
+        'message' => 'Message',
+        'people' => 'Person',
+        'thanks' => 'Thanks',
+        'cancel' => 'Cancel',
+        'send' => 'Send Booking'
+    ],
 
     '404' => [
         'title' => 'Content Not Found',
