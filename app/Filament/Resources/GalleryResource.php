@@ -131,7 +131,7 @@ class GalleryResource extends Resource
     {
         return [
             'index' => Pages\ListGalleries::route('/'),
-            // 'create' => Pages\CreateGallery::route('/create'),
+            'create' => Pages\CreateGallery::route('/create'),
             'edit' => Pages\EditGallery::route('/{record}/edit'),
         ];
     }

@@ -11,6 +11,7 @@ use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
+use Filament\Forms\Components\Toggle;
 use Filament\Tables\Columns\ImageColumn;
 use Filament\Tables\Table;
 
@@ -56,7 +57,15 @@ class CategoryResource extends Resource
                         ->acceptedFileTypes(['image/*'])
                         ->columnSpan(6)
                         ->multiple(),
-                ])
+                ]),
+            Toggle::make('show_to_home')
+                ->label('Show To Home?')
+                ->inline(false)
+                ->onColor('success')
+                ->offColor('danger')
+                ->onIcon('heroicon-m-check')
+                ->offIcon('heroicon-m-x-mark')
+                ->required(),
         ]);
     }
 
@@ -70,6 +79,14 @@ class CategoryResource extends Resource
                     ->size(56),
                 Tables\Columns\TextColumn::make('name')->sortable()->searchable(),
                 Tables\Columns\TextColumn::make('slug')->sortable()->searchable(),
+                Tables\Columns\TextColumn::make('show_to_home')
+                    ->label('Show To Home')
+                    ->badge()
+                    ->colors([
+                        'false' => 'secondary',
+                        'true' => 'success',
+                    ])
+                    ->formatStateUsing(fn($state) => $state ? 'Yes' : 'No'),
             ])
             ->filters([
                 //
@@ -96,7 +113,7 @@ class CategoryResource extends Resource
     {
         return [
             'index' => Pages\ListCategories::route('/'),
-            // 'create' => Pages\CreateCategory::route('/create'),
+            'create' => Pages\CreateCategory::route('/create'),
             'edit' => Pages\EditCategory::route('/{record}/edit'),
         ];
     }

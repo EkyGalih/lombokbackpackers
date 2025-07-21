@@ -40,7 +40,7 @@ class HomeController extends Controller
         $categories = Category::with(['tours'])->get();
         $features = Features::all();
         $popularTours = Tour::orderByDesc('rating')->take(6)->get();
-        $slides = Category::orderByDesc('updated_at')->get();
+        $slides = Category::orderByDesc('updated_at')->where('show_to_home', true)->get();
         $features = Features::limit(4)->orderByDesc('updated_at')->get();
         $posts = Posts::limit(3)->orderByDesc('updated_at')->get();
         $customers = Customer::with('user')->whereHas(

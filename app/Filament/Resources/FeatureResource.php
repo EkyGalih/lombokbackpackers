@@ -101,8 +101,13 @@ class FeatureResource extends Resource
     {
         return [
             'index' => Pages\ListFeatures::route('/'),
-            // 'create' => Pages\CreateFeature::route('/create'),
+            'create' => Pages\CreateFeature::route('/create'),
             'edit' => Pages\EditFeature::route('/{record}/edit'),
         ];
+    }
+
+    public static function shouldRegisterNavigation(): bool
+    {
+        return false; // 🔥 ini bikin menu resource hilang
     }
 }
