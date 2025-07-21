@@ -98,7 +98,7 @@ class AdminPanelProvider extends PanelProvider
                 CuratorPlugin::make()
                     ->label('Media Library')
                     ->pluralLabel('Media Library')
-                    ->navigationIcon('heroicon-o-photo')
+                    ->navigationIcon('heroicon-o-camera')
                     ->navigationGroup('Menu')
                     ->navigationSort(6),
                 \Biostate\FilamentMenuBuilder\FilamentMenuBuilderPlugin::make(),

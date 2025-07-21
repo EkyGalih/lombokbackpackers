@@ -29,7 +29,7 @@ class PagesResource extends Resource
 {
     protected static ?string $model = ModelPages::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-book-open';
     protected static ?string $navigationGroup = 'Menu';
     protected static ?string $navigationLabel = 'Pages';
     protected static ?int $navigationSort = 10;
