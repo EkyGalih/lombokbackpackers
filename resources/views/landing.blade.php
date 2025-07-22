@@ -166,7 +166,7 @@
                     @foreach ($slides as $slider)
                         <div class="swiper-slide">
                             <div class="container max-w-screen-xl mx-auto px-4">
-                                <div class="grid md:grid-cols-2 gap-8 items-center">
+                                <div class="grid md:grid-cols-2 gap-x-96 items-center">
                                     <!-- Gambar -->
                                     <div class="overflow-hidden rounded-lg shadow-lg">
                                         <img src="{{ $slider->media?->first()?->url }}"
@@ -355,32 +355,8 @@
 
                             <!-- Info -->
                             <div class="transition-all duration-300 group-hover:-translate-y-6">
-                                <h3 class="text-lg font-semibold text-white">{{ $item->title }}</h3>
-                                <ul class="text-sm text-gray-200 space-y-1">
-                                    <li>
-                                        @if ($item->lowest_price)
-                                            Rp {{ number_format($item->lowest_price, 0, ',', '.') }}
-                                        @else
-                                            Rp. 0
-                                        @endif
-                                    </li>
-                                    <li>{{ $item->duration }}</li>
-                                    <li>
-                                        @php
-                                            $ratingValue = $item->ratings->avg('rating') ?? 0;
-                                        @endphp
-
-                                        <div class="flex gap-1">
-                                            @for ($i = 1; $i <= 5; $i++)
-                                                @if ($i <= $ratingValue)
-                                                    <span class="text-yellow-400">★</span>
-                                                @else
-                                                    <span class="text-gray-300">★</span>
-                                                @endif
-                                            @endfor
-                                        </div>
-                                    </li>
-                                </ul>
+                                <h3 class="text-lg font-semibold text-white transition-transform duration-700 ease-in-out transform group-hover:-translate-y-4">{{ $item->title }}</h3>
+                                <h3 class="text-xs text-white transition-transform duration-1000 ease-in-out transform group-hover:-translate-y-4">{!! Str::limit($item->content, 50) !!}</h3>
                             </div>
 
                             <!-- Tombol muncul saat hover -->
@@ -388,7 +364,7 @@
                                 class="opacity-0 translate-y-4 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300 inline-block mt-1">
                                 <button
                                     class="px-3 py-1 text-sm bg-teal-700 text-white rounded hover:bg-teal-300 hover:text-teal-900 transition-colors">
-                                    {{ __('button.trips') }} →
+                                    {{ __('button.read') }} →
                                 </button>
                             </span>
 
@@ -520,10 +496,7 @@
             </div>
             <!-- Google Maps -->
             <div class="w-full h-96 mt-10 rounded-lg overflow-hidden shadow-lg animate-fade-in-up">
-                <iframe
-                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d126914.50833836473!2d106.6894306!3d-6.2297282!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e69f1579f63c7fd%3A0xb29f4e22be74e6a1!2sJakarta%20Pusat!5e0!3m2!1sen!2sid!4v1720673000000!5m2!1sen!2sid"
-                    width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy"
-                    referrerpolicy="no-referrer-when-downgrade"></iframe>
+                {!! app(\App\Settings\WebsiteSettings::class)->maps !!}
             </div>
         </div>
 

@@ -6,5 +6,6 @@ return [
     'offering' => 'Discover our offerings',
     'destination' => 'Explore All Destinations',
     'trips' => 'Explore Trips',
-    'view_all' => 'View All'
+    'view_all' => 'View All',
+    'read' => 'Read More'
 ];

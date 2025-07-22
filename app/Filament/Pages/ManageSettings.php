@@ -8,6 +8,7 @@ use Filament\Forms\Components\Grid;
 use Filament\Forms\Components\RichEditor;
 use Filament\Forms\Components\Tabs;
 use Filament\Forms\Components\Tabs\Tab;
+use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Pages\SettingsPage;
@@ -37,6 +38,11 @@ class ManageSettings extends SettingsPage
 
                                 TextInput::make('header_sub_title')
                                     ->label('Header Caption'),
+
+                                Textarea::make('maps')
+                                    ->label('Maps')
+                                    ->rows(4)
+                                    ->columnSpanFull(),
 
                                 Grid::make(12)
                                     ->schema([

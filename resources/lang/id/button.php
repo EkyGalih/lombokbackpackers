@@ -6,5 +6,6 @@ return [
     'offering' => 'Temukan penawaran kami',
     'destination' => 'Jelajahi Semua Destinasi',
     'trips' => 'Jelajahi Wisata',
-    'view_all' => 'Lihat Semua'
+    'view_all' => 'Lihat Semua',
+    'read' => 'Selengkapnya'
 ];

@@ -195,9 +195,18 @@ class PostsResource extends Resource
                 TextColumn::make('status')
                     ->label('Status')
                     ->badge()
+                    ->formatStateUsing(fn(bool $state) => $state ? 'published' : 'draft')
                     ->colors([
                         'draft' => 'secondary',
                         'published' => 'success',
+                    ]),
+                TextColumn::make('is_popular_post')
+                    ->label('Popular Post')
+                    ->badge()
+                    ->formatStateUsing(fn(bool $state) => $state ? 'Yes' : 'No')
+                    ->colors([
+                        'Yes' => 'success',
+                        'No' => 'secondary',
                     ]),
                 TextColumn::make('created_at')->label('Published At')->dateTime(),
             ])
