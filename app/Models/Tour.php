@@ -58,7 +58,7 @@ class Tour extends Model
 
     protected static function booted(): void
     {
-        static::creating(function ($tour) {
+        static::saving(function ($tour) {
             // slug hanya pakai locale default
             $currentLocale = app()->getLocale();
             $title = $tour->title;

@@ -1,12 +1,1 @@
-/* .curator-picker-grid {
-    display: grid !important;
-    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
-    gap: 1rem;
-    list-style: none;
-    padding: 0;
-    margin: 0;
-}
-
-.curator-picker-grid li {
-    aspect-ratio: 1 / 1;
-} */
+@import '../../vendor/pboivin/filament-peek/resources/css/plugin.css';

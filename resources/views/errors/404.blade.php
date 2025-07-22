@@ -10,10 +10,10 @@
             <p class="mt-2 text-gray-600 dark:text-gray-300">
                 {{ __('message.404.subtitle') }}
             </p>
-            <a href="{{ route('home') }}"
+            <button onclick="return history.back(-1)"
                 class="inline-flex mt-6 items-center px-4 py-2 bg-teal-600 hover:bg-teal-700 text-white text-sm font-medium rounded-md shadow-sm">
                 ⬅️ {{ __('message.404.button') }}
-            </a>
+            </button>
         </div>
     </div>
 </x-guest-layout>

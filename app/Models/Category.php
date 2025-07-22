@@ -21,7 +21,7 @@ class Category extends Model
 
     public static function booted(): void
     {
-        static::creating(function ($category) {
+        static::saving(function ($category) {
             // gunakan locale aktif
             $currentLocale = app()->getLocale();
             $name = $category->name;

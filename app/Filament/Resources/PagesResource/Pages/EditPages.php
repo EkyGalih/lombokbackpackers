@@ -3,16 +3,28 @@
 namespace App\Filament\Resources\PagesResource\Pages;
 
 use App\Filament\Resources\PagesResource;
+use App\Traits\HasPreview;
 use Filament\Actions;
 use Filament\Resources\Pages\EditRecord;
 
 class EditPages extends EditRecord
 {
+    use HasPreview;
+
     protected static string $resource = PagesResource::class;
 
     protected function getHeaderActions(): array
     {
         return [
+            Actions\Action::make('preview')
+                ->label('Preview')
+                ->icon('heroicon-o-eye')
+                ->url(fn() => route('page.show', [
+                    'page' => $this->record->slug,
+                    'previewToken' => $this->generatePreviewSession(),
+                ]))
+                ->openUrlInNewTab(),
+
             Actions\DeleteAction::make(),
         ];
     }

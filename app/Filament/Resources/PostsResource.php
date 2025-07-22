@@ -8,6 +8,7 @@ use Awcodes\Curator\Components\Forms\CuratorPicker;
 use Filament\Forms\Components\Grid;
 use Filament\Forms\Components\Hidden;
 use Filament\Forms\Components\RichEditor;
+use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Tabs;
 use Filament\Forms\Components\Tabs\Tab;
 use Filament\Forms\Components\TagsInput;
@@ -59,18 +60,7 @@ class PostsResource extends Resource
                                             // set url seo
                                             $set('seoMeta.canonical_url', url(ENV('APP_URL') . '/posts/' . str($state)->slug()));
                                         })
-                                        ->columnSpan(6),
-                                    TextInput::make('slug')
-                                        ->readonly()
-                                        ->formatStateUsing(function ($state) {
-                                            if (is_array($state)) {
-                                                return $state[app()->getLocale()] ?? '';
-                                            }
-                                            return $state;
-                                        })
-                                        ->columnSpan(6)
-                                        ->required()
-                                        ->unique(ignoreRecord: true),
+                                        ->columnSpan(12)
                                 ]),
                             RichEditor::make('excerpt')
                                 ->hidden()
@@ -118,20 +108,41 @@ class PostsResource extends Resource
                                                 ->label('Tags')
                                                 ->dehydrateStateUsing(fn($state) => $state ?? [])
                                                 ->columnSpan(6),
-                                            CuratorPicker::make('media')
-                                                ->label('Thumbnail')
-                                                ->multiple()
+                                            Select::make('category')
+                                                ->label('Category')
+                                                ->options([
+                                                    'blog' => 'Blog',
+                                                    'stories' => 'Stories',
+                                                    'tips' => 'Tips',
+                                                    'other' => 'Other',
+                                                ])
                                                 ->columnSpan(6),
                                         ]),
                                 ]),
-                            Toggle::make('status')
-                                ->label('Published?')
-                                ->inline(false)
-                                ->onColor('success')
-                                ->offColor('danger')
-                                ->onIcon('heroicon-m-check')
-                                ->offIcon('heroicon-m-x-mark')
-                                ->required(),
+                            Grid::make(12)
+                                ->schema([
+                                    Toggle::make('status')
+                                        ->label('Published?')
+                                        ->inline(false)
+                                        ->onColor('success')
+                                        ->offColor('danger')
+                                        ->onIcon('heroicon-m-check')
+                                        ->offIcon('heroicon-m-x-mark')
+                                        ->columnSpan(3)
+                                        ->required(),
+                                    Toggle::make('is_popular_post')
+                                        ->label('Make a Popular Content?')
+                                        ->inline(false)
+                                        ->onColor('success')
+                                        ->offColor('danger')
+                                        ->onIcon('heroicon-m-check')
+                                        ->offIcon('heroicon-m-x-mark')
+                                        ->columnSpan(3),
+                                    CuratorPicker::make('media')
+                                        ->label('Thumbnail')
+                                        ->multiple()
+                                        ->columnSpan(6),
+                                ]),
 
                             Hidden::make('author_id')->default(auth()->id()),
                         ]),
@@ -160,8 +171,8 @@ class PostsResource extends Resource
                                     return $state;
                                 })
                                 ->label('Keywords'),
-                            TextInput::make('seoMeta.canonical_url')->label('Canonical URL'),
-                            TextInput::make('seoMeta.robots')->label('Robots')->default('index, follow'),
+                            TextInput::make('seoMeta.canonical_url')->readOnly()->label('Canonical URL'),
+                            TextInput::make('seoMeta.robots')->readOnly()->label('Robots')->default('index, follow'),
                         ]),
                     ]),
             ]);

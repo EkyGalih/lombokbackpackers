@@ -32,6 +32,7 @@ use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\Support\Facades\View;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
+use Pboivin\FilamentPeek\FilamentPeekPlugin;
 
 class AdminPanelProvider extends PanelProvider
 {
@@ -102,6 +103,8 @@ class AdminPanelProvider extends PanelProvider
                     ->navigationGroup('Menu')
                     ->navigationSort(6),
                 \Biostate\FilamentMenuBuilder\FilamentMenuBuilderPlugin::make(),
+                FilamentPeekPlugin::make()
+                ->disablePluginStyles(),
             ]);
     }
 

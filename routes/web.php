@@ -59,16 +59,16 @@ Route::group(['prefix' => 'destinations'], function () {
 });
 Route::group(['prefix' => 'tours'], function () {
     Route::get('/', [TourController::class, 'index'])->name('tours.index');
-    Route::get('/{slug}', [TourController::class, 'show'])->name('tours.show');
+    Route::get('/{tours:slug}', [TourController::class, 'show'])->name('tours.show');
     Route::post('/rate/{tour}', [TourController::class, 'rate'])->name('tours.rate')->middleware('auth');
 });
 
 Route::group(['prefix' => 'blog'], function () {
-    Route::get('/{slug}', [PostsController::class, 'show'])->name('blog.show');
+    Route::get('/{blog:slug}', [PostsController::class, 'show'])->name('blog.show');
 });
 
 Route::group(['prefix' => 'page'], function () {
-    Route::get('/{slug}', [PagesController::class, 'show'])->name('page.show');
+    Route::get('/{page:slug}', [PagesController::class, 'show'])->name('page.show');
 });
 
 require __DIR__ . '/auth.php';

@@ -4,12 +4,33 @@ namespace App\Filament\Resources\ToursResource\Pages;
 
 use App\Filament\Resources\ToursResource;
 use App\Models\Category;
+use App\Traits\HasPreview;
+use Filament\Actions\Action;
+use Filament\Actions\DeleteAction;
 use Filament\Resources\Pages\EditRecord;
 use Illuminate\Support\Str;
 
 class EditTours extends EditRecord
 {
+    use HasPreview;
+
     protected static string $resource = ToursResource::class;
+
+    protected function getHeaderActions(): array
+    {
+        return [
+            Action::make('preview')
+                ->label('Preview')
+                ->icon('heroicon-o-eye')
+                ->url(fn() => route('tours.show', [
+                    'tours' => $this->record->slug,
+                    'previewToken' => $this->generatePreviewSession(),
+                ]))
+                ->openUrlInNewTab(),
+
+            DeleteAction::make(),
+        ];
+    }
 
     protected function mutateFormDataBeforeFill(array $data): array
     {

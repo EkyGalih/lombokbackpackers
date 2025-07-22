@@ -157,7 +157,7 @@ class ToursResource extends Resource
                             ->schema([
                                 TextInput::make('value')
                                     ->label('Packet (Price & Person)')
-                                    ->placeholder('e.g: 1 Person, 500.000 or 1 pack, 1.000.000')
+                                    ->placeholder('e.g: 1 Person - 500.000 or 1 pack - 1.000.000')
                                     ->required(),
                             ])
                             ->formatStateUsing(function ($state) {
