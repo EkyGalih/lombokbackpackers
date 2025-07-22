@@ -46,9 +46,4 @@ class CreateTours extends CreateRecord
             $this->record->seoMeta()->create($seoData);
         }
     }
-
-    protected function getRedirectUrl(): string
-    {
-        return $this->getResource()::getUrl('index');
-    }
 }
