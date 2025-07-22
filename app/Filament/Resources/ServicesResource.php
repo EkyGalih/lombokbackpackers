@@ -22,6 +22,7 @@ class ServicesResource extends Resource
     protected static ?string $navigationIcon = 'heroicon-o-briefcase';
     protected static ?string $navigationGroup = 'Menu';
     protected static ?string $navigationLabel = 'Services';
+    protected static ?string $pluralModelLabel = 'Services (Why Choose Us?)';
     protected static ?int $navigationSort = 6;
 
     public static function form(Form $form): Form
@@ -41,7 +42,7 @@ class ServicesResource extends Resource
                 Grid::make(12)
                     ->schema([
                         RichEditor::make('description')
-                            ->columnSpan(6)
+                            ->columnSpan(12)
                             ->formatStateUsing(function ($state) {
                                 if (is_array($state)) {
                                     return $state[app()->getLocale()] ?? '';
@@ -49,10 +50,10 @@ class ServicesResource extends Resource
                                 return $state;
                             })
                             ->label('Description'),
-                        CuratorPicker::make('media')
-                            ->label('Thumbnail')
-                            ->columnSpan(6)
-                            ->multiple(),
+                        // CuratorPicker::make('media')
+                        //     ->label('Thumbnail')
+                        //     ->columnSpan(6)
+                        //     ->multiple(),
                     ]),
             ]);
     }
@@ -61,11 +62,11 @@ class ServicesResource extends Resource
     {
         return $table
             ->columns([
-                ImageColumn::make('media.0.path')
-                    ->label('Thumbnail')
-                    ->circular()
-                    ->size(50)
-                    ->default('https://via.placeholder.com/50'),
+                // ImageColumn::make('media.0.path')
+                //     ->label('Thumbnail')
+                //     ->circular()
+                //     ->size(50)
+                //     ->default('https://via.placeholder.com/50'),
                 TextColumn::make('title')
                     ->label('Title')
                     ->searchable()

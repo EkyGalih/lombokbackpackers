@@ -7,6 +7,7 @@ use App\Models\Category;
 use App\Models\Customer;
 use App\Models\Features;
 use App\Models\Posts;
+use App\Models\Services;
 use App\Models\Slides;
 use App\Models\Tour;
 use App\Settings\WebsiteSettings;
@@ -41,7 +42,7 @@ class HomeController extends Controller
         $features = Features::all();
         $popularTours = Posts::where('is_popular_post', true)->take(6)->get();
         $slides = Category::orderByDesc('updated_at')->where('show_to_home', true)->get();
-        $features = Features::limit(4)->orderByDesc('updated_at')->get();
+        $services = Services::orderByDesc('updated_at')->get();
         $posts = Posts::limit(3)->orderByDesc('updated_at')->get();
         $customers = Customer::with('user')->whereHas(
             'user',
@@ -56,7 +57,7 @@ class HomeController extends Controller
             'tours',
             'programs',
             'categories',
-            'features',
+            'services',
             'popularTours',
             'headerImage',
             'headerTitle',
