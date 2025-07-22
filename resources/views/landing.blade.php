@@ -159,38 +159,17 @@
         </section>
     </x-slot>
 
-    <section class="bg-gray-100 py-8 px-8">
-        <div class="relative w-full">
-            <div class="swiper w-full">
-                <div class="swiper-wrapper">
-                    @foreach ($slides as $slider)
-                        <div class="swiper-slide">
-                            <div class="container max-w-screen-xl mx-auto px-4">
-                                <div class="grid md:grid-cols-2 gap-8 mb-4 items-center">
-                                    <!-- Gambar -->
-                                    <div class="overflow-hidden rounded-lg shadow-lg">
-                                        <img src="{{ $slider->media?->first()?->url }}"
-                                            alt="{{ $slider->name ?? '-' }}" class="w-full h-96 object-cover">
-                                    </div>
-
-                                    <!-- Tulisan -->
-                                    <div class="space-y-4">
-                                        <h2 class="text-3xl md:text-4xl font-bold text-gray-800">
-                                            {{ $slider->name ?? '-' }}
-                                        </h2>
-                                        <p class="text-gray-600 text-lg">
-                                            {!! $slider->description ?? '-' !!}
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    @endforeach
-                </div>
-            </div>
+    <section class="bg-gray-100 py-8 md:py-12 lg:py-16 px-4 md:px-6 lg:px-20">
+        <div class="container mx-auto text-center">
+            <h2
+                class="text-3xl md:text-4xl lg:text-5xl font-black mb-6 md:mb-8 text-cyan-950 leading-tight tracking-tight uppercase">
+                {{ $welcome->title }}
+            </h2>
+            <h2 class="text-xs md:text-sm font-semibold tracking-widest text-cyan-950">
+                {!! $welcome->description !!}
+            </h2>
         </div>
     </section>
-
 
     {{-- Paket Tour Section --}}
     <section class="bg-sky-100 py-16">
@@ -253,11 +232,11 @@
     {{-- Why Us Section --}}
     <section class="bg-white py-16">
         <div class="container mx-auto px-6 text-center">
-            <h2 class="text-sm font-semibold tracking-widest text-cyan-950 uppercase mb-2">
+            {{-- <h2 class="text-sm font-semibold tracking-widest text-cyan-950 uppercase mb-2">
                 {{ __('WhyUs.title') }}
-            </h2>
+            </h2> --}}
             <h2 class="text-5xl font-black mb-8 text-cyan-950 leading-tight tracking-tight">
-                {{ __('WhyUs.subtitle') }}
+                {{ __('WhyUs.title') }}
             </h2>
 
             <section class="grid grid-cols-1 md:grid-cols-2 gap-8 p-8 text-left">
@@ -296,7 +275,8 @@
                                     <div
                                         class="absolute bottom-4 left-4 right-4 md:right-auto text-white bg-black/50 p-3 md:p-4 rounded space-y-2 max-w-xs md:max-w-full">
                                         <h2 class="text-lg md:text-2xl font-bold">{{ $slide->title }}</h2>
-                                        <p class="text-xs md:text-sm text-wrap justify-between">{!! $slide->description !!}</p>
+                                        <p class="text-xs md:text-sm text-wrap justify-between">{!! $slide->description !!}
+                                        </p>
                                         <a href="{{ route('categories.show', $slide->slug) }}"
                                             class="inline-block px-3 py-1 bg-teal-600 hover:bg-teal-700 text-white text-xs font-medium rounded transition">
                                             {{ __('button.read') }}

@@ -9,15 +9,10 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Translatable\HasTranslations;
 
-class Features extends Model
+class WelcomeMessage extends Model
 {
     use HasFactory, HasUuid, HasTranslations, AutoTranslateOnSave;
 
     protected $guarded = [];
     protected $translatable = ['title', 'description'];
-
-    public function media()
-    {
-        return $this->morphToMany(Media::class, 'model', 'media_relationships');
-    }
 }

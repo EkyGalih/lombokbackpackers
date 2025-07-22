@@ -17,7 +17,6 @@ class DatabaseSeeder extends Seeder
             WebsiteSettingsSeeder::class,
             CategorySeeder::class,
             NavigationSeeder::class,
-            FeaturesSeeder::class,
             ServicesSeeder::class,
             SlidesSeeder::class,
             PostsSeeder::class,

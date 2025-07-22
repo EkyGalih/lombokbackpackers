@@ -1,7 +1,7 @@
 <?php
 
 return [
-    'title' => 'Destinations Around the Lombok',
+    'title' => 'Complete Your Holiday With Our Various',
     'subtitle' => 'Discover Stunning Destinations',
     'caption' => 'Duration',
     'packet' => 'Packet',

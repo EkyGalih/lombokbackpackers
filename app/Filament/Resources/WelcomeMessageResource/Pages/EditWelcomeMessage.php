@@ -1,14 +1,14 @@
 <?php
 
-namespace App\Filament\Resources\FeatureResource\Pages;
+namespace App\Filament\Resources\WelcomeMessageResource\Pages;
 
-use App\Filament\Resources\FeatureResource;
+use App\Filament\Resources\WelcomeMessageResource;
 use Filament\Actions;
 use Filament\Resources\Pages\EditRecord;
 
-class EditFeature extends EditRecord
+class EditWelcomeMessage extends EditRecord
 {
-    protected static string $resource = FeatureResource::class;
+    protected static string $resource = WelcomeMessageResource::class;
 
     protected function getHeaderActions(): array
     {

@@ -1,7 +1,7 @@
 <?php
 
 return [
-    'title' => 'Destinasi di Sekitar Lombok',
+    'title' => 'Lengkapi Liburan Anda Dengan Berbagai Pilihan Kami',
     'subtitle' => 'Temukan Destinasi Menakjubkan',
     'caption' => 'Durasi',
     'packet' => 'Paket',

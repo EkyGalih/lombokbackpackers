@@ -10,6 +10,7 @@ use App\Models\Posts;
 use App\Models\Services;
 use App\Models\Slides;
 use App\Models\Tour;
+use App\Models\WelcomeMessage;
 use App\Settings\WebsiteSettings;
 use Biostate\FilamentMenuBuilder\Models\Menu;
 
@@ -39,7 +40,7 @@ class HomeController extends Controller
         });
         $tours = Tour::latest()->take(6)->get();
         $categories = Category::with(['tours'])->get();
-        $features = Features::all();
+        $welcome = WelcomeMessage::first();
         $popularTours = Posts::where('is_popular_post', true)->take(6)->get();
         $slides = Category::orderByDesc('updated_at')->where('show_to_home', true)->get();
         $services = Services::orderByDesc('updated_at')->get();
@@ -63,7 +64,7 @@ class HomeController extends Controller
             'headerTitle',
             'headerSubTitle',
             'slides',
-            'features',
+            'welcome',
             'posts',
             'customers'
         ));

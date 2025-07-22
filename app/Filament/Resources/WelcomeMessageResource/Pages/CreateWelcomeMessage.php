@@ -1,14 +1,14 @@
 <?php
 
-namespace App\Filament\Resources\FeatureResource\Pages;
+namespace App\Filament\Resources\WelcomeMessageResource\Pages;
 
-use App\Filament\Resources\FeatureResource;
+use App\Filament\Resources\WelcomeMessageResource;
 use Filament\Actions;
 use Filament\Resources\Pages\CreateRecord;
 
-class CreateFeature extends CreateRecord
+class CreateWelcomeMessage extends CreateRecord
 {
-    protected static string $resource = FeatureResource::class;
+    protected static string $resource = WelcomeMessageResource::class;
 
     protected function mutateFormDataBeforeCreate(array $data): array
     {

@@ -2,8 +2,8 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\FeatureResource\Pages;
-use App\Models\Features;
+use App\Filament\Resources\WelcomeMessageResource\Pages;
+use App\Models\WelcomeMessage;
 use Awcodes\Curator\Components\Forms\CuratorPicker;
 use Filament\Forms\Components\Grid;
 use Filament\Forms\Components\RichEditor;
@@ -15,14 +15,14 @@ use Filament\Tables\Columns\ImageColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 
-class FeatureResource extends Resource
+class WelcomeMessageResource extends Resource
 {
-    protected static ?string $model = Features::class;
+    protected static ?string $model = WelcomeMessage::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-sparkles';
-    protected static ?string $navigationGroup = 'Menu';
-    protected static ?string $navigationLabel = 'Features';
-    protected static ?int $navigationSort = 5;
+    protected static ?string $navigationIcon = 'heroicon-o-chat-bubble-bottom-center';
+    protected static ?string $navigationGroup = 'Settings';
+    protected static ?string $navigationLabel = 'Welcome Message';
+    protected static ?int $navigationSort = 1;
 
     public static function form(Form $form): Form
     {
@@ -47,12 +47,8 @@ class FeatureResource extends Resource
                                 }
                                 return $state;
                             })
-                            ->columnSpan(6)
-                            ->label('Description'),
-                        CuratorPicker::make('media')
-                            ->label('Thumbnail')
-                            ->columnSpan(6)
-                            ->multiple()
+                            ->columnSpan(12)
+                            ->label('Description')
                     ]),
             ]);
     }
@@ -61,11 +57,6 @@ class FeatureResource extends Resource
     {
         return $table
             ->columns([
-                ImageColumn::make('media.0.path')
-                    ->label('Thumbnail')
-                    ->circular()
-                    ->size(50)
-                    ->default('https://via.placeholder.com/50'),
                 TextColumn::make('title')
                     ->label('Title')
                     ->searchable()
@@ -100,14 +91,9 @@ class FeatureResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListFeatures::route('/'),
-            'create' => Pages\CreateFeature::route('/create'),
-            'edit' => Pages\EditFeature::route('/{record}/edit'),
+            'index' => Pages\ListWelcomeMessage::route('/'),
+            // 'create' => Pages\CreateWelcomeMessage::route('/create'),
+            'edit' => Pages\EditWelcomeMessage::route('/{record}/edit'),
         ];
-    }
-
-    public static function shouldRegisterNavigation(): bool
-    {
-        return false; // 🔥 ini bikin menu resource hilang
     }
 }
