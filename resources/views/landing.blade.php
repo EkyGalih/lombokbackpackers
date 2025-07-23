@@ -126,14 +126,14 @@
                                 Masuk
                             </a> --}}
 
-                        <x-booking-modal />
-                        {{-- @else
+                            {{-- @else
                             <a href="{{ route('profile.edit') }}"
                                 class="block bg-cyan-300 text-orange-950 px-5 py-2 rounded-lg mt-2 hover:bg-cyan-600 text-center shadow transition">
                                 My Account
                             </a>
-                        @endguest --}}
-                    </div>
+                            @endguest --}}
+                            <x-booking-modal />
+                        </div>
                 </header>
 
                 {{-- HERO --}}
@@ -150,7 +150,6 @@
                     </div>
                     <x-booking-modal />
                 </div>
-
             </div>
         </section>
     </x-slot>
