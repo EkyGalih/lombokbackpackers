@@ -414,7 +414,7 @@
                         <div>
                             <h4 class="font-semibold text-gray-900">{{ __('contactUs.office') }}</h4>
                             <p class="text-gray-600">
-                                {{ app(\App\Settings\WebsiteSettings::class)->contact_address }}
+                                {!! app(\App\Settings\WebsiteSettings::class)->contact_address !!}
                             </p>
                         </div>
                     </div>
