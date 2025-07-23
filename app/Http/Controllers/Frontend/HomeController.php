@@ -55,6 +55,7 @@ class HomeController extends Controller
         // Return the landing view with the fetched data
         return view('landing', compact(
             'menu',
+            'data',
             'tours',
             'programs',
             'categories',

@@ -17,6 +17,10 @@ return [
         'send' => 'Pesan'
     ],
 
+    'shortcut' => [
+        'title' => 'Pintasan Program'
+    ],
+
     '404' => [
         'title' => 'Konten Tidak Ditemukan',
         'subtitle' => 'Sepertinya halaman yang Anda cari tidak tersedia atau sudah dipindahkan.',

@@ -90,7 +90,7 @@
                                 </a>
                             @else
                             @endguest --}}
-
+                            <x-booking-modal />
                         </div>
 
                         {{-- Hamburger Button (< lg) --}}
@@ -126,11 +126,7 @@
                                 Masuk
                             </a> --}}
 
-                        <a href="https://wa.me/{{ app(\App\Settings\WebsiteSettings::class)->contact_phone }}?text={{ urlencode('halo saya ingin pesan paket tour') }}"
-                            target="_blank"
-                            class="block bg-lime-300 text-orange-950 px-5 py-2 rounded-lg mt-2 hover:bg-lime-200 text-center shadow transition">
-                            {{ __('button.book_now') }}
-                        </a>
+                        <x-booking-modal />
                         {{-- @else
                             <a href="{{ route('profile.edit') }}"
                                 class="block bg-cyan-300 text-orange-950 px-5 py-2 rounded-lg mt-2 hover:bg-cyan-600 text-center shadow transition">
@@ -198,14 +194,21 @@
                             <div
                                 class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-4 z-20">
                                 <h3
-                                    class="transition-transform duration-500 ease-in-out transform group-hover:-translate-y-8 text-lg font-bold text-white hover:text-lime-300">
+                                    class="transition-transform duration-500 ease-in-out transform
+           -translate-y-8
+           md:translate-y-0 md:group-hover:-translate-y-8
+           text-lg font-bold text-white hover:text-lime-300">
                                     {{ $category->name }}
                                 </h3>
+
                             </div>
 
                             {{-- Tombol Browse Trips muncul dari bawah --}}
                             <div
-                                class="absolute bottom-4 left-0 right-0 flex justify-center opacity-0 group-hover:opacity-100 transform translate-y-6 group-hover:translate-y-0 transition-all duration-1000 ease-in-out z-30">
+                                class="absolute bottom-4 left-0 right-0 flex justify-center
+           opacity-100 translate-y-0
+           md:opacity-0 md:translate-y-6 md:group-hover:opacity-100 md:group-hover:translate-y-0
+           transition-all duration-1000 ease-in-out z-30">
                                 <a href="{{ route('categories.show', $category->slug) }}"
                                     class="bg-transparent px-4 py-2 rounded text-white text-sm font-semibold shadow underline hover:underline-offset-1 transition">
                                     {{ __('button.trips') }}
@@ -274,8 +277,9 @@
 
                                     <div
                                         class="absolute bottom-4 left-4 right-4 md:right-auto text-white bg-black/50 p-3 md:p-4 rounded space-y-2 max-w-xs md:max-w-full">
-                                        <h2 class="text-lg md:text-2xl font-bold">{{ $slide->title }}</h2>
-                                        <p class="text-xs md:text-sm text-wrap justify-between">{!! $slide->description !!}
+                                        <h2 class="text-sm md:text-2xl font-bold">{{ $slide->title }}</h2>
+                                        <p class="text-[10px] md:text-sm text-wrap justify-between">
+                                            {!! $slide->description !!}</p>
                                         </p>
                                         <a href="{{ route('categories.show', $slide->slug) }}"
                                             class="inline-block px-3 py-1 bg-teal-600 hover:bg-teal-700 text-white text-xs font-medium rounded transition">
@@ -299,45 +303,61 @@
                 {{ __('PopularTrips.title') }}
             </h2>
 
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div class="hidden md:grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
 
                 <!-- Card Popular Tour -->
                 @foreach ($popularTours->take(6) as $item)
-                    <a href="{{ route('tours.show', $item->slug) }}"
-                        class="relative rounded-lg overflow-hidden shadow-lg group">
-                        <img src="{{ imageOrDefault($item->media?->first()?->url, 'card') }}"
-                            alt="{{ $item->titlex }}"
-                            class="w-full h-64 object-cover transition-transform group-hover:scale-105">
-                        <div class="absolute inset-0 bg-black/50 flex flex-col justify-end p-4">
-
-                            <!-- Info -->
-                            <div class="transition-all duration-300 group-hover:-translate-y-6">
-                                <h3
-                                    class="text-lg font-semibold text-white transition-transform duration-700 ease-in-out transform group-hover:-translate-y-4">
-                                    {{ $item->title }}</h3>
-                                <h3
-                                    class="text-xs text-white transition-transform duration-1000 ease-in-out transform group-hover:-translate-y-4">
-                                    {!! Str::limit($item->content, 50) !!}</h3>
-                            </div>
-
-                            <!-- Tombol muncul saat hover -->
-                            <span
-                                class="opacity-0 translate-y-4 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300 inline-block mt-1">
-                                <button
-                                    class="px-3 py-1 text-sm bg-teal-700 text-white rounded hover:bg-teal-300 hover:text-teal-900 transition-colors">
-                                    {{ __('button.read') }} →
-                                </button>
-                            </span>
-
-                        </div>
-                    </a>
+                    <x-popular-card :item="$item" />
                 @endforeach
+            </div>
+
+            <div class="md:hidden">
+                <div class="swiper">
+                    <div class="swiper-wrapper">
+                        @foreach ($popularTours->take(6) as $item)
+                            <div class="swiper-slide">
+                                <x-popular-card :item="$item" />
+                            </div>
+                        @endforeach
+                    </div>
+                    <div class="swiper-pagination"></div>
+                </div>
             </div>
         </div>
     </section>
 
+    {{-- shortcut --}}
+    <section class="py-12 bg-white">
+        <div class="max-w-7xl mx-auto px-4">
+            <h2 class="text-3xl font-bold text-center text-teal-900 mb-10">
+                {{ __('message.shortcut.title') }}
+            </h2>
+
+            {{-- Desktop grid --}}
+            <div class="hidden md:grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                @foreach ($data->chunk(5) as $chunk)
+                    <ul class="list-disc pl-4 space-y-1 text-slate-700">
+                        @foreach ($chunk as $item)
+                            <x-list-shortcut :item="$item" />
+                        @endforeach
+                    </ul>
+                @endforeach
+            </div>
+
+            {{-- Mobile single list --}}
+            <div class="block md:hidden">
+                <ul class="list-disc pl-4 space-y-1 text-slate-700">
+                    @foreach ($data as $item)
+                        <x-list-shortcut :item="$item" />
+                    @endforeach
+                </ul>
+            </div>
+
+        </div>
+    </section>
+
     {{-- post --}}
-    <section class="bg-white py-16">
+    <section class="bg-sky-100 py-16">
         <div class="max-w-7xl mx-auto px-4">
             <!-- Header -->
             <div class="flex flex-col md:flex-row md:items-center md:justify-between mb-12">
@@ -378,7 +398,7 @@
     </section>
 
     {{-- contact us --}}
-    <section class="relative bg-gradient-to-r from-teal-100 via-white to-teal-100 py-16 overflow-hidden">
+    <section class="relative bg-gradient-to-r from-white via-teal-50 to-white py-16 overflow-hidden">
         <div class="max-w-5xl mx-auto px-4">
             <div class="text-center mb-12">
                 <h2 class="text-4xl font-bold text-gray-900 mb-4 animate-fade-in-down">{{ __('contactUs.title') }}

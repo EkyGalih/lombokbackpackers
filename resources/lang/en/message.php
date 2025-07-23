@@ -17,6 +17,10 @@ return [
         'send' => 'Send Booking'
     ],
 
+    'shortcut' => [
+        'title' => 'Trekking Shortcut'
+    ],
+
     '404' => [
         'title' => 'Content Not Found',
         'subtitle' => 'It looks like the page you are looking for is not available or has been moved.',
