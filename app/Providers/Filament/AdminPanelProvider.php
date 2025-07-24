@@ -72,11 +72,11 @@ class AdminPanelProvider extends PanelProvider
             ->widgets([
                 CustomAccountWidget::class,
                 SystemStatusWidget::class,
-                StatsWidget::class,
-                WidgetsBookingPaymentChart::class,
-                DailyTrendChart::class,
-                ActivitiesWidget::class,
-                TourCompositionChart::class,
+                // StatsWidget::class,
+                // WidgetsBookingPaymentChart::class,
+                // DailyTrendChart::class,
+                // ActivitiesWidget::class,
+                // TourCompositionChart::class,
             ])
             ->middleware([
                 EncryptCookies::class,
