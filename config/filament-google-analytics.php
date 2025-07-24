@@ -5,19 +5,19 @@ return [
     /**
      * Dashboard Page
      */
-    'dedicated_dashboard' => true,
+    'dedicated_dashboard' => false,
     'dashboard_icon' => 'heroicon-m-chart-bar',
 
     /**
      * Widgets
      */
     'page_views' => [
-        'filament_dashboard' => false,
+        'filament_dashboard' => true,
         'global' => true,
     ],
     'visitors' => [
-        'filament_dashboard' => false,
-        'global' => true,
+        'filament_dashboard' => true,
+        'global' => false,
     ],
 
     'active_users_one_day' => [
@@ -26,7 +26,7 @@ return [
     ],
 
     'active_users_seven_day' => [
-        'filament_dashboard' => false,
+        'filament_dashboard' => true,
         'global' => true,
     ],
 
@@ -41,12 +41,12 @@ return [
     ],
 
     'sessions_duration' => [
-        'filament_dashboard' => false,
+        'filament_dashboard' => true,
         'global' => true,
     ],
 
     'sessions_by_country' => [
-        'filament_dashboard' => false,
+        'filament_dashboard' => true,
         'global' => true,
     ],
 
@@ -56,12 +56,12 @@ return [
     ],
 
     'most_visited_pages' => [
-        'filament_dashboard' => false,
+        'filament_dashboard' => true,
         'global' => true,
     ],
 
     'top_referrers_list' => [
-        'filament_dashboard' => false,
+        'filament_dashboard' => true,
         'global' => true,
     ],
 
@@ -78,4 +78,18 @@ return [
     'trending_up_color' => 'success',
     'trending_down_color' => 'danger',
     'steady_color' => 'secondary',
+
+    'widgets' => [
+        \BezhanSalleh\FilamentGoogleAnalytics\Widgets\PageViewsWidget::class,
+        \BezhanSalleh\FilamentGoogleAnalytics\Widgets\VisitorsWidget::class,
+        \BezhanSalleh\FilamentGoogleAnalytics\Widgets\ActiveUsersOneDayWidget::class,
+        \BezhanSalleh\FilamentGoogleAnalytics\Widgets\ActiveUsersSevenDayWidget::class,
+        \BezhanSalleh\FilamentGoogleAnalytics\Widgets\ActiveUsersTwentyEightDayWidget::class,
+        \BezhanSalleh\FilamentGoogleAnalytics\Widgets\SessionsWidget::class,
+        \BezhanSalleh\FilamentGoogleAnalytics\Widgets\SessionsDurationWidget::class,
+        \BezhanSalleh\FilamentGoogleAnalytics\Widgets\SessionsByCountryWidget::class,
+        \BezhanSalleh\FilamentGoogleAnalytics\Widgets\SessionsByDeviceWidget::class,
+        \BezhanSalleh\FilamentGoogleAnalytics\Widgets\MostVisitedPagesWidget::class,
+        \BezhanSalleh\FilamentGoogleAnalytics\Widgets\TopReferrersListWidget::class,
+    ]
 ];

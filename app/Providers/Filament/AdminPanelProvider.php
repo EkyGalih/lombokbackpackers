@@ -104,7 +104,8 @@ class AdminPanelProvider extends PanelProvider
                     ->navigationSort(6),
                 \Biostate\FilamentMenuBuilder\FilamentMenuBuilderPlugin::make(),
                 FilamentPeekPlugin::make()
-                ->disablePluginStyles(),
+                    ->disablePluginStyles(),
+                \BezhanSalleh\FilamentGoogleAnalytics\FilamentGoogleAnalyticsPlugin::make()
             ]);
     }
 
