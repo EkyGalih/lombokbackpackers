@@ -39,7 +39,7 @@ class HomeController extends Controller
             ];
         });
         $tours = Tour::latest()->take(6)->get();
-        $categories = Category::with(['tours'])->get();
+        $categories = Category::with(['tours'])->orderBy('order')->get();
         $welcome = WelcomeMessage::first();
         $popularTours = Posts::where('is_popular_post', true)->take(6)->get();
         $slides = Category::orderByDesc('updated_at')->where('show_to_home', true)->get();

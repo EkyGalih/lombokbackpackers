@@ -13,6 +13,7 @@ use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Forms\Components\Toggle;
 use Filament\Tables\Columns\ImageColumn;
+use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 
 class CategoryResource extends Resource
@@ -29,16 +30,24 @@ class CategoryResource extends Resource
     public static function form(Form $form): Form
     {
         return $form->schema([
-            TextInput::make('name')
-                ->columnSpanFull()
-                ->formatStateUsing(function ($state) {
-                    if (is_array($state)) {
-                        return $state[app()->getLocale()] ?? '';
-                    }
-                    return $state;
-                })
-                ->required()
-                ->live(onBlur: false),
+            Grid::make(12)
+                ->schema([
+                    TextInput::make('name')
+                        ->columnSpan(8)
+                        ->formatStateUsing(function ($state) {
+                            if (is_array($state)) {
+                                return $state[app()->getLocale()] ?? '';
+                            }
+                            return $state;
+                        })
+                        ->required()
+                        ->live(onBlur: false),
+                    TextInput::make('order')
+                        ->label('Order')
+                        ->columnSpan(4)
+                        ->numeric()
+                        ->default(fn() => (Category::max('order') ?? 0) + 1),
+                ]),
             Grid::make(12)
                 ->schema([
                     RichEditor::make('description')
@@ -87,6 +96,8 @@ class CategoryResource extends Resource
                         'true' => 'success',
                     ])
                     ->formatStateUsing(fn($state) => $state ? 'Yes' : 'No'),
+                Tables\Columns\TextColumn::make('order')
+                    ->label('Order'),
             ])
             ->filters([
                 //
@@ -116,5 +127,10 @@ class CategoryResource extends Resource
             'create' => Pages\CreateCategory::route('/create'),
             'edit' => Pages\EditCategory::route('/{record}/edit'),
         ];
+    }
+
+    public static function getEloquentQuery(): \Illuminate\Database\Eloquent\Builder
+    {
+        return parent::getEloquentQuery()->orderBy('order');
     }
 }

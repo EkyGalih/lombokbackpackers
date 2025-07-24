@@ -34,6 +34,12 @@ class Category extends Model
             }
 
             $category->slug = Str::slug($nameForSlug);
+
+            // Hanya set order jika sedang membuat (bukan update) dan belum ada order-nya
+            if (!$category->exists && is_null($category->order)) {
+                $lastOrder = static::max('order') ?? 0;
+                $category->order = $lastOrder + 1;
+            }
         });
     }
 

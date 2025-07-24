@@ -1,7 +1,7 @@
 <?php
 
 return [
-    'title' => 'Lengkapi Liburan Anda Dengan Berbagai Pilihan Kami',
+    'title' => 'Lengkapi Liburan Anda Dengan Berbagai PAKET WISATA Kami',
     'subtitle' => 'Temukan Destinasi Menakjubkan',
     'caption' => 'Durasi',
     'packet' => 'Paket',

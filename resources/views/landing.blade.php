@@ -1,10 +1,10 @@
 <x-guest-layout>
     <x-slot name="nav">
-        <section class="relative h-screen overflow-hidden">
+        <section class="relative aspect-[3/4] md:aspect-[16/9] overflow-hidden">
             {{-- Background Gambar --}}
             <img src="{{ asset('storage/' . app(\App\Settings\WebsiteSettings::class)->header_image) ?? asset('defaults/no-image-header.png') }}"
                 alt="{{ app(\App\Settings\WebsiteSettings::class)->site_name }}"
-                class="absolute inset-0 w-full h-full object-fill opacity-90 z-0">
+                class="absolute inset-0 w-full aspect-[3/4] md:aspect-[16/9] object-cover opacity-90 z-0" />
 
             {{-- Overlay warna gradasi jika mau --}}
             <div class="absolute inset-0 bg-gradient-to-br from-teal-900/70 to-cyan-900/70 z-0"></div>
@@ -137,19 +137,21 @@
                 </header>
 
                 {{-- HERO --}}
-                <div class="relative flex flex-col items-center justify-center min-h-screen text-center px-4">
-                    <div class="z-10 px-4 w-full max-w-3xl -translate-y-10">
-                        <h1
-                            class="text-2xl sm:text-4xl md:text-6xl font-bold mb-2 sm:mb-4 bg-gradient-to-r from-white to-lime-300 bg-clip-text text-transparent">
-                            {{ $headerTitle }}
-                        </h1>
-                        <p class="text-sm sm:text-lg md:text-xl mb-4 sm:mb-8 text-white">
-                            {{ $headerSubTitle }}
-                        </p>
+                <div class="relative px-4 min-h-screen md:flex md:items-center md:justify-center text-center">
+    <div
+        class="w-full max-w-3xl mx-auto px-4
+               absolute top-10 sm:top-20 md:static">
+        <h1
+            class="text-2xl sm:text-4xl md:text-6xl font-bold mb-2 sm:mb-4 bg-gradient-to-r from-white to-lime-300 bg-clip-text text-transparent">
+            {{ $headerTitle }}
+        </h1>
+        <p class="text-sm sm:text-lg md:text-xl mb-4 sm:mb-8 text-white">
+            {{ $headerSubTitle }}
+        </p>
+        <x-booking-modal />
+    </div>
+</div>
 
-                    </div>
-                    <x-booking-modal />
-                </div>
             </div>
         </section>
     </x-slot>
@@ -367,7 +369,8 @@
                 <div class="max-w-xl text-gray-600 mt-4 md:mt-0">
                     {{ __('blogs.caption') }}
                     <br>
-                    <a href="{{ route('blog.index') }}" class="text-blue-700 underline font-medium">{{ __('button.view_all') }}</a>
+                    <a href="{{ route('blog.index') }}"
+                        class="text-blue-700 underline font-medium">{{ __('button.view_all') }}</a>
                 </div>
             </div>
 
