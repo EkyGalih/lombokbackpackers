@@ -14,7 +14,7 @@
                                 <div
                                     class="group bg-white rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-all">
                                     <img src="{{ $post->media?->first()?->url ?? asset('defaults/no-image.jpg') }}"
-                                        alt="{{ $post->title }}" class="w-full h-[300px] object-cover">
+                                        alt="{{ $post->title }}" class="w-full h-64 object-cover rounded-md" />
 
                                     <div class="p-6 text-left">
                                         <p class="text-gray-500 text-sm mb-1">
