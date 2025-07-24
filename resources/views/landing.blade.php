@@ -138,20 +138,18 @@
 
                 {{-- HERO --}}
                 <div class="relative px-4 min-h-screen md:flex md:items-center md:justify-center text-center">
-    <div
-        class="w-full max-w-3xl mx-auto px-4
+                    <div class="w-full max-w-3xl mx-auto px-4
                absolute top-10 sm:top-20 md:static">
-        <h1
-            class="text-2xl sm:text-4xl md:text-6xl font-bold mb-2 sm:mb-4 bg-gradient-to-r from-white to-lime-300 bg-clip-text text-transparent">
-            {{ $headerTitle }}
-        </h1>
-        <p class="text-sm sm:text-lg md:text-xl mb-4 sm:mb-8 text-white">
-            {{ $headerSubTitle }}
-        </p>
-        <x-booking-modal />
-    </div>
-</div>
-
+                        <h1
+                            class="text-2xl sm:text-4xl md:text-6xl font-bold mb-2 sm:mb-4 bg-gradient-to-r from-white to-lime-300 bg-clip-text text-transparent">
+                            {{ $headerTitle }}
+                        </h1>
+                        <p class="text-sm sm:text-lg md:text-xl mb-4 sm:mb-8 text-white">
+                            {{ $headerSubTitle }}
+                        </p>
+                        <x-booking-modal />
+                    </div>
+                </div>
             </div>
         </section>
     </x-slot>
@@ -196,22 +194,31 @@
                                 class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-4 z-20">
                                 <h3
                                     class="transition-transform duration-500 ease-in-out transform
-           -translate-y-8
-           md:translate-y-0 md:group-hover:-translate-y-8
-           text-lg font-bold text-white hover:text-lime-300">
+       -translate-y-8
+       md:translate-y-0 md:group-hover:-translate-y-8
+       text-lg font-bold text-white hover:text-lime-300
+       bg-black/40 px-2 py-1 rounded mb-4 md:mb-0">
                                     {{ $category->name }}
                                 </h3>
 
                             </div>
 
-                            {{-- Tombol Browse Trips muncul dari bawah --}}
+                            {{-- Tombol Browse Trips --}}
                             <div
                                 class="absolute bottom-4 left-0 right-0 flex justify-center
-           opacity-100 translate-y-0
-           md:opacity-0 md:translate-y-6 md:group-hover:opacity-100 md:group-hover:translate-y-0
-           transition-all duration-1000 ease-in-out z-30">
+    opacity-100 translate-y-0
+    md:opacity-0 md:translate-y-6 md:group-hover:opacity-100 md:group-hover:translate-y-0
+    transition-all duration-1000 ease-in-out z-30">
+
+                                {{-- Mode desktop --}}
                                 <a href="{{ route('categories.show', $category->slug) }}"
-                                    class="bg-transparent px-4 py-2 rounded text-white text-sm font-semibold shadow underline hover:underline-offset-1 transition">
+                                    class="hidden md:inline-block bg-transparent px-4 py-2 rounded text-white text-sm font-semibold shadow underline hover:underline-offset-1 transition">
+                                    {{ __('button.trips') }}
+                                </a>
+
+                                {{-- Mode mobile --}}
+                                <a href="{{ route('categories.show', $category->slug) }}"
+                                    class="inline-block md:hidden bg-lime-500 px-4 py-2 rounded-br-3xl rounded-tr-md text-white text-sm font-bold shadow-md hover:bg-lime-600 transition">
                                     {{ __('button.trips') }}
                                 </a>
                             </div>
@@ -283,7 +290,7 @@
                                             {!! $slide->description !!}</p>
                                         </p>
                                         <a href="{{ route('categories.show', $slide->slug) }}"
-                                            class="inline-block px-3 py-1 bg-teal-600 hover:bg-teal-700 text-white text-xs font-medium rounded transition">
+                                            class="inline-block px-3 py-1 bg-lime-600 hover:bg-lime-700 text-white text-xs font-medium rounded-br-3xl rounded-tr-md transition">
                                             {{ __('button.read') }}
                                         </a>
                                     </div>
@@ -370,7 +377,7 @@
                     {{ __('blogs.caption') }}
                     <br>
                     <a href="{{ route('blog.index') }}"
-                        class="text-blue-700 underline font-medium">{{ __('button.view_all') }}</a>
+                        class="inline-block px-3 py-1 bg-teal-600 hover:bg-teal-700 text-white text-md font-medium rounded-br-3xl rounded-tr-md transition">{{ __('button.view_all') }}</a>
                 </div>
             </div>
 
@@ -391,7 +398,7 @@
                             <h3 class="text-lg font-bold text-gray-900 mb-1">{{ $post->title }}</h3>
                             <p class="text-gray-600 text-sm mb-2">{!! $post->excerpt !!}</p>
                             <a href="{{ route('blog.show', $post->slug) }}"
-                                class="text-slate-900 font-medium text-md underline">Read More</a>
+                                class="text-teal-700 font-medium text-md underline">{{ __('button.read') }}</a>
                         </div>
                     </div>
                 @endforeach
