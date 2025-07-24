@@ -35,22 +35,6 @@
 
                     <!-- Kolom Sidebar -->
                     <div class="space-y-6">
-                        <!-- Search -->
-                        <div
-                            class="bg-blue-100 p-4 rounded-lg animate-slide-in-up transition-all duration-700 hover:scale-[1.02]">
-                            <h2 class="font-bold text-left mb-4 text-3xl text-slate-900 animate-fade-in delay-100">
-                                Search</h2>
-                            <form action="#" method="GET" class="flex items-center space-x-2">
-                                <input type="text" name="q"
-                                    class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-400 transition"
-                                    placeholder="Search posts..." value="{{ request('q') }}">
-                                <button type="submit"
-                                    class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-all duration-300">
-                                    Search
-                                </button>
-                            </form>
-                        </div>
-
                         <!-- Recent Posts -->
                         <div
                             class="bg-blue-100 p-4 rounded-lg animate-slide-in-up transition-all duration-700 hover:scale-[1.02]">
