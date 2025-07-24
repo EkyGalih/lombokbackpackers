@@ -21,7 +21,7 @@ return [
     ],
 
     'active_users_one_day' => [
-        'filament_dashboard' => false,
+        'filament_dashboard' => true,
         'global' => true,
     ],
 
