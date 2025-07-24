@@ -21,6 +21,14 @@ return [
         'title' => 'Pintasan Program'
     ],
 
+    'post' => [
+        'title_all' => 'Semua Blog',
+        'categories' => 'Kategori',
+        'tags' => 'Tag',
+        'search' => 'Cari',
+        'message' => 'Tidak ada data '
+    ],
+
     '404' => [
         'title' => 'Konten Tidak Ditemukan',
         'subtitle' => 'Sepertinya halaman yang Anda cari tidak tersedia atau sudah dipindahkan.',

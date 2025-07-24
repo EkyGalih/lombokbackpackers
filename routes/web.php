@@ -64,6 +64,7 @@ Route::group(['prefix' => 'tours'], function () {
 });
 
 Route::group(['prefix' => 'blog'], function () {
+    Route::get('/', [PostsController::class, 'index'])->name('blog.index');
     Route::get('/{blog:slug}', [PostsController::class, 'show'])->name('blog.show');
 });
 

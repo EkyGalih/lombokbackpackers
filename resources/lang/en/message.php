@@ -21,6 +21,14 @@ return [
         'title' => 'Trekking Shortcut'
     ],
 
+    'post' => [
+        'title_all' => 'All Blog',
+        'categories' => 'Categories',
+        'tags' => 'Tags',
+        'search' => 'Search',
+        'message' => 'Not Found '
+    ],
+
     '404' => [
         'title' => 'Content Not Found',
         'subtitle' => 'It looks like the page you are looking for is not available or has been moved.',

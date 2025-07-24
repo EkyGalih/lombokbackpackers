@@ -11,6 +11,51 @@ class PostsController extends Controller
 {
     use HasPreview;
 
+    public function index(Request $request)
+    {
+        $query = Posts::query();
+
+        // Filter by category
+        if ($request->has('category')) {
+            $query->where('category', $request->category);
+        }
+
+        // Filter by tag
+        if ($request->has('tag')) {
+            $query->whereJsonContains('tags', $request->tag);
+        }
+
+        // Filter by keyword
+        if ($request->has('search')) {
+            $query->where('title', 'like', '%' . $request->search . '%');
+        }
+
+        $posts = $query->orderByDesc('updated_at')->paginate(8);
+        $categories = Posts::pluck('category')->flatten()->unique();
+        $allTags = Posts::pluck('tags')->flatten()->unique();
+
+        $breadcrumb = 'Blog';
+
+        if ($request->has('category')) {
+            $breadcrumb .= ' > ' . $request->category;
+        }
+
+        if ($request->has('tag')) {
+            $breadcrumb .= ' > ' . $request->tag;
+        }
+
+        if ($request->has('search')) {
+            $breadcrumb .= " > '{$request->search}'";
+        }
+
+        if (!$request->all()) {
+            $breadcrumb = $breadcrumb ." > ". __('message.post.title_all');
+        }
+
+        return view('frontend.posts.index', compact('posts', 'allTags', 'categories', 'breadcrumb'));
+    }
+
+
     public function show($slug)
     {
         $post = Posts::where('slug', $slug)->first();

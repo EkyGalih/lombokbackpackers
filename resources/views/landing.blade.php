@@ -126,14 +126,14 @@
                                 Masuk
                             </a> --}}
 
-                            {{-- @else
+                        {{-- @else
                             <a href="{{ route('profile.edit') }}"
                                 class="block bg-cyan-300 text-orange-950 px-5 py-2 rounded-lg mt-2 hover:bg-cyan-600 text-center shadow transition">
                                 My Account
                             </a>
                             @endguest --}}
-                            <x-booking-modal />
-                        </div>
+                        <x-booking-modal />
+                    </div>
                 </header>
 
                 {{-- HERO --}}
@@ -267,7 +267,7 @@
 
                 {{-- Slider kanan --}}
                 <div>
-                    <div class="swiper">
+                    <div class="swiper swiper-whyus">
                         <div class="swiper-wrapper">
                             @foreach ($slides->take(3) as $slide)
                                 <div class="swiper-slide relative">
@@ -288,7 +288,7 @@
                                 </div>
                             @endforeach
                         </div>
-                        <div class="swiper-pagination absolute top-2 right-2 z-10"></div>
+                        <div class="swiper-pagination swiper-pagination-whyus absolute top-2 right-2 z-10"></div>
                     </div>
                 </div>
             </section>
@@ -311,7 +311,7 @@
             </div>
 
             <div class="md:hidden">
-                <div class="swiper">
+                <div class="swiper swiper-popular">
                     <div class="swiper-wrapper">
                         @foreach ($popularTours->take(6) as $item)
                             <div class="swiper-slide">
@@ -319,7 +319,7 @@
                             </div>
                         @endforeach
                     </div>
-                    <div class="swiper-pagination"></div>
+                    <div class="swiper-pagination swiper-pagination-popular"></div>
                 </div>
             </div>
         </div>
@@ -367,7 +367,7 @@
                 <div class="max-w-xl text-gray-600 mt-4 md:mt-0">
                     {{ __('blogs.caption') }}
                     <br>
-                    <a href="#" class="text-blue-700 underline font-medium">{{ __('button.view_all') }}</a>
+                    <a href="{{ route('blog.index') }}" class="text-blue-700 underline font-medium">{{ __('button.view_all') }}</a>
                 </div>
             </div>
 

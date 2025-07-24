@@ -134,7 +134,8 @@
                 <ul class="space-y-2 text-sm">
                     @foreach ($tour as $item)
                         <li><a href="{{ route('tours.show', $item->slug) }}"
-                                class="hover:underline hover:text-cyan-300 transition-all duration-300">{{ $item->title }}</a></li>
+                                class="hover:underline hover:text-cyan-300 transition-all duration-300">{{ $item->title }}</a>
+                        </li>
                     @endforeach
                 </ul>
             </div>
@@ -163,18 +164,35 @@
 <script src="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.js"></script>
 <script>
     document.addEventListener('DOMContentLoaded', () => {
+        // SLIDER untuk Why Us → selalu aktif
+        new Swiper('.swiper-whyus', {
+            slidesPerView: 1,
+            spaceBetween: 16,
+            pagination: {
+                el: '.swiper-pagination-whyus',
+                clickable: true
+            },
+            autoplay: {
+                delay: 5000,
+                disableOnInteraction: false
+            },
+            loop: true
+        });
+
+        // SLIDER untuk Popular Trips → hanya untuk mobile
         if (window.innerWidth < 768) {
-            new Swiper('.swiper', {
+            new Swiper('.swiper-popular', {
                 slidesPerView: 1,
                 spaceBetween: 16,
                 pagination: {
-                    el: '.swiper-pagination',
+                    el: '.swiper-pagination-popular',
                     clickable: true
                 },
                 autoplay: {
-                    delay: 5000,
+                    delay: 4000,
                     disableOnInteraction: false
                 },
+                loop: true
             });
         }
     });
