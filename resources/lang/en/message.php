@@ -23,6 +23,7 @@ return [
 
     'post' => [
         'title_all' => 'All Blog',
+        'recent' => 'Recent Posts',
         'categories' => 'Categories',
         'tags' => 'Tags',
         'search' => 'Search',

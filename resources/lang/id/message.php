@@ -24,6 +24,7 @@ return [
     'post' => [
         'title_all' => 'Semua Blog',
         'categories' => 'Kategori',
+        'recent' => 'Blog Terbaru',
         'tags' => 'Tag',
         'search' => 'Cari',
         'message' => 'Tidak ada data '

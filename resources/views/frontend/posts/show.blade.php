@@ -38,49 +38,26 @@
                         <!-- Recent Posts -->
                         <div
                             class="bg-blue-100 p-4 rounded-lg animate-slide-in-up transition-all duration-700 hover:scale-[1.02]">
-                            <h2 class="font-bold text-left mb-4 text-3xl text-slate-900 animate-fade-in delay-300">Recent Posts</h2>
+                            <h2 class="font-bold text-left mb-4 text-3xl text-slate-900 animate-fade-in delay-300">{{ __('message.post.recent') }}</h2>
 
                             <div class="space-y-4">
-                                @php
-                                    $recentPosts = [
-                                        [
-                                            'title' => 'Blue Sea Adventure Activities',
-                                            'created_at' => now()->subDays(1),
-                                            'image' => asset('defaults/no-image.jpg'),
-                                            'url' => '#',
-                                        ],
-                                        [
-                                            'title' => 'Top Tourist Destinations',
-                                            'created_at' => now()->subDays(3),
-                                            'image' => asset('defaults/no-image.jpg'),
-                                            'url' => '#',
-                                        ],
-                                        [
-                                            'title' => 'Tips For Family Vacation',
-                                            'created_at' => now()->subWeek(),
-                                            'image' => asset('defaults/no-image.jpg'),
-                                            'url' => '#',
-                                        ],
-                                    ];
-                                @endphp
-
                                 @foreach ($recentPosts as $recent)
                                     <div
                                         class="flex gap-3 items-start animate-fade-in p-2 rounded transition">
                                         <!-- Thumbnail -->
                                         <div class="w-24 h-20 flex-shrink-0 overflow-hidden rounded">
-                                            <img src="{{ $recent['image'] }}" alt="{{ $recent['title'] }}"
+                                            <img src="{{ $recent->media?->first()?->url ?? asset('defaults/no-image.png') }}" alt="{{ $recent->title }}"
                                                 class="w-full h-full object-cover">
                                         </div>
 
                                         <!-- Judul & waktu -->
                                         <div class="flex flex-col text-left">
-                                            <a href="{{ $recent['url'] }}"
+                                            <a href="{{ route('blog.show', $recent->slug) }}"
                                                 class="font-semibold text-2xl text-teal-900 hover:text-teal-800 hover:underline">
-                                                {{ \Illuminate\Support\Str::limit($recent['title'], 40) }}
+                                                {{ \Illuminate\Support\Str::limit($recent->title, 40) }}
                                             </a>
                                             <span class="text-lg text-teal-600 mt-1">
-                                                {{ \Carbon\Carbon::parse($recent['created_at'])->locale(app()->getLocale())->translatedFormat('d F Y') }}
+                                                {{ \Carbon\Carbon::parse($recent->created_at)->locale(app()->getLocale())->translatedFormat('d F Y') }}
                                             </span>
                                         </div>
                                     </div>
@@ -92,7 +69,7 @@
                         <div
                             class="bg-blue-100 p-4 rounded-lg animate-slide-in-up transition-all duration-700 hover:scale-[1.02]">
                             <h2 class="font-bold text-left mb-4 text-3xl text-slate-900 animate-fade-in delay-200">
-                                Tags</h2>
+                                {{ __('message.post.tags') }}</h2>
                             <div class="flex flex-wrap gap-2">
                                 @foreach ($post->tags as $dest)
                                     <span

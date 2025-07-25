@@ -49,7 +49,7 @@ class PostsController extends Controller
         }
 
         if (!$request->all()) {
-            $breadcrumb = $breadcrumb ." > ". __('message.post.title_all');
+            $breadcrumb = $breadcrumb . " > " . __('message.post.title_all');
         }
 
         return view('frontend.posts.index', compact('posts', 'allTags', 'categories', 'breadcrumb'));
@@ -60,8 +60,30 @@ class PostsController extends Controller
     {
         $post = Posts::where('slug', $slug)->first();
 
+        // ambil tag dari post
+        $tags = $post->tags;
+
+        // query recent post yang memiliki setidaknya satu tag yang sama
+        $recentPosts = Posts::where('id', '!=', $post->id)
+            ->where(function ($query) use ($tags) {
+                foreach ($tags as $tag) {
+                    $query->orWhereJsonContains('tags', $tag);
+                }
+            })
+            ->latest()
+            ->take(4)
+            ->get();
+
+        // Jika hasil kosong, ambil random posts
+        if ($recentPosts->isEmpty()) {
+            $recentPosts = Posts::where('id', '!=', $post->id)
+                ->inRandomOrder()
+                ->take(4)
+                ->get();
+        }
+
         $this->handlePreview($post);
 
-        return view('frontend.posts.show', compact('post'));
+        return view('frontend.posts.show', compact('post', 'recentPosts'));
     }
 }
