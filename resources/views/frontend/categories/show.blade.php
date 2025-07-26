@@ -11,16 +11,6 @@
             <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
 
                 {{-- Kiri: Nama & deskripsi kategori --}}
-                <div class="space-y-4">
-                    <h2 class="text-3xl md:text-4xl font-bold text-cyan-950">
-                        {{ $category->name }}
-                    </h2>
-                    <p class="text-gray-700 text-sm md:text-base leading-relaxed">
-                        {!! $category->description !!}
-                    </p>
-                </div>
-
-                {{-- Kanan: Grid card destinasi --}}
                 <div>
                     @if ($tours_by_category->count())
                         <div class="grid gap-6 sm:grid-cols-1 md:grid-cols-2">
@@ -58,6 +48,16 @@
                     @else
                         <p class="text-gray-500 text-center">Belum ada paket tour tersedia.</p>
                     @endif
+                </div>
+
+                {{-- Kanan: Grid card destinasi --}}
+                <div class="space-y-4">
+                    <h2 class="text-3xl md:text-4xl font-bold text-cyan-950">
+                        {{ $category->name }}sss
+                    </h2>
+                    <p class="text-gray-700 text-sm md:text-base leading-relaxed">
+                        {!! $category->description !!}
+                    </p>
                 </div>
 
             </div>

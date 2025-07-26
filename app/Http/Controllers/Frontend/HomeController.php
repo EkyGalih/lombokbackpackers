@@ -30,6 +30,13 @@ class HomeController extends Controller
             ->get() ?? collect();
 
         // Fetch the latest tours, categories, and features`
+        $shortcut = Tour::select('tours.*')
+            ->join('categories', 'categories.id', '=', 'tours.category_id')
+            ->with('category')
+            ->orderBy('categories.order')
+            ->orderBy('tours.order')
+            ->get()
+            ->groupBy(fn($item) => $item->category?->name ?? 'Tanpa Kategori');
         $data = Tour::orderByDesc('updated_at')->get();
         $programs = $data->map(function ($tour) {
             return [
@@ -55,7 +62,7 @@ class HomeController extends Controller
         // Return the landing view with the fetched data
         return view('landing', compact(
             'menu',
-            'data',
+            'shortcut',
             'tours',
             'programs',
             'categories',

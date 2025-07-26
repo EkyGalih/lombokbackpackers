@@ -13,7 +13,6 @@ use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Forms\Components\Toggle;
 use Filament\Tables\Columns\ImageColumn;
-use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 
 class CategoryResource extends Resource
@@ -43,7 +42,7 @@ class CategoryResource extends Resource
                         ->required()
                         ->live(onBlur: false),
                     TextInput::make('order')
-                        ->label('Order')
+                        ->label('Priority')
                         ->columnSpan(4)
                         ->numeric()
                         ->default(fn() => (Category::max('order') ?? 0) + 1),
@@ -97,7 +96,7 @@ class CategoryResource extends Resource
                     ])
                     ->formatStateUsing(fn($state) => $state ? 'Yes' : 'No'),
                 Tables\Columns\TextColumn::make('order')
-                    ->label('Order'),
+                    ->label('Priority'),
             ])
             ->filters([
                 //

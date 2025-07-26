@@ -341,24 +341,30 @@
                 {{ __('message.shortcut.title') }}
             </h2>
 
-            {{-- Desktop grid --}}
+            {{-- Desktop Grid --}}
             <div class="hidden md:grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                @foreach ($data->chunk(5) as $chunk)
+                @foreach ($shortcut as $categoryName => $tours)
+                    <div>
+                        <h2 class="font-bold text-slate-800 mb-2">{{ $categoryName }}</h2>
+                        <ul class="list-disc pl-4 space-y-1 text-slate-700">
+                            @foreach ($tours->take(5) as $item)
+                                <x-list-shortcut :item="$item" />
+                            @endforeach
+                        </ul>
+                    </div>
+                @endforeach
+            </div>
+
+            {{-- Mobile List --}}
+            <div class="block md:hidden">
+                @foreach ($shortcut as $categoryName => $tours)
+                    <h2 class="font-bold text-slate-800 mt-4 mb-2">{{ $categoryName }}</h2>
                     <ul class="list-disc pl-4 space-y-1 text-slate-700">
-                        @foreach ($chunk as $item)
+                        @foreach ($tours->take(5) as $item)
                             <x-list-shortcut :item="$item" />
                         @endforeach
                     </ul>
                 @endforeach
-            </div>
-
-            {{-- Mobile single list --}}
-            <div class="block md:hidden">
-                <ul class="list-disc pl-4 space-y-1 text-slate-700">
-                    @foreach ($data as $item)
-                        <x-list-shortcut :item="$item" />
-                    @endforeach
-                </ul>
             </div>
 
         </div>
