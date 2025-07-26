@@ -47,33 +47,37 @@ class CategoryResource extends Resource
                         ->numeric()
                         ->default(fn() => (Category::max('order') ?? 0) + 1),
                 ]),
+            RichEditor::make('overview')
+                ->label('Description')
+                ->columnSpanFull(),
+            RichEditor::make('description')
+                ->label('Content')
+                ->columnSpanFull()
+                ->formatStateUsing(function ($state) {
+                    if (is_array($state)) {
+                        return $state[app()->getLocale()] ?? '';
+                    }
+                    return $state;
+                })
+                ->live(onBlur: false),
             Grid::make(12)
                 ->schema([
-                    RichEditor::make('description')
-                        ->columnSpanFull()
-                        ->formatStateUsing(function ($state) {
-                            if (is_array($state)) {
-                                return $state[app()->getLocale()] ?? '';
-                            }
-                            return $state;
-                        })
-                        ->columnSpan(6)
-                        ->live(onBlur: false),
                     CuratorPicker::make('media')
                         ->label('Thumbnail')
                         ->preserveFilenames()
                         ->acceptedFileTypes(['image/*'])
                         ->columnSpan(6)
                         ->multiple(),
+                    Toggle::make('show_to_home')
+                        ->label('Show To Home?')
+                        ->inline(false)
+                        ->columnSpan(6)
+                        ->onColor('success')
+                        ->offColor('danger')
+                        ->onIcon('heroicon-m-check')
+                        ->offIcon('heroicon-m-x-mark')
+                        ->required(),
                 ]),
-            Toggle::make('show_to_home')
-                ->label('Show To Home?')
-                ->inline(false)
-                ->onColor('success')
-                ->offColor('danger')
-                ->onIcon('heroicon-m-check')
-                ->offIcon('heroicon-m-x-mark')
-                ->required(),
         ]);
     }
 
