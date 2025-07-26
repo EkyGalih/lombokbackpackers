@@ -287,7 +287,7 @@
                                         class="absolute bottom-4 left-4 right-4 md:right-auto text-white bg-black/50 p-3 md:p-4 rounded space-y-2 max-w-xs md:max-w-full">
                                         <h2 class="text-sm md:text-2xl font-bold">{{ $slide->title }}</h2>
                                         <p class="text-[10px] md:text-sm text-wrap justify-between">
-                                            {!! $slide->description !!}</p>
+                                            {!! Str::limit($slide->description, 300, '...') !!}</p>
                                         </p>
                                         <a href="{{ route('categories.show', $slide->slug) }}"
                                             class="inline-block px-3 py-1 bg-lime-600 hover:bg-lime-700 text-white text-xs font-medium rounded-br-3xl rounded-tr-md transition">
