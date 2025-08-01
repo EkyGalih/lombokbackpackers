@@ -89,7 +89,7 @@ class ManageSettings extends SettingsPage
                                 TextInput::make('social_instagram')
                                     ->label('Instagram'),
                                 TextInput::make('social_x')
-                                    ->label('X'),
+                                    ->label('TikTok'),
                                 TextInput::make('social_youtube')
                                     ->label('YouTube'),
                             ])
