@@ -141,11 +141,11 @@
             x-transition:enter="transform opacity-0 -translate-x-full"
             x-transition:enter-end="transform opacity-100 translate-x-0" x-transition:enter.duration.1000ms x-cloak
             class="p-8 md:p-16">
-            <h1 class="text-4xl md:text-6xl font-extrabold mb-2 text-white drop-shadow-lg">
+            <h1 class="text-2xl sm:text-3xl md:text-6xl font-extrabold mb-2 text-white drop-shadow-lg">
                 {{ $title }}
             </h1>
             @if ($breadcrumb != null)
-                <p class="text-xs md:text-sm mb-4 font-semibold text-white drop-shadow">
+                <p class="text-[10px] sm:text-xs md:text-sm mb-4 font-semibold text-white drop-shadow">
                     Home > {{ $breadcrumb }}
                 </p>
             @endif
