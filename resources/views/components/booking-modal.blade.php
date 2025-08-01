@@ -30,7 +30,7 @@
 
             <!-- Close button -->
             <button @click="open = false"
-                class="absolute top-2 right-2 text-gray-400 hover:text-gray-600">
+                class="absolute top-2 right-2 text-teal-400 hover:text-lime-600">
                 ✖
             </button>
 
@@ -65,13 +65,6 @@
 
                 <div x-data="{
                     selectedProgram: '{{ $selectedProgramId ?? '' }}',
-                    programs: @js($programs),
-                    getPackets() {
-                        const prog = this.programs.find(p => p.id == this.selectedProgram);
-                        if (!prog) return [];
-                        const str = prog.packet ?? '';
-                        return str.split(',').map(s => s.trim());
-                    }
                 }" class="space-y-3 sm:space-y-4">
                     <div>
                         <label class="block text-sm font-medium text-gray-700">Program</label>
@@ -82,19 +75,7 @@
                                 <option value="{{ $program['id'] }}">{{ $program['title'] }}</option>
                             @endforeach
                         </select>
-                    </div>
-
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700">Packet</label>
-                        <select name="packet"
-                            class="mt-1 block w-full rounded-lg text-slate-900 border-gray-300 shadow-sm bg-gray-100 text-sm">
-                            <option value="">Pilih Paket</option>
-                            <template x-for="pkt in getPackets()" :key="pkt">
-                                <option x-text="pkt" :value="pkt"></option>
-                            </template>
-                        </select>
-                    </div>
-                </div>
+                    </div
 
                 <div>
                     <label class="block text-sm font-medium text-gray-700">{{ __('message.form.dep_date') }}</label>

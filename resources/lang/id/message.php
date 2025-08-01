@@ -18,7 +18,7 @@ return [
     ],
 
     'shortcut' => [
-        'title' => 'Pintasan Program'
+        'title' => 'Pintasan Destinasi'
     ],
 
     'post' => [

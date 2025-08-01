@@ -2,5 +2,5 @@
 
 
 return [
-    'title' => 'Popular Trips',
+    'title' => 'Popular Destination',
 ];

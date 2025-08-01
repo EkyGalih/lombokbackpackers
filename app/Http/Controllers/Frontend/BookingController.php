@@ -106,8 +106,7 @@ class BookingController extends Controller
             . __('message.form.name') .": {$request->nama}\n"
             . __('message.form.pax') .": {$request->pax} ".__('message.form.people') ."\n"
             . __('message.form.national') .": {$request->nationality}\n"
-            . __('message.form.packet') .": {$tour_packet}\n"
-            . "Packet : {$request->packet} \n"
+            . __('message.form.program') .": {$tour_packet}\n"
             . __('message.form.dep_date') .": {$request->dep_date}\n"
             . __('message.form.message') .": {$request->pesan}\n\n"
             . __('message.form.thanks')

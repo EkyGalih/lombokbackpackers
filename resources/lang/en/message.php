@@ -18,7 +18,7 @@ return [
     ],
 
     'shortcut' => [
-        'title' => 'Trekking Shortcut'
+        'title' => 'Packages Shortcut'
     ],
 
     'post' => [

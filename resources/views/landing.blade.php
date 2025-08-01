@@ -138,8 +138,9 @@
 
                 {{-- HERO --}}
                 <div class="relative px-4 min-h-screen md:flex md:items-center md:justify-center text-center">
-                    <div class="w-full max-w-3xl mx-auto px-4
-               absolute top-10 sm:top-20 md:static">
+                    <div
+                        class="w-full max-w-3xl mx-auto px-4
+               absolute top-10 sm:top-20 mt-32 md:mt-40 md:static">
                         <h1
                             class="text-2xl sm:text-4xl md:text-6xl font-bold mb-2 sm:mb-4 bg-gradient-to-r from-white to-lime-300 bg-clip-text text-transparent">
                             {{ $headerTitle }}
