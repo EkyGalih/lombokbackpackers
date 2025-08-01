@@ -77,6 +77,12 @@ class Tour extends Model
             static::updating(function ($tour) {
                 $tour->generateSummary();
             });
+
+            // if ($tour->category_id && $tour->order) {
+            //     Tour::where('category_id', $tour->category_id)
+            //         ->where('order', '>=', $tour->order)
+            //         ->increment('order');
+            // }
         });
     }
 
@@ -96,7 +102,7 @@ class Tour extends Model
         return $value;
     }
 
-public function generateSummary()
+    public function generateSummary()
     {
         $locale = app()->getLocale();
 

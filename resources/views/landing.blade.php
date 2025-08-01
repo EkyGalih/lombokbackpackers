@@ -288,7 +288,7 @@
                                         class="absolute bottom-4 left-4 right-4 md:right-auto text-white bg-black/50 p-3 md:p-4 rounded space-y-2 max-w-xs md:max-w-full">
                                         <h2 class="text-sm md:text-2xl font-bold">{{ $slide->title }}</h2>
                                         <p class="text-[10px] md:text-sm text-wrap justify-between">
-                                            {!! $slide->description !!}</p>
+                                            {!! Str::limit($slide->description, 300, '...') !!}</p>
                                         </p>
                                         <a href="{{ route('categories.show', $slide->slug) }}"
                                             class="inline-block px-3 py-1 bg-lime-600 hover:bg-lime-700 text-white text-xs font-medium rounded-br-3xl rounded-tr-md transition">
@@ -342,24 +342,30 @@
                 {{ __('message.shortcut.title') }}
             </h2>
 
-            {{-- Desktop grid --}}
+            {{-- Desktop Grid --}}
             <div class="hidden md:grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                @foreach ($data->chunk(5) as $chunk)
+                @foreach ($shortcut as $categoryName => $tours)
+                    <div>
+                        <h2 class="font-bold text-slate-800 mb-2">{{ $categoryName }}</h2>
+                        <ul class="list-disc pl-4 space-y-1 text-slate-700">
+                            @foreach ($tours->take(5) as $item)
+                                <x-list-shortcut :item="$item" />
+                            @endforeach
+                        </ul>
+                    </div>
+                @endforeach
+            </div>
+
+            {{-- Mobile List --}}
+            <div class="block md:hidden">
+                @foreach ($shortcut as $categoryName => $tours)
+                    <h2 class="font-bold text-slate-800 mt-4 mb-2">{{ $categoryName }}</h2>
                     <ul class="list-disc pl-4 space-y-1 text-slate-700">
-                        @foreach ($chunk as $item)
+                        @foreach ($tours->take(5) as $item)
                             <x-list-shortcut :item="$item" />
                         @endforeach
                     </ul>
                 @endforeach
-            </div>
-
-            {{-- Mobile single list --}}
-            <div class="block md:hidden">
-                <ul class="list-disc pl-4 space-y-1 text-slate-700">
-                    @foreach ($data as $item)
-                        <x-list-shortcut :item="$item" />
-                    @endforeach
-                </ul>
             </div>
 
         </div>

@@ -17,6 +17,7 @@ use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
+use Illuminate\Database\Eloquent\Builder;
 use Filament\Tables;
 use Filament\Tables\Actions\BulkActionGroup;
 use Filament\Tables\Actions\DeleteAction;
@@ -42,31 +43,24 @@ class ToursResource extends Resource
                 ->tabs([
                     Tab::make('General')->schema([
                         Hidden::make('user_id')->default(auth()->id()),
-                        TextInput::make('title')
-                            ->required()
-                            ->placeholder('e.g: Traveling with us 4 days, 3 nights to komodo island')
-                            ->live(onBlur: true)
-                            ->formatStateUsing(function ($state) {
-                                if (is_array($state)) {
-                                    return $state[app()->getLocale()] ?? '';
-                                }
-                                return $state;
-                            })
-                            ->afterStateUpdated(function ($state, callable $set) {
-                                // kalau seo title masih kosong
-                                $set('seoMeta.meta_title', $state);
-                                // set rul seo
-                                $set('seoMeta.canonical_url', url(ENV('APP_URL') . '/tours/' . str($state)->slug()));
-                            }),
                         Grid::make(12)->schema([
-                            TextInput::make('category_name')
-                                ->label('Category')
-                                ->placeholder('ambil berdasarkan category yang sudah ada atau buat baru')
-                                ->datalist(
-                                    Category::pluck('name')->toArray()
-                                )
+                            TextInput::make('title')
                                 ->required()
-                                ->columnSpan(6),
+                                ->placeholder('e.g: Traveling with us 4 days, 3 nights to komodo island')
+                                ->live(onBlur: true)
+                                ->columnSpan(6)
+                                ->formatStateUsing(function ($state) {
+                                    if (is_array($state)) {
+                                        return $state[app()->getLocale()] ?? '';
+                                    }
+                                    return $state;
+                                })
+                                ->afterStateUpdated(function ($state, callable $set) {
+                                    // kalau seo title masih kosong
+                                    $set('seoMeta.meta_title', $state);
+                                    // set rul seo
+                                    $set('seoMeta.canonical_url', url(ENV('APP_URL') . '/tours/' . str($state)->slug()));
+                                }),
                             TextInput::make('duration')->required()->label('Duration (days and nights)')
                                 ->placeholder('e.g., 3 days 2 nights')
                                 ->formatStateUsing(function ($state) {
@@ -76,6 +70,38 @@ class ToursResource extends Resource
                                     return $state;
                                 })
                                 ->columnSpan(6),
+                        ]),
+                        Grid::make(12)->schema([
+                            TextInput::make('category_name')
+                                ->label('Category')
+                                ->placeholder('ambil berdasarkan category yang sudah ada atau buat baru')
+                                ->datalist(
+                                    Category::pluck('name')->toArray()
+                                )
+                                ->required()
+                                ->columnSpan(8)
+                                ->reactive()
+                                ->afterStateUpdated(function ($state, callable $set) {
+                                    // cari category_id berdasarkan nama
+                                    $category = \App\Models\Category::where('name->' . app()->getLocale(), $state)->first();
+
+                                    if ($category) {
+                                        // cari order terakhir pada tour untuk kategori tersebut
+                                        $lastOrder = \App\Models\Tour::where('category_id', $category->id)->max('order') ?? 0;
+
+                                        // isi field order dengan nilai berikutnya
+                                        $set('order', $lastOrder + 1);
+                                    } else {
+                                        $set('order', 1);
+                                    }
+                                }),
+                            TextInput::make('order')
+                                ->label('Priority')
+                                ->columnSpan(4)
+                                ->numeric()
+                                ->dehydrated()
+                                ->reactive()
+                                ->default(1)
                         ]),
                         RichEditor::make('description')
                             ->columnSpanFull()
@@ -241,7 +267,7 @@ class ToursResource extends Resource
             //     ->wrap()
             //     ->limit(50),
             TextColumn::make('duration')->label('Durasi (hari)'),
-            TextColumn::make('seoMeta.meta_title')->label('SEO Title'),
+            TextColumn::make('order')->label('Priority'),
         ])
             ->actions([
                 EditAction::make(),
@@ -271,5 +297,13 @@ class ToursResource extends Resource
             'create' => Pages\CreateTours::route('/create'),
             'edit' => Pages\EditTours::route('/{record}/edit'),
         ];
+    }
+
+    public static function getEloquentQuery(): Builder
+    {
+        return parent::getEloquentQuery()
+            ->with('category')
+            ->orderBy(Category::select('order')->whereColumn('categories.id', 'tours.category_id'))
+            ->orderBy('order');
     }
 }

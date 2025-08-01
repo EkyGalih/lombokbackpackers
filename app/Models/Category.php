@@ -17,7 +17,7 @@ class Category extends Model
     use HasFactory, HasUuid, HasTranslations, AutoTranslateOnSave, FormatCurrency;
 
     protected $guarded = [];
-    public $translatable = ['name', 'description'];
+    public $translatable = ['name', 'overview', 'description'];
 
     public static function booted(): void
     {

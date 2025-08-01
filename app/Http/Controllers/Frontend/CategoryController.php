@@ -21,10 +21,11 @@ class CategoryController extends Controller
     public function show($slug)
     {
         $category = Category::where('slug', $slug)
-            ->select('id', 'name', 'description')
+            ->select('id', 'name', 'overview', 'description')
             ->first();
         $tours_by_category = Tour::where('category_id', $category->id)
             ->with(['media', 'ratings'])
+            ->orderBy('order')
             ->get();
         return view('frontend.categories.show', compact('category', 'tours_by_category'));
     }
