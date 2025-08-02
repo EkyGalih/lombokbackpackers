@@ -83,6 +83,10 @@
     </section>
 
     <section class="py-4 max-w-7xl mx-auto px-4">
+        <div class="flex justify-center items-center mb-6">
+            <x-booking-modal buttonClass="w-32 sm:w-32"
+                colorClass="bg-orange-400 text-slate-900 font-bold hover:bg-orange-200" />
+        </div>
 
         <div x-data="{ tab: 'overview' }">
             {{-- Tabs --}}
@@ -192,55 +196,53 @@
             </div>
 
             {{-- KANAN: Book A Trip --}}
-            <div class="w-full md:w-2/4 bg-teal-100/30 rounded-lg p-6 flex-shrink-0 flex flex-wrap gap-4 items-center">
-                <x-booking-modal :selected-program-id="$tour->id" />
-                &
-                <div class="flex items-center gap-2 flex-wrap">
-                    <span class="text-gray-700 font-semibold">{{ __('Share with:') }}</span>
+            <div
+                class="w-full md:w-2/4 bg-teal-100/30 rounded-lg p-6 flex-shrink-0 flex flex-wrap md:flex-nowrap gap-4 items-start">
 
-                    {{-- Facebook --}}
-                    <a href="https://www.facebook.com/sharer/sharer.php?u={{ urlencode(request()->fullUrl()) }}"
-                        target="_blank"
-                        class="w-8 h-8 flex items-center justify-center rounded-full bg-blue-600 hover:bg-blue-700 text-white transition">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="currentColor"
-                            viewBox="0 0 24 24">
-                            <path
-                                d="M22,12A10,10,0,1,0,10.93,21.94V14.89H8v-2.9h2.93V9.35c0-2.89,1.72-4.49,4.35-4.49a17.58,17.58,0,0,1,2.57.22v2.83H16.86c-1.46,0-1.92.91-1.92,1.85v2.22h3.27l-.52,2.9H14.94v7.05A10,10,0,0,0,22,12Z" />
-                        </svg>
-                    </a>
+                {{-- Tombol Book Now (Mobile Only) --}}
+                <div class="block md:hidden w-full">
+                    <x-booking-modal :selected-program-id="$tour->id" />
+                </div>
 
-                    {{-- X / Twitter --}}
-                    <a href="https://twitter.com/intent/tweet?url={{ urlencode(request()->fullUrl()) }}&text={{ urlencode($tour->title) }}"
-                        target="_blank"
-                        class="w-8 h-8 flex items-center justify-center rounded-full bg-sky-500 hover:bg-sky-600 text-white transition">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24"
-                            class="w-4 h-4">
-                            <path
-                                d="M4.25 3h4.665l3.437 4.955L16.949 3h2.801l-5.578 7.25L20 21h-4.664l-3.717-5.38L7.05 21H4.25l5.912-7.699L4.25 3Zm2.03 1.385 5.239 7.548L7.29 19.615h.662l4.841-6.827 4.959 6.827h.664l-5.336-7.511L16.714 4.385h-.66l-4.427 6.233L7.607 4.385h-.662Z" />
-                        </svg>
-                    </a>
+                {{-- Icon Sosial Media --}}
+                <div class="flex flex-col md:flex-row md:items-center gap-2 w-full">
+                    {{-- Tombol Book Now (Desktop Only) --}}
+                    <div class="hidden md:block">
+                        <x-booking-modal :selected-program-id="$tour->id" />
+                    </div>
 
-                    {{-- WhatsApp --}}
-                    <a href="https://wa.me/?text={{ urlencode($tour->title . ' ' . request()->fullUrl()) }}"
-                        target="_blank"
-                        class="w-8 h-8 flex items-center justify-center rounded-full bg-green-500 hover:bg-green-600 text-white transition">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="currentColor"
-                            viewBox="0 0 24 24">
-                            <path
-                                d="M20.52 3.48A11.78 11.78 0 0012 0C5.38 0 0 5.38 0 12a11.9 11.9 0 001.7 6.16L0 24l6.07-1.59A11.9 11.9 0 0012 24c6.62 0 12-5.38 12-12a11.78 11.78 0 00-3.48-8.52zM12 21.54a9.54 9.54 0 01-4.87-1.33l-.35-.21-3.6.95.96-3.5-.23-.37a9.52 9.52 0 1117.72-5.08 9.53 9.53 0 01-9.53 9.54zm5.26-7.11c-.29-.14-1.72-.85-1.98-.95s-.46-.14-.66.15-.76.95-.93 1.15-.34.22-.63.07a7.73 7.73 0 01-2.28-1.41 8.4 8.4 0 01-1.56-1.93c-.16-.27 0-.42.12-.56s.28-.34.43-.51a1.91 1.91 0 00.28-.47.51.51 0 00-.02-.49c-.06-.14-.66-1.58-.91-2.16s-.49-.5-.66-.51h-.56a1.08 1.08 0 00-.78.36c-.27.28-1.04 1-1.04 2.46s1.07 2.85 1.22 3.05a11 11 0 004.35 3.71c.61.27 1.08.43 1.45.55a3.49 3.49 0 001.59.1c.49-.07 1.72-.7 1.96-1.39s.24-1.27.17-1.39-.26-.2-.55-.34z" />
-                        </svg>
-                    </a>
+                    {{-- Share Section --}}
+                    <div class="flex flex-wrap items-center gap-2">
+                        <span class="text-gray-700 font-semibold">{{ __('Share with:') }}</span>
 
-                    {{-- Telegram --}}
-                    <a href="https://t.me/share/url?url={{ urlencode(request()->fullUrl()) }}&text={{ urlencode($tour->title) }}"
-                        target="_blank"
-                        class="w-8 h-8 flex items-center justify-center rounded-full bg-blue-400 hover:bg-blue-500 text-white transition">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24"
-                            class="w-4 h-4">
-                            <path
-                                d="M21.05 2.39L2.89 10.1c-1.18.49-1.17 1.16-.21 1.45l4.56 1.42 1.72 5.49c.23.7.41.96.88.96.58 0 .84-.21 1.17-.57l2.81-2.71 4.81 3.54c.88.48 1.52.23 1.74-.81l3.15-14.77c.28-1.29-.47-1.88-1.47-1.51zM8.91 13.17l7.71-4.83c.36-.22.69-.1.42.14l-6.57 5.98-.26 3.1-.96-3.39z" />
-                        </svg>
-                    </a>
+                        {{-- Facebook --}}
+                        <a href="https://www.facebook.com/sharer/sharer.php?u={{ urlencode(request()->fullUrl()) }}"
+                            target="_blank"
+                            class="w-8 h-8 flex items-center justify-center rounded-full bg-blue-600 hover:bg-blue-700 text-white transition">
+                            {{-- SVG --}}
+                        </a>
+
+                        {{-- X (Twitter) --}}
+                        <a href="https://twitter.com/intent/tweet?url={{ urlencode(request()->fullUrl()) }}&text={{ urlencode($tour->title) }}"
+                            target="_blank"
+                            class="w-8 h-8 flex items-center justify-center rounded-full bg-sky-500 hover:bg-sky-600 text-white transition">
+                            {{-- SVG --}}
+                        </a>
+
+                        {{-- WhatsApp --}}
+                        <a href="https://wa.me/?text={{ urlencode($tour->title . ' ' . request()->fullUrl()) }}"
+                            target="_blank"
+                            class="w-8 h-8 flex items-center justify-center rounded-full bg-green-500 hover:bg-green-600 text-white transition">
+                            {{-- SVG --}}
+                        </a>
+
+                        {{-- Telegram --}}
+                        <a href="https://t.me/share/url?url={{ urlencode(request()->fullUrl()) }}&text={{ urlencode($tour->title) }}"
+                            target="_blank"
+                            class="w-8 h-8 flex items-center justify-center rounded-full bg-blue-400 hover:bg-blue-500 text-white transition">
+                            {{-- SVG --}}
+                        </a>
+                    </div>
                 </div>
             </div>
 

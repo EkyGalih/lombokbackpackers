@@ -1,24 +1,24 @@
+@props([
+    'selectedProgramId' => null,
+    'buttonClass' => 'w-full sm:w-auto',
+    'colorClass' => 'bg-lime-300 text-slate-900 hover:bg-lime-200' // default class
+])
 <div x-data="{ open: false }" class="relative">
     <!-- Tombol -->
     <button @click="open = true"
-        class="bg-lime-300 text-slate-900 px-5 py-2 rounded-lg shadow hover:bg-lime-200 transition">
+        class="{{ $buttonClass }} {{ $colorClass }} px-5 py-2 rounded-lg shadow transition text-center">
         {{ __('button.book_now') }}
     </button>
 
     <!-- Overlay -->
-    <div x-show="open"
-        x-transition:enter="transition ease-out duration-300"
-        x-transition:enter-start="opacity-0"
-        x-transition:enter-end="opacity-100"
-        x-transition:leave="transition ease-in duration-200"
-        x-transition:leave-start="opacity-100"
-        x-transition:leave-end="opacity-0"
+    <div x-show="open" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0"
+        x-transition:enter-end="opacity-100" x-transition:leave="transition ease-in duration-200"
+        x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0"
         class="fixed inset-0 bg-black bg-opacity-50 z-40">
     </div>
 
     <!-- Modal -->
-    <div x-show="open"
-        x-transition:enter="transition ease-out duration-300"
+    <div x-show="open" x-transition:enter="transition ease-out duration-300"
         x-transition:enter-start="opacity-0 translate-y-4 scale-95"
         x-transition:enter-end="opacity-100 translate-y-0 scale-100"
         x-transition:leave="transition ease-in duration-200"
@@ -29,8 +29,7 @@
             class="bg-white rounded-xl shadow-2xl p-4 sm:p-8 w-full max-w-md sm:max-w-lg relative overflow-y-auto max-h-[90vh]">
 
             <!-- Close button -->
-            <button @click="open = false"
-                class="absolute top-2 right-2 text-teal-400 hover:text-lime-600">
+            <button @click="open = false" class="absolute top-2 right-2 text-teal-400 hover:text-lime-600">
                 ✖
             </button>
 
@@ -75,9 +74,7 @@
                                 <option value="{{ $program['id'] }}">{{ $program['title'] }}</option>
                             @endforeach
                         </select>
-                    </div
-
-                <div>
+                    </div <div>
                     <label class="block text-sm font-medium text-gray-700">{{ __('message.form.dep_date') }}</label>
                     <input type="date" name="dep_date" required
                         class="mt-1 block w-full rounded-lg text-slate-900 border-gray-300 shadow-sm focus:ring-teal-500 focus:border-teal-500 text-sm">

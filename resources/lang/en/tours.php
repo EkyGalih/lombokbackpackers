@@ -5,7 +5,7 @@ return [
     'subtitle' => 'Discover Stunning Destinations',
     'caption' => 'Duration',
     'packet' => 'Packet',
-    'overview' => 'Overview',
+    'overview' => 'Things To Know',
     'notes' => 'Notes',
     'itinerary' => 'Itinerary',
     'include' => 'Tour Price Includes',

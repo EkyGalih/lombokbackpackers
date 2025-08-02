@@ -61,6 +61,7 @@
                     <p class="text-gray-700 text-sm md:text-base leading-relaxed text-justify text-wrap">
                         {!! $category->description !!}
                     </p>
+                    <x-booking-modal />
                 </div>
 
             </div>

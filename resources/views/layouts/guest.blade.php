@@ -79,12 +79,16 @@
         .swiper-button-next:hover {
             opacity: 0.8;
         }
+
+        #toTopBtn {
+            transition: all 0.3s ease-in-out;
+        }
     </style>
     <link
         href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Merriweather:wght@400;700&display=swap"
         rel="stylesheet">
     <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-46ELV7K7Q9"></script>
+    {{-- <script async src="https://www.googletagmanager.com/gtag/js?id=G-46ELV7K7Q9"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
 
@@ -94,7 +98,7 @@
         gtag('js', new Date());
 
         gtag('config', 'G-46ELV7K7Q9');
-    </script>
+    </script> --}}
 </head>
 
 <body class="bg-white text-gray-800 text-sm antialiased font-sans">
@@ -141,7 +145,7 @@
             <div>
                 <h4 class="text-lg font-semibold mb-3">Quick Links</h4>
                 @php
-                    $tour = \App\Models\Tour::latest()->take(5)->get();
+                    $tour = \App\Models\Tour::orderBy('order')->get();
                 @endphp
                 <ul class="space-y-2 text-sm">
                     @foreach ($tour as $item)
@@ -169,6 +173,31 @@
             reserved.
         </div>
     </footer>
+
+    <!-- Tombol WhatsApp dan Scroll to Top -->
+    <div class="fixed bottom-5 right-5 flex flex-col items-center space-y-3 z-50">
+        <!-- Tombol WhatsApp -->
+        <a href="https://wa.me/{{ app(\App\Settings\WebsiteSettings::class)->contact_phone }}" target="_blank"
+            aria-label="Chat WhatsApp"
+            class="bg-green-500 hover:bg-green-600 text-white rounded-full p-3 shadow-lg transition-transform hover:scale-110">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" width="24" height="24"
+                viewBox="0 0 24 24">
+                <path
+                    d="M.057 24l1.687-6.163a11.867 11.867 0 0 1-1.587-5.945C.157 5.3 5.478 0 12.058 0c3.2 0 6.2 1.24 8.476 3.514a11.848 11.848 0 0 1 3.507 8.413c-.003 6.627-5.384 12-12.01 12a11.9 11.9 0 0 1-5.65-1.448L.057 24zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.593 5.448.003 9.888-4.43 9.89-9.872.002-5.462-4.413-9.89-9.881-9.893-5.462-.003-9.89 4.414-9.893 9.881a9.8 9.8 0 0 0 1.513 5.29l-.999 3.648 3.978-1.647zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.668.15-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.52.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.668-1.612-.916-2.206-.242-.579-.487-.5-.668-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.626.712.227 1.36.195 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.413z" />
+            </svg>
+        </a>
+
+        <!-- Tombol Scroll to Top -->
+        <!-- Tombol Scroll to Top -->
+        <button id="toTopBtn"
+            class="opacity-0 pointer-events-none fixed bg-teal-600 hover:bg-teal-700 text-white rounded-full p-3 shadow-lg transition-all duration-300 ease-in-out transform hover:scale-110"
+            style="bottom: 5rem; right: 1.25rem; z-index: 50;" aria-label="Kembali ke atas">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" width="20" height="20" viewBox="0 0 24 24"
+                stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M5 15l7-7 7 7" />
+            </svg>
+        </button>
+    </div>
 
 </body>
 <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
@@ -207,6 +236,26 @@
                 loop: true
             });
         }
+    });
+
+    // Tampilkan tombol ke atas ketika scroll ke bawah
+    const toTopBtn = document.getElementById("toTopBtn");
+
+    window.addEventListener("scroll", () => {
+        if (window.scrollY > 300) {
+            toTopBtn.classList.remove("opacity-0", "pointer-events-none");
+            toTopBtn.classList.add("opacity-100", "pointer-events-auto");
+        } else {
+            toTopBtn.classList.remove("opacity-100", "pointer-events-auto");
+            toTopBtn.classList.add("opacity-0", "pointer-events-none");
+        }
+    });
+
+    toTopBtn.addEventListener("click", () => {
+        window.scrollTo({
+            top: 0,
+            behavior: "smooth"
+        });
     });
 </script>
 

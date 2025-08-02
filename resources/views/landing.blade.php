@@ -90,7 +90,7 @@
                                 </a>
                             @else
                             @endguest --}}
-                            <x-booking-modal />
+                            <x-booking-modal buttonClass="w-full sm:w-32" />
                         </div>
 
                         {{-- Hamburger Button (< lg) --}}
@@ -132,7 +132,7 @@
                                 My Account
                             </a>
                             @endguest --}}
-                        <x-booking-modal />
+                        <x-booking-modal buttonClass="w-full sm:w-32" />
                     </div>
                 </header>
 
@@ -148,7 +148,7 @@
                         <p class="text-sm sm:text-lg md:text-xl mb-4 sm:mb-8 text-white">
                             {{ $headerSubTitle }}
                         </p>
-                        <x-booking-modal />
+                        <x-booking-modal buttonClass="w-32 sm:w-32" />
                     </div>
                 </div>
             </div>
