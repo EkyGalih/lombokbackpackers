@@ -88,7 +88,7 @@
         href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Merriweather:wght@400;700&display=swap"
         rel="stylesheet">
     <!-- Google tag (gtag.js) -->
-    {{-- <script async src="https://www.googletagmanager.com/gtag/js?id=G-46ELV7K7Q9"></script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-46ELV7K7Q9"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
 
@@ -98,7 +98,7 @@
         gtag('js', new Date());
 
         gtag('config', 'G-46ELV7K7Q9');
-    </script> --}}
+    </script>
 </head>
 
 <body class="bg-white text-gray-800 text-sm antialiased font-sans">
