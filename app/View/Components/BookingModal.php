@@ -15,7 +15,12 @@ class BookingModal extends Component
 
     public function __construct($selectedProgramId = null)
     {
-        $this->programs = Tour::all()
+        $this->programs = Tour::select('tours.*')
+            ->join('categories', 'categories.id', '=', 'tours.category_id')
+            ->with('category')
+            ->orderBy('categories.order')
+            ->orderBy('tours.order')
+            ->get()
             ->map(function ($program) {
                 return [
                     'id' => $program->id,

@@ -145,13 +145,21 @@
             <div>
                 <h4 class="text-lg font-semibold mb-3">Quick Links</h4>
                 @php
-                    $tour = \App\Models\Tour::orderBy('order')->get();
+                    $tours = \App\Models\Tour::select('tours.*')
+                        ->join('categories', 'categories.id', '=', 'tours.category_id')
+                        ->with('category')
+                        ->orderBy('categories.order')
+                        ->orderBy('tours.order')
+                        ->get()
+                        ->groupBy(fn($item) => $item->category?->name ?? 'Tanpa Kategori');
                 @endphp
                 <ul class="space-y-2 text-sm">
-                    @foreach ($tour as $item)
-                        <li><a href="{{ route('tours.show', $item->slug) }}"
-                                class="hover:underline hover:text-cyan-300 transition-all duration-300">{{ $item->title }}</a>
-                        </li>
+                    @foreach ($tours as $categoryName => $tour)
+                        @foreach ($tour as $item)
+                            <li><a href="{{ route('tours.show', $item->slug) }}"
+                                    class="hover:underline hover:text-cyan-300 transition-all duration-300">{{ $item->title }}</a>
+                            </li>
+                        @endforeach
                     @endforeach
                 </ul>
             </div>

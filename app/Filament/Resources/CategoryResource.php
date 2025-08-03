@@ -49,6 +49,13 @@ class CategoryResource extends Resource
                 ]),
             RichEditor::make('overview')
                 ->label('Description')
+                ->formatStateUsing(function ($state) {
+                    if (is_array($state)) {
+                        return $state[app()->getLocale()] ?? '';
+                    }
+                    return $state;
+                })
+                ->live(onBlur: false)
                 ->columnSpanFull(),
             RichEditor::make('description')
                 ->label('Content')
