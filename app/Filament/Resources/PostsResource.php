@@ -148,47 +148,35 @@ class PostsResource extends Resource
                         ]),
                         Tab::make('SEO')->schema([
                             TextInput::make('seoMeta.meta_title')
-                                ->label('Meta Title')
-                                ->default('')
-                                ->afterStateHydrated(function ($component, $state) {
-                                    if (blank($state)) {
-                                        $component->state('');
+                                ->formatStateUsing(function ($state) {
+                                    if (is_array($state)) {
+                                        return $state[app()->getLocale()] ?? '';
                                     }
-                                }),
-
+                                    return $state;
+                                })
+                                ->label('Meta Title'),
                             Textarea::make('seoMeta.meta_description')
-                                ->label('Meta Description')
-                                ->default('')
-                                ->afterStateHydrated(function ($component, $state) {
-                                    if (blank($state)) {
-                                        $component->state('');
+                                ->formatStateUsing(function ($state) {
+                                    if (is_array($state)) {
+                                        return $state[app()->getLocale()] ?? '';
                                     }
-                                }),
-
+                                    return $state;
+                                })
+                                ->label('Meta Description'),
                             TextInput::make('seoMeta.keywords')
-                                ->label('Keywords')
-                                ->default('')
-                                ->afterStateHydrated(function ($component, $state) {
-                                    if (blank($state)) {
-                                        $component->state('');
+                                ->formatStateUsing(function ($state) {
+                                    if (is_array($state)) {
+                                        return $state[app()->getLocale()] ?? '';
                                     }
-                                }),
-
-                            TextInput::make('seoMeta.canonical_url')
-                                ->label('Canonical URL')
-                                ->readOnly()
-                                ->default('')
-                                ->afterStateHydrated(function ($component, $state) {
-                                    if (blank($state)) {
-                                        $component->state('');
-                                    }
-                                }),
-
+                                    return $state;
+                                })
+                                ->label('Keywords'),
+                            TextInput::make('seoMeta.canonical_url')->readOnly()->label('Canonical URL'),
                             TextInput::make('seoMeta.robots')
-                                ->label('Robots')
                                 ->readOnly()
+                                ->label('Robots')
                                 ->default('index, follow')
-                                ->afterStateHydrated(function ($component, $state) {
+                                ->afterStateHydrated(function (\Filament\Forms\Components\Component $component, $state) {
                                     if (blank($state)) {
                                         $component->state('index, follow');
                                     }
