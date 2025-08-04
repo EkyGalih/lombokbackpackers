@@ -1,3 +1,7 @@
+@section('seoMeta')
+    <x-seo-meta :meta="$meta" />
+@endsection
+
 <x-guest-layout>
     <x-slot name="nav">
         <x-header title="{{ $page->title }}" breadcrumb="" />

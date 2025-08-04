@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Frontend;
 use App\Http\Controllers\Controller;
 use App\Models\Pages;
 use App\Traits\HasPreview;
-use Illuminate\Http\Request;
 
 class PagesController extends Controller
 {
@@ -17,6 +16,9 @@ class PagesController extends Controller
 
         $this->handlePreview($page);
 
-        return view('frontend.pages.show', compact('page'));
+        return view('frontend.pages.show', [
+            'page' => $page,
+            'meta' => $page->seoMeta
+        ]);
     }
 }

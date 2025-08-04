@@ -84,6 +84,10 @@ class PostsController extends Controller
 
         $this->handlePreview($post);
 
-        return view('frontend.posts.show', compact('post', 'recentPosts'));
+        return view('frontend.posts.show', [
+            'post' => $post,
+            'recentPosts' => $recentPosts,
+            'meta' =>$post->seoMeta
+        ]);
     }
 }
