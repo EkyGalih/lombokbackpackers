@@ -99,6 +99,8 @@
 
         gtag('config', 'G-46ELV7K7Q9');
     </script>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4762845598503420"
+        crossorigin="anonymous"></script>
 </head>
 
 <body class="bg-white text-gray-800 text-sm antialiased font-sans">
