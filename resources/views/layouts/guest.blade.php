@@ -129,7 +129,7 @@
             {{-- Branding --}}
             <div>
                 <div class="flex items-center mb-4 space-x-3">
-                    <img src="{{ imageOrDefault(asset(app(\App\Settings\WebsiteSettings::class)->site_logo), 'header') }}"
+                    <img src="{{ app(\App\Settings\WebsiteSettings::class)->site_logo }}"
                         alt="{{ app(\App\Settings\WebsiteSettings::class)->site_name ?? ENV('APP_NAME') }}"
                         class="h-12 w-12 object-contain rounded-full bg-white/90 p-1 shadow transition-transform hover:scale-110">
                     <span class="text-2xl font-bold">

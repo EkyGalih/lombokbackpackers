@@ -1,155 +1,116 @@
 <x-guest-layout>
     <x-slot name="nav">
-        <section class="relative aspect-[3/4] md:aspect-[16/9] overflow-hidden">
-            {{-- Background Gambar --}}
-            <img src="{{ asset('storage/' . app(\App\Settings\WebsiteSettings::class)->header_image) ?? asset('defaults/no-image-header.png') }}"
-                alt="{{ app(\App\Settings\WebsiteSettings::class)->site_name }}"
-                class="absolute inset-0 w-full aspect-[3/4] md:aspect-[16/9] object-cover opacity-90 z-0" />
+        <div x-data="{ scrolled: false, open: false }" @scroll.window="scrolled = window.scrollY > 50">
 
-            {{-- Overlay warna gradasi jika mau --}}
-            <div class="absolute inset-0 bg-gradient-to-br from-teal-900/70 to-cyan-900/70 z-0"></div>
-
-            {{-- Konten --}}
-            <div class="relative z-10">
-                {{-- TOP BAR --}}
-                <div class="text-sm py-2 px-4 w-full bg-transparent text-white">
-                    <div
-                        class="container mx-auto flex flex-col sm:flex-row justify-between items-center space-y-2 sm:space-y-0">
-                        <div class="space-x-4 text-center sm:text-left">
-                            ✉️ {{ app(\App\Settings\WebsiteSettings::class)->contact_email ?? 'info@travelnesia.com' }}
-                            📞 {{ app(\App\Settings\WebsiteSettings::class)->contact_phone ?? '0812-3456-7890' }}
+            {{-- ✅ TOP BAR (ikut berubah saat scroll) --}}
+            <div :class="scrolled ? 'bg-white text-gray-900 border-b border-gray-200' : 'bg-transparent text-white'"
+                class="text-sm py-2 px-4 fixed top-0 left-0 right-0 z-50 transition-colors duration-300">
+                <div class="container mx-auto flex justify-between items-start">
+                    <div class="flex flex-col sm:items-start items-start text-left sm:text-left">
+                        <div>✉️ {{ app(\App\Settings\WebsiteSettings::class)->contact_email ?? 'info@travelnesia.com' }}
                         </div>
-                        <div class="space-x-3 text-center sm:text-right">
-                            <div class="ml-4 inline-flex gap-2">
-                                <a href="{{ route('lang.switch', 'id') }}"
-                                    class="inline-flex items-center gap-1 {{ app()->getLocale() == 'id' ? 'font-bold underline' : '' }}">
-                                    <svg class="w-4 h-4" viewBox="0 0 512 512">
-                                        <circle cx="256" cy="256" r="256" fill="#fff" />
-                                        <path fill="#e70000" d="M256,0
-                                            A256,256 0 0,1 512,256
-                                            L0,256
-                                            A256,256 0 0,1 256,0z" />
-                                    </svg>
-                                    ID
-                                </a>
-                                |
-                                <a href="{{ route('lang.switch', 'en') }}"
-                                    class="inline-flex items-center gap-1 {{ app()->getLocale() == 'en' ? 'font-bold underline' : '' }}">
-                                    <svg class="w-6 h-6" viewBox="0 0 60 30">
-                                        <clipPath id="circle">
-                                            <circle cx="30" cy="15" r="15" />
-                                        </clipPath>
-                                        <clipPath id="s">
-                                            <path d="M30,15 h30 v15 h-30 z M0,0 h30 v15 h-30 z" />
-                                        </clipPath>
-                                        <g clip-path="url(#circle)">
-                                            <path d="M0,0 v30 h60 v-30 z" fill="#012169" />
-                                            <path d="M0,0 L60,30 M60,0 L0,30" stroke="#fff" stroke-width="6" />
-                                            <path d="M0,0 L60,30 M60,0 L0,30" clip-path="url(#s)" stroke="#c8102e"
-                                                stroke-width="4" />
-                                            <path d="M30,0 v30 M0,15 h60" stroke="#fff" stroke-width="10" />
-                                            <path d="M30,0 v30 M0,15 h60" stroke="#c8102e" stroke-width="6" />
-                                        </g>
-                                    </svg>
-                                    EN
-                                </a>
-                            </div>
-                        </div>
-
+                        <div>📞 {{ app(\App\Settings\WebsiteSettings::class)->contact_phone ?? '0812-3456-7890' }}</div>
+                    </div>
+                    <div class="space-x-2">
+                        <a href="{{ route('lang.switch', 'id') }}"
+                            :class="scrolled ?
+                                'bg-gradient-to-br from-red-600 to-white bg-clip-text text-transparent font-bold underline' :
+                                'bg-gradient-to-b from-red-600 to-white bg-clip-text text-transparent font-bold underline'"
+                            class="transition-colors duration-300 {{ app()->getLocale() == 'id' ? 'font-bold underline' : '' }}">ID</a>
+                        |
+                        <a href="{{ route('lang.switch', 'en') }}"
+                            :class="scrolled ?
+                                'bg-gradient-to-br from-blue-900 via-white to-red-600 bg-clip-text text-transparent font-bold underline' :
+                                'bg-gradient-to-br from-blue-900 via-white to-red-600 bg-clip-text text-transparent font-bold underline'"
+                            class="transition-colors duration-300 {{ app()->getLocale() == 'en' ? 'font-bold underline' : '' }}">EN</a>
                     </div>
                 </div>
+            </div>
 
-                <!-- GARIS PEMISAH -->
-                <div class="top-[50px] w-full border-t border-white opacity-10 z-40"></div>
+            {{-- ✅ NAVBAR --}}
+            <header :class="scrolled ? 'bg-white text-gray-900 shadow' : 'bg-transparent text-white'"
+                class="fixed top-[44px] left-0 right-0 z-40 transition-colors duration-300">
+                <div class="container mx-auto flex justify-between items-center px-6 py-4">
+                    {{-- Logo --}}
+                    <a href="/" class="flex items-center space-x-3 text-1xl font-bold">
+                        <img src="{{ asset('storage/' . app(\App\Settings\WebsiteSettings::class)->site_logo) }}"
+                            class="h-10 w-10 object-cover rounded-full bg-white" />
+                        <span>{{ app(\App\Settings\WebsiteSettings::class)->site_name }}</span>
+                    </a>
 
-                {{-- HEADER --}}
-                <header class="w-full bg-transparent text-white transition-colors duration-300" x-data="{ open: false }">
-                    <div class="container mx-auto flex justify-between items-center px-6 py-4">
-                        {{-- Logo --}}
-                        <a href="{{ url('/') }}" class="flex items-center space-x-3 text-2xl font-bold text-white">
-                            <img src="{{ asset('storage/' . app(\App\Settings\WebsiteSettings::class)->site_logo) ?? asset('defaults/no-image.png') }}"
-                                alt="{{ app(\App\Settings\WebsiteSettings::class)->site_name ?? config('app.name') }}"
-                                class="h-10 w-10 object-cover rounded-full shadow bg-white" />
-                            <span>{{ app(\App\Settings\WebsiteSettings::class)->site_name ?? config('app.name') }}</span>
-                        </a>
-
-                        {{-- Desktop Menu (≥ lg) --}}
-                        <div class="hidden lg:flex space-x-8 items-center">
-                            @if ($menu->isNotEmpty())
-                                <ul class="flex space-x-4">
-                                    @foreach ($menu as $item)
-                                        <x-menu-item :item="$item" :depth="0" :isMobile="false" />
-                                    @endforeach
-                                </ul>
-                            @endif
-
-                            {{-- @guest
-                                <a href="{{ route('login') }}"
-                                    class="bg-lime-300 text-slate-900 px-5 py-2 rounded-lg shadow hover:bg-lime-200 transition">
-                                    Masuk
-                                </a>
-                            @else
-                            @endguest --}}
-                            <x-booking-modal buttonClass="w-full sm:w-32" />
-                        </div>
-
-                        {{-- Hamburger Button (< lg) --}}
-                        <button @click="open = !open"
-                            class="lg:hidden inline-flex items-center justify-center p-2 rounded-md text-white hover:text-cyan-300 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-cyan-300">
-                            <svg class="h-6 w-6" x-show="!open" fill="none" stroke="currentColor"
-                                viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M4 6h16M4 12h16M4 18h16" />
-                            </svg>
-                            <svg class="h-6 w-6" x-show="open" fill="none" stroke="currentColor"
-                                viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M6 18L18 6M6 6l12 12" />
-                            </svg>
-                        </button>
-                    </div>
-
-                    {{-- Mobile Menu (< lg) --}}
-                    <div x-show="open" x-transition @click.away="open = false"
-                        class="lg:hidden px-6 pb-4 pt-2 space-y-2 bg-white text-gray-800 rounded-b-lg shadow">
+                    {{-- Menu Desktop --}}
+                    <div class="hidden lg:flex space-x-8 items-center">
                         @if ($menu->isNotEmpty())
-                            <ul class="space-y-2">
+                            <ul class="flex space-x-4">
                                 @foreach ($menu as $item)
-                                    <x-menu-item :item="$item" :depth="0" :isMobile="true" />
+                                    <x-menu-item :item="$item" :depth="0" :isMobile="false" />
                                 @endforeach
                             </ul>
                         @endif
+                        <x-booking-modal buttonClass="w-32" />
+                    </div>
 
-                        {{-- @guest
+                    {{-- Hamburger Mobile --}}
+                    <button @click="open = !open" :class="scrolled ? 'text-gray-900' : 'text-white'"
+                        class="lg:hidden p-2 focus:outline-none transition-colors duration-300">
+                        <svg x-show="!open" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M4 6h16M4 12h16M4 18h16" />
+                        </svg>
+                        <svg x-show="open" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                    </button>
+                </div>
+
+                {{-- Mobile Menu --}}
+                <div x-show="open" x-transition @click.away="open = false"
+                    class="lg:hidden px-6 pb-4 pt-2 space-y-2 bg-white text-gray-800 rounded-b-lg shadow">
+                    @if ($menu->isNotEmpty())
+                        <ul class="space-y-2">
+                            @foreach ($menu as $item)
+                                <x-menu-item :item="$item" :depth="0" :isMobile="true" />
+                            @endforeach
+                        </ul>
+                    @endif
+
+                    {{-- @guest
                             <a href="{{ route('login') }}"
                                 class="block py-2 px-3 rounded-lg hover:bg-cyan-600 hover:text-cyan-200 transition">
                                 Masuk
                             </a> --}}
 
-                        {{-- @else
+                    {{-- @else
                             <a href="{{ route('profile.edit') }}"
                                 class="block bg-cyan-300 text-orange-950 px-5 py-2 rounded-lg mt-2 hover:bg-cyan-600 text-center shadow transition">
                                 My Account
                             </a>
                             @endguest --}}
-                        <x-booking-modal buttonClass="w-full sm:w-32" />
-                    </div>
-                </header>
+                    <x-booking-modal buttonClass="w-full sm:w-32" />
+                </div>
+            </header>
 
-                {{-- HERO --}}
-                <div class="relative px-4 min-h-screen md:flex md:items-center md:justify-center text-center">
-                    <div
-                        class="w-full max-w-3xl mx-auto px-4
-               absolute top-10 sm:top-20 mt-32 md:mt-40 md:static">
-                        <h1
-                            class="text-2xl sm:text-4xl md:text-6xl font-bold mb-2 sm:mb-4 bg-gradient-to-r from-white to-lime-300 bg-clip-text text-transparent">
-                            {{ $headerTitle }}
-                        </h1>
-                        <p class="text-sm sm:text-lg md:text-xl mb-4 sm:mb-8 text-white">
-                            {{ $headerSubTitle }}
-                        </p>
-                        <x-booking-modal buttonClass="w-32 sm:w-32" />
-                    </div>
+        </div>
+
+        {{-- SECTION HERO --}}
+        <section class="pt-[160px] relative aspect-[3/4] md:aspect-[16/9] overflow-hidden">
+            <img src="{{ asset('storage/' . app(\App\Settings\WebsiteSettings::class)->header_image) ?? asset('defaults/no-image-header.png') }}"
+                alt="Header" class="absolute inset-0 w-full h-full object-cover opacity-90 z-0" />
+            <div class="absolute inset-0 bg-gradient-to-br from-teal-900/70 to-cyan-900/70 z-0"></div>
+
+            <div class="relative px-4 min-h-screen md:flex md:items-center md:justify-center text-center">
+                <div
+                    class="w-full max-w-3xl mx-auto px-4
+               absolute top-10 sm:top-20 mt-36 md:mt-40 md:static">
+                    <h1
+                        class="text-2xl sm:text-4xl md:text-6xl font-bold mb-2 sm:mb-4 bg-gradient-to-r from-white to-lime-300 bg-clip-text text-transparent">
+                        {{ $headerTitle }}
+                    </h1>
+                    <p class="text-sm sm:text-lg md:text-xl mb-4 sm:mb-8 text-white">
+                        {{ $headerSubTitle }}
+                    </p>
+                    <x-booking-modal buttonClass="w-32 sm:w-32" />
                 </div>
             </div>
         </section>
