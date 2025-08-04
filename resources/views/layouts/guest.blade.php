@@ -179,6 +179,15 @@
         </div>
 
         <div class="relative z-10 mt-10 border-t border-teal-700 pt-4 text-center text-sm text-gray-300">
+            <div class="mt-4 text-center space-x-3">
+                <a href="{{ url('/page/privacy-policy') }}" class="hover:underline hover:text-white/90">Privacy Policy</a>
+                <span class="text-white/50">|</span>
+                <a href="{{ url('/page/terms-and-conditions') }}" class="hover:underline hover:text-white/90">Terms &
+                    Conditions</a>
+                <span class="text-white/50">|</span>
+                <a href="{{ url('/page/disclaimer') }}" class="hover:underline hover:text-white/90">Disclaimer</a>
+            </div>
+
             &copy; {{ date('Y') }} {{ app(\App\Settings\WebsiteSettings::class)->site_name }}. All rights
             reserved.
         </div>
