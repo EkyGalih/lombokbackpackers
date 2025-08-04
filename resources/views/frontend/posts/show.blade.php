@@ -4,7 +4,7 @@
     </x-slot>
 
     <section class="bg-gray-100 py-16">
-        <div class="container mx-auto px-6 text-center">
+        <div class="container mx-auto px-6 text-left">
             @if ($post)
                 <div class="grid md:grid-cols-3 gap-8 animate-fade-in">
                     <!-- Kolom Konten -->
