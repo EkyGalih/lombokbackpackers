@@ -148,31 +148,51 @@ class PostsResource extends Resource
                         ]),
                         Tab::make('SEO')->schema([
                             TextInput::make('seoMeta.meta_title')
-                                ->formatStateUsing(function ($state) {
-                                    if (is_array($state)) {
-                                        return $state[app()->getLocale()] ?? '';
+                                ->label('Meta Title')
+                                ->default('')
+                                ->afterStateHydrated(function ($component, $state) {
+                                    if (blank($state)) {
+                                        $component->state('');
                                     }
-                                    return $state;
-                                })
-                                ->label('Meta Title'),
+                                }),
+
                             Textarea::make('seoMeta.meta_description')
-                                ->formatStateUsing(function ($state) {
-                                    if (is_array($state)) {
-                                        return $state[app()->getLocale()] ?? '';
+                                ->label('Meta Description')
+                                ->default('')
+                                ->afterStateHydrated(function ($component, $state) {
+                                    if (blank($state)) {
+                                        $component->state('');
                                     }
-                                    return $state;
-                                })
-                                ->label('Meta Description'),
+                                }),
+
                             TextInput::make('seoMeta.keywords')
-                                ->formatStateUsing(function ($state) {
-                                    if (is_array($state)) {
-                                        return $state[app()->getLocale()] ?? '';
+                                ->label('Keywords')
+                                ->default('')
+                                ->afterStateHydrated(function ($component, $state) {
+                                    if (blank($state)) {
+                                        $component->state('');
                                     }
-                                    return $state;
-                                })
-                                ->label('Keywords'),
-                            TextInput::make('seoMeta.canonical_url')->readOnly()->label('Canonical URL'),
-                            TextInput::make('seoMeta.robots')->readOnly()->label('Robots')->default('index, follow'),
+                                }),
+
+                            TextInput::make('seoMeta.canonical_url')
+                                ->label('Canonical URL')
+                                ->readOnly()
+                                ->default('')
+                                ->afterStateHydrated(function ($component, $state) {
+                                    if (blank($state)) {
+                                        $component->state('');
+                                    }
+                                }),
+
+                            TextInput::make('seoMeta.robots')
+                                ->label('Robots')
+                                ->readOnly()
+                                ->default('index, follow')
+                                ->afterStateHydrated(function ($component, $state) {
+                                    if (blank($state)) {
+                                        $component->state('index, follow');
+                                    }
+                                }),
                         ]),
                     ]),
             ]);
