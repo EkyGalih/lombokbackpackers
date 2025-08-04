@@ -4,8 +4,9 @@
     </x-slot>
 
     <section class="bg-gray-100 py-16">
-        <div class="container max-w-screen-xl mx-auto px-6 text-center">
+        <div class="container max-w-screen-xl mx-auto px-6 text-left">
             @if ($page)
+
                 <div class="grid md:grid-cols-3 gap-8 animate-fade-in">
                     <!-- Kolom Konten -->
                     <div class="md:col-span-2 space-y-6">
@@ -18,7 +19,9 @@
                             </div>
                         </div>
 
-                        <div class="text-justify text-slate-900 animate-fade-in">
+                        <div class="prose prose-sm max-w-none text-slate-900 animate-fade-in">
+                            <h1>{{ $page->title }}</h1>
+                            <hr />
                             {!! $page->content !!}
                         </div>
                     </div>

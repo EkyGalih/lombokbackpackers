@@ -28,7 +28,7 @@
                             {{ $post->title }}
                         </h1>
 
-                        <div class="text-justify text-slate-900 animate-fade-in">
+                        <div class="prose prose-sm max-w-none text-slate-900 animate-fade-in">
                             {!! $post->content !!}
                         </div>
                     </div>
