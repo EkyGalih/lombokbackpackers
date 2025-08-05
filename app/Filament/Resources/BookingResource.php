@@ -114,4 +114,9 @@ class BookingResource extends Resource
             'edit' => Pages\EditBooking::route('/{record}/edit'),
         ];
     }
+
+    public static function shouldRegisterNavigation(): bool
+    {
+        return false;
+    }
 }

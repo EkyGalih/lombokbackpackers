@@ -38,16 +38,18 @@ Route::middleware('auth')->group(function () {
             ->name('invoice.download');
     });
 
-    Route::get('/admin/lang/{locale}', function ($locale) {
-        if (! in_array($locale, ['en', 'id'])) {
-            abort(400);
-        }
-        session(['locale' => $locale]);
-        session()->save(); // <<== penting untuk memastikan session tersimpan ke DB
+    // Route::group(['prefix', 'lang'], function () {
+    //     Route::get('/lang/{locale}', function ($locale) {
+    //         if (! in_array($locale, ['en', 'id'])) {
+    //             abort(400);
+    //         }
+    //         session(['locale' => $locale]);
+    //         session()->save(); // <<== penting untuk memastikan session tersimpan ke DB
 
-        // return dd(session());
-        return back();
-    })->name('admin-lang.switch');
+    //         // return dd(session());
+    //         return back();
+    //     })->name('admin-lang.switch');
+    // });
 });
 
 Route::post('booking', [BookingController::class, 'book'])->name('book');

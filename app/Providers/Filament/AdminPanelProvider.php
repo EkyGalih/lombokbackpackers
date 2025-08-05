@@ -50,14 +50,14 @@ class AdminPanelProvider extends PanelProvider
             ->colors([
                 'primary' => Color::Amber,
             ])
-            ->userMenuItems([
-                UserMenuItem::make()
-                    ->label('🌐: ' . strtoupper(app()->getLocale()))
-                    ->icon('heroicon-o-language')
-                    ->url(fn() => route('admin-lang.switch', [
-                        'locale' => app()->getLocale() === 'id' ? 'en' : 'id',
-                    ])),
-            ])
+            // ->userMenuItems([
+            //     UserMenuItem::make()
+            //         ->label('🌐: ' . strtoupper(app()->getLocale()))
+            //         ->icon('heroicon-o-language')
+            //         ->url(fn() => route('admin-lang.switch', [
+            //             'locale' => app()->getLocale() === 'id' ? 'en' : 'id',
+            //         ])),
+            // ])
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')
             ->discoverPages(in: app_path('Filament/Pages'), for: 'App\\Filament\\Pages')
             ->pages([
