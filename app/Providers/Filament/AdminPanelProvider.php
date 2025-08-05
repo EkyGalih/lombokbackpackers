@@ -45,6 +45,7 @@ class AdminPanelProvider extends PanelProvider
             ->login(Login::class)
             ->profile(\App\Filament\Resources\EditProfileResource\Pages\EditProfile::class)
             ->spa()
+            ->favicon(asset('storage/' . ltrim(app(\App\Settings\WebsiteSettings::class)->site_logo, '/')))
             ->breadcrumbs(false)
             ->colors([
                 'primary' => Color::Amber,
@@ -72,11 +73,6 @@ class AdminPanelProvider extends PanelProvider
             ->widgets([
                 CustomAccountWidget::class,
                 SystemStatusWidget::class,
-                // StatsWidget::class,
-                // WidgetsBookingPaymentChart::class,
-                // DailyTrendChart::class,
-                // ActivitiesWidget::class,
-                // TourCompositionChart::class,
             ])
             ->middleware([
                 EncryptCookies::class,
