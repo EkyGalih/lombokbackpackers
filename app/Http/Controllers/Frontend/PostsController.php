@@ -30,7 +30,7 @@ class PostsController extends Controller
             $query->where('title', 'like', '%' . $request->search . '%');
         }
 
-        $posts = $query->orderByDesc('updated_at')->paginate(8);
+        $posts = $query->orderByDesc('created_at')->paginate(8);
         $categories = Posts::pluck('category')->flatten()->unique();
         $allTags = Posts::pluck('tags')->flatten()->unique();
 
