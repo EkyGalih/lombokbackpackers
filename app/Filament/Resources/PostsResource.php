@@ -58,7 +58,7 @@ class PostsResource extends Resource
                                             // Kalau slug masih kosong
                                             $set('slug', str($state)->slug());
                                             // set url seo
-                                            $set('seoMeta.canonical_url', url(ENV('APP_URL') . '/posts/' . str($state)->slug()));
+                                            $set('seoMeta.canonical_url', url(ENV('APP_URL') . '/blog/' . str($state)->slug()));
                                         })
                                         ->columnSpan(12)
                                 ]),
