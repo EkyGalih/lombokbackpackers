@@ -1,3 +1,7 @@
+@section('title')
+    <x-title :title="$tour->title . ' | '"/>
+@endsection
+
 @section('seoMeta')
     <x-seo-meta :meta="$seoMeta" />
 @endsection

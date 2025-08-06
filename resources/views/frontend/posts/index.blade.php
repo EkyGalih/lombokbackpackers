@@ -1,3 +1,7 @@
+@section('title')
+    <x-title :title="'BLOG | '"/>
+@endsection
+
 <x-guest-layout>
     <x-slot name="nav">
         <x-header title="{{ __('message.post.title_all') }}" breadcrumb="{!! $breadcrumb ?? __('message.post.title_all') !!}" />

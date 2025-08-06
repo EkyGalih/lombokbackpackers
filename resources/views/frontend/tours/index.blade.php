@@ -1,3 +1,7 @@
+@section('title')
+    <x-title :title="'Tours | '"/>
+@endsection
+
 <x-guest-layout>
     @php
         $headerImage = imageOrDefault(app(\App\Settings\WebsiteSettings::class)->header_image, 'header');

@@ -1,3 +1,7 @@
+@section('title')
+    <x-title />
+@endsection
+
 <x-guest-layout>
     <x-slot name="nav">
         <div x-data="{ scrolled: false, open: false }" @scroll.window="scrolled = window.scrollY > 50">

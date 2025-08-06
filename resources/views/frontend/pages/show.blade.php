@@ -1,3 +1,7 @@
+@section('title')
+    <x-title :title="$page->title . ' | '"/>
+@endsection
+
 @section('seoMeta')
     <x-seo-meta :meta="$meta" />
 @endsection

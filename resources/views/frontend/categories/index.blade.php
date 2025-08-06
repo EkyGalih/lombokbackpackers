@@ -1,3 +1,7 @@
+@section('title')
+    <x-title :title="'Destinations | '"/>
+@endsection
+
 <x-guest-layout>
     <x-slot name="nav">
         <x-header title="{{ __('destination.title') }}" breadcrumb="{{ __('destination.title') }}" />

@@ -1,3 +1,7 @@
+@section('title')
+    <x-title :title="$category->name . ' | '"/>
+@endsection
+
 <x-guest-layout>
     <x-slot name="nav">
         <x-header title="{{ __('destination.title') }}"

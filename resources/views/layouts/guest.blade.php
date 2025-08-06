@@ -3,13 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>
-        @hasSection('title')
-            @yield('title') - {{ app(\App\Settings\WebsiteSettings::class)->site_name ?? config('app.name') }}
-        @else
-            {{ app(\App\Settings\WebsiteSettings::class)->site_name ?? config('app.name') }}
-        @endif
-    </title>
+    @yield('title')
     <link rel="icon" type="image/png"
         href="{{ asset('storage/' . app(\App\Settings\WebsiteSettings::class)->favicon) ?? asset('defaults/no-image.png') }}">
     @yield('seoMeta')
@@ -88,7 +82,7 @@
         href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Merriweather:wght@400;700&display=swap"
         rel="stylesheet">
     <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-46ELV7K7Q9"></script>
+    {{-- <script async src="https://www.googletagmanager.com/gtag/js?id=G-46ELV7K7Q9"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
 
@@ -100,7 +94,7 @@
         gtag('config', 'G-46ELV7K7Q9');
     </script>
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4762845598503420"
-        crossorigin="anonymous"></script>
+        crossorigin="anonymous"></script> --}}
 </head>
 
 <body class="bg-white text-gray-800 text-sm antialiased font-sans">
@@ -180,7 +174,8 @@
 
         <div class="relative z-10 mt-10 border-t border-teal-700 pt-4 text-center text-sm text-gray-300">
             <div class="mt-4 text-center space-x-3">
-                <a href="{{ url('/page/privacy-policy') }}" class="hover:underline hover:text-white/90">Privacy Policy</a>
+                <a href="{{ url('/page/privacy-policy') }}" class="hover:underline hover:text-white/90">Privacy
+                    Policy</a>
                 <span class="text-white/50">|</span>
                 <a href="{{ url('/page/terms-and-conditions') }}" class="hover:underline hover:text-white/90">Terms &
                     Conditions</a>

@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Frontend;
 use App\Http\Controllers\Controller;
 use App\Models\Category;
 use App\Models\Tour;
-use Illuminate\Http\Request;
 
 class CategoryController extends Controller
 {
@@ -15,6 +14,7 @@ class CategoryController extends Controller
             ->with(['tours'])
             ->withCount('tours')
             ->get();
+            dd($categories);
         return view('frontend.categories.index', compact('categories'));
     }
 
