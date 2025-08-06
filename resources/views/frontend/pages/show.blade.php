@@ -1,5 +1,5 @@
 @section('title')
-    <x-title :title="$page->title . ' | '"/>
+    <x-title :title="$meta->meta_title . ' | '"/>
 @endsection
 
 @section('seoMeta')

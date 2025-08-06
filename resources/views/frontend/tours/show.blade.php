@@ -1,5 +1,5 @@
 @section('title')
-    <x-title :title="$tour->title . ' | '"/>
+    <x-title :title="$seoMeta->meta_title . ' | '"/>
 @endsection
 
 @section('seoMeta')
