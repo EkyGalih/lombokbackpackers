@@ -33,22 +33,18 @@
                                 @php
                                     $value = is_array($item) ? $item['value'] ?? '' : $item;
 
-                                    // cari posisi koma terakhir
-                                    $delimiterPos = strrpos($value, ',');
+                                    // Ambil angka terakhir di string
+                                    preg_match_all('/\d{1,3}(?:[.,]\d{3})+/', $value, $matches);
 
-                                    if ($delimiterPos !== false) {
-                                        $first = trim(substr($value, 0, $delimiterPos)); // dari awal sampai sebelum koma
-                                        $secondRaw = trim(substr($value, $delimiterPos + 1)); // setelah koma
-                                    } else {
-                                        $first = $value;
-                                        $secondRaw = '';
-                                    }
+                                    $secondRaw = !empty($matches[0]) ? end($matches[0]) : null;
+                                    $secondClean = $secondRaw ? (int) str_replace(['.', ','], '', $secondRaw) : 0;
 
-                                    $secondClean = (int) str_replace(['.', ','], '', $secondRaw);
+                                    // Ambil teks selain harga
+                                    $first = trim(str_replace($secondRaw, '', $value));
                                 @endphp
 
                                 <span class="text-sm block">
-                                    {{ $first . ', ' . $tour->formatCurrency($secondClean) }}
+                                    {{ $first .' '. $tour->formatCurrency($secondClean) }}
                                 </span>
                             @endforeach
                         @else
