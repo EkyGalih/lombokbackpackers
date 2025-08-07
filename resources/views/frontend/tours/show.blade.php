@@ -1,5 +1,5 @@
 @section('title')
-    <x-title :title="$seoMeta->meta_title . ' | '"/>
+    <x-title :title="$seoMeta->meta_title . ' | '" />
 @endsection
 
 @section('seoMeta')
@@ -30,8 +30,25 @@
                         {{ __('tours.packet') }}
                         @if (!empty($tour->packet) && is_array($tour->packet))
                             @foreach ($tour->packet as $item)
+                                @php
+                                    $value = is_array($item) ? $item['value'] ?? '' : $item;
+
+                                    // cari posisi koma terakhir
+                                    $delimiterPos = strrpos($value, ',');
+
+                                    if ($delimiterPos !== false) {
+                                        $first = trim(substr($value, 0, $delimiterPos)); // dari awal sampai sebelum koma
+                                        $secondRaw = trim(substr($value, $delimiterPos + 1)); // setelah koma
+                                    } else {
+                                        $first = $value;
+                                        $secondRaw = '';
+                                    }
+
+                                    $secondClean = (int) str_replace(['.', ','], '', $secondRaw);
+                                @endphp
+
                                 <span class="text-sm block">
-                                    {{ is_array($item) ? $item['value'] ?? '' : $item }}
+                                    {{ $first . ', ' . $tour->formatCurrency($secondClean) }}
                                 </span>
                             @endforeach
                         @else
