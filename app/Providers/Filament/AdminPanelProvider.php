@@ -4,6 +4,7 @@ namespace App\Providers\Filament;
 
 use App\Filament\Auth\Login;
 use App\Filament\Resources\ActivitiesWidgetResource\Widgets\ActivitiesWidget;
+use App\Filament\Resources\BookingClickStatsResource\Widgets\BookingClicksStats;
 use App\Filament\Resources\BookingPaymentChartResource\Widgets\BookingPaymentChart as WidgetsBookingPaymentChart;
 use App\Filament\Resources\CustomAccountWidgetResource\Widgets\CustomAccountWidget;
 use App\Filament\Resources\DailyTrendChartResource\Widgets\DailyTrendChart;
@@ -73,6 +74,7 @@ class AdminPanelProvider extends PanelProvider
             ->widgets([
                 CustomAccountWidget::class,
                 SystemStatusWidget::class,
+                BookingClicksStats::class,
             ])
             ->middleware([
                 EncryptCookies::class,

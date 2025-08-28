@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Frontend;
 use App\Http\Controllers\Controller;
 use App\Mail\ConfirmedPaymentMail;
 use App\Models\Booking;
+use App\Models\BookingClick;
 use App\Models\Tour;
 use App\Settings\WebsiteSettings;
 use Barryvdh\DomPDF\Facade\Pdf;
@@ -82,8 +83,8 @@ class BookingController extends Controller
 
         // Buat pesan
         $pesan = urlencode(
-            __('message.message')."\n"
-            . "{$tour->title}\n"
+            __('message.message') . "\n"
+                . "{$tour->title}\n"
             // . "Harga: Rp " . number_format($tour->price) . "\n"
         );
 
@@ -100,16 +101,34 @@ class BookingController extends Controller
         // Nomor WhatsApp Admin/CS
         $nomorCS = app(WebsiteSettings::class)->contact_phone; // Ganti dengan nomor CS kamu (tanpa + atau 0 di depan)
 
+        // Ambil IP & lokasi
+        $ip = $request->ip();
+        $location = geoip($ip);
+
+        // Buat data tracking baru setiap kali klik
+        $click = new BookingClick();
+        $click->ip_address      = $ip;
+        $click->country         = $location->country ?? null;
+        $click->city            = $location->city ?? null;
+        $click->program         = $tour_packet ?? null;
+        $click->referer         = $request->header('referer');
+        $click->user_agent      = $request->header('User-Agent');
+        $click->session_id      = session()->getId();
+        $click->last_clicked_at = now();
+        $click->click_count     = 1; // selalu mulai dari 1
+
+        $click->save();
+
         // Buat pesan
         $pesan = urlencode(
-            __('message.message')."\n\n"
-            . __('message.form.name') .": {$request->nama}\n"
-            . __('message.form.pax') .": {$request->pax} ".__('message.form.people') ."\n"
-            . __('message.form.national') .": {$request->nationality}\n"
-            . __('message.form.program') .": {$tour_packet}\n"
-            . __('message.form.dep_date') .": {$request->dep_date}\n"
-            . __('message.form.message') .": {$request->pesan}\n\n"
-            . __('message.form.thanks')
+            __('message.message') . "\n\n"
+                . __('message.form.name') . ": {$request->nama}\n"
+                . __('message.form.pax') . ": {$request->pax} " . __('message.form.people') . "\n"
+                . __('message.form.national') . ": {$request->nationality}\n"
+                . __('message.form.program') . ": {$tour_packet}\n"
+                . __('message.form.dep_date') . ": {$request->dep_date}\n"
+                . __('message.form.message') . ": {$request->pesan}\n\n"
+                . __('message.form.thanks')
         );
 
         // Buat URL WhatsApp
