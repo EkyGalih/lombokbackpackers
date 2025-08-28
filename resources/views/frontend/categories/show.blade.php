@@ -62,7 +62,7 @@
 
                 {{-- Kanan: Grid card destinasi --}}
                 <div class="space-y-4">
-                    <p class="text-gray-700 text-sm md:text-base leading-relaxed text-justify text-wrap">
+                    <p class="prose prose-xs max-w-none text-gray-800">
                         {!! $category->description !!}
                     </p>
                     <x-booking-modal />

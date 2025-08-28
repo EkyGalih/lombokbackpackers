@@ -178,7 +178,7 @@
                     x-transition:leave-start="opacity-100 translate-x-0"
                     x-transition:leave-end="opacity-0 -translate-x-4">
                     <div class="p-4">
-                        <div class="bg-white rounded-lg border p-4 md:p-6 gap-6">
+                        <div class="bg-white rounded-lg border p-4 md:p-6">
                             <div class="prose prose-xs max-w-none text-gray-800">
                                 {!! $tour->itinerary !!}
                             </div>

@@ -14,3 +14,10 @@
 .font-playfair {
     font-family: 'Playfair Display', serif;
 }
+
+.prose img {
+  margin-bottom: -0.5rem;
+}
+
+
+
