@@ -61,7 +61,7 @@
                             class="mt-1 block w-full rounded-lg text-slate-900 border-gray-300 shadow-sm focus:ring-teal-500 focus:border-teal-500 text-sm">
                     </div>
                 </div>
-                
+
                 <div x-data="{
                     selectedProgram: '{{ $selectedProgramId ?? '' }}',
                 }" class="space-y-3 sm:space-y-4">

@@ -101,7 +101,7 @@
 
     <section class="py-4 max-w-7xl mx-auto px-4">
         <div class="flex justify-center items-center mb-6">
-            <x-booking-modal buttonClass="w-32 sm:w-32"
+            <x-booking-modal buttonClass="w-32 sm:w-32" :selected-program-id="$tour->id"
                 colorClass="bg-orange-400 text-slate-900 font-bold hover:bg-orange-200" />
         </div>
 
