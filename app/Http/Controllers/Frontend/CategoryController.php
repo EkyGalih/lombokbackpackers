@@ -14,7 +14,7 @@ class CategoryController extends Controller
             ->with(['tours'])
             ->withCount('tours')
             ->get();
-            dd($categories);
+
         return view('frontend.categories.index', compact('categories'));
     }
 
