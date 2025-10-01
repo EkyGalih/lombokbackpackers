@@ -82,7 +82,18 @@
         href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Merriweather:wght@400;700&display=swap"
         rel="stylesheet">
     <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-46ELV7K7Q9"></script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=AW-17609637894"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+
+        function gtag() {
+            dataLayer.push(arguments);
+        }
+        gtag('js', new Date());
+
+        gtag('config', 'AW-17609637894');
+    </script>
+    {{-- <script async src="https://www.googletagmanager.com/gtag/js?id=G-46ELV7K7Q9"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
 
@@ -92,7 +103,7 @@
         gtag('js', new Date());
 
         gtag('config', 'G-46ELV7K7Q9');
-    </script>
+    </script> --}}
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4762845598503420"
         crossorigin="anonymous"></script>
 </head>
