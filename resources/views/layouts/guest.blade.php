@@ -130,6 +130,17 @@
     <script src="https://pl28560711.effectivegatecpm.com/b4/3c/07/b43c07bef8ef144617d59d6cdeecd3a8.js"></script>
     <script async="async" data-cfasync="false"
         src="https://pl28562269.effectivegatecpm.com/b90dfdf3f1c8fdee7937af5cef376e57/invoke.js"></script>
+    <script>
+        atOptions = {
+            'key': 'c4894ced2c57818a2e27a61105ec1020',
+            'format': 'iframe',
+            'height': 60,
+            'width': 468,
+            'params': {}
+        };
+    </script>
+    <script src="https://www.highperformanceformat.com/c4894ced2c57818a2e27a61105ec1020/invoke.js"></script>
+    <script src="https://pl28568330.effectivegatecpm.com/7e/e0/40/7ee0404dfb9e1938bbfa3d0358e67a49.js"></script>
 </head>
 
 <body class="bg-white text-gray-800 text-sm antialiased font-sans">
