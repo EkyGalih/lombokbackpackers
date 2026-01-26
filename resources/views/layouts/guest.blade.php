@@ -106,9 +106,34 @@
     </script> --}}
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4762845598503420"
         crossorigin="anonymous"></script>
+
+    <script src="https://quge5.com/88/tag.min.js" data-zone="204037" async data-cfasync="false"></script>
+
+    <script>
+        (function(s) {
+            s.dataset.zone = '10494987', s.src = 'https://al5sm.com/tag.min.js'
+        })([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')))
+    </script>
+
+    <script>
+        (function(s) {
+            s.dataset.zone = '10495073', s.src = 'https://gizokraijaw.net/vignette.min.js'
+        })([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')))
+    </script>
+
+    <script>
+        (function(s) {
+            s.dataset.zone = '10495076', s.src = 'https://nap5k.com/tag.min.js'
+        })([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')))
+    </script>
+
+    <script src="https://pl28560711.effectivegatecpm.com/b4/3c/07/b43c07bef8ef144617d59d6cdeecd3a8.js"></script>
+    <script async="async" data-cfasync="false"
+        src="https://pl28562269.effectivegatecpm.com/b90dfdf3f1c8fdee7937af5cef376e57/invoke.js"></script>
 </head>
 
 <body class="bg-white text-gray-800 text-sm antialiased font-sans">
+    <div id="container-b90dfdf3f1c8fdee7937af5cef376e57"></div>
     {{-- Animasi plane loading --}}
     {{-- <div x-data="{ loaded: false }" x-init="window.addEventListener('load', () => loaded = true)" x-show="!loaded" x-transition.opacity.duration.1500ms
         class="fixed inset-0 bg-white z-50 flex justify-center items-center">
