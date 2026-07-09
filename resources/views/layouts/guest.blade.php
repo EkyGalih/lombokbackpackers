@@ -107,7 +107,7 @@
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4762845598503420"
         crossorigin="anonymous"></script>
 
-    <script src="https://quge5.com/88/tag.min.js" data-zone="204037" async data-cfasync="false"></script>
+    {{-- <script src="https://quge5.com/88/tag.min.js" data-zone="204037" async data-cfasync="false"></script>
 
     <script>
         (function(s) {
@@ -140,7 +140,7 @@
         };
     </script>
     <script src="https://www.highperformanceformat.com/c4894ced2c57818a2e27a61105ec1020/invoke.js"></script>
-    <script src="https://pl28568330.effectivegatecpm.com/7e/e0/40/7ee0404dfb9e1938bbfa3d0358e67a49.js"></script>
+    <script src="https://pl28568330.effectivegatecpm.com/7e/e0/40/7ee0404dfb9e1938bbfa3d0358e67a49.js"></script> --}}
 </head>
 
 <body class="bg-white text-gray-800 text-sm antialiased font-sans">

@@ -98,6 +98,11 @@ class PaymentResource extends Resource
         ];
     }
 
+    public static function getEloquentQuery(): Builder
+    {
+        return parent::getEloquentQuery()->with(['booking.user', 'media']);
+    }
+
     public static function shouldRegisterNavigation(): bool
     {
         return false;

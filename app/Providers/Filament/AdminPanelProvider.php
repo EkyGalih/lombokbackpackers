@@ -65,10 +65,10 @@ class AdminPanelProvider extends PanelProvider
                 Pages\Dashboard::class,
             ])
             ->navigationGroups([
-                'Catalog',
-                'Menu',
-                'Transactions',
-                'Settings'
+                __('Catalog'),
+                __('Menu'),
+                __('Transactions'),
+                __('Settings')
             ])
             ->discoverWidgets(in: app_path('Filament/Widgets'), for: 'App\\Filament\\Widgets')
             ->widgets([
@@ -95,15 +95,16 @@ class AdminPanelProvider extends PanelProvider
             ->plugins([
                 ThemesPlugin::make(),
                 CuratorPlugin::make()
-                    ->label('Media Library')
-                    ->pluralLabel('Media Library')
+                    ->label(__('Media Library'))
+                    ->pluralLabel(__('Media Library'))
                     ->navigationIcon('heroicon-o-camera')
-                    ->navigationGroup('Menu')
+                    ->navigationGroup(__('Menu'))
                     ->navigationSort(6),
                 \Biostate\FilamentMenuBuilder\FilamentMenuBuilderPlugin::make(),
                 FilamentPeekPlugin::make()
                     ->disablePluginStyles(),
-                \BezhanSalleh\FilamentGoogleAnalytics\FilamentGoogleAnalyticsPlugin::make()
+                \BezhanSalleh\FilamentGoogleAnalytics\FilamentGoogleAnalyticsPlugin::make(),
+                \Filament\SpatieLaravelTranslatablePlugin::make()->defaultLocales(['en', 'id']),
             ]);
     }
 
@@ -114,7 +115,7 @@ class AdminPanelProvider extends PanelProvider
         });
 
         \Filament\Facades\Filament::serving(function () {
-            MenuResource::navigationGroup('Settings');
+            MenuResource::navigationGroup(__('Settings'));
             MenuItemResource::canViewAny(fn() => false);
         });
     }

@@ -20,5 +20,15 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         app()->setLocale(session('locale', config('app.locale')));
+        \BezhanSalleh\FilamentLanguageSwitch\LanguageSwitch::configureUsing(function (\BezhanSalleh\FilamentLanguageSwitch\LanguageSwitch $switch) {
+            $switch
+                ->locales(['id', 'en'])
+                ->labels([
+                    'id' => '🇮🇩 Indonesia',
+                    'en' => '🇬🇧 English',
+                ])
+                ->circular()
+                ->visible(outsidePanels: true);
+        });
     }
 }

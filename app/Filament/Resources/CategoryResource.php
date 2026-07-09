@@ -14,17 +14,32 @@ use Filament\Tables;
 use Filament\Forms\Components\Toggle;
 use Filament\Tables\Columns\ImageColumn;
 use Filament\Tables\Table;
+use Filament\Resources\Concerns\Translatable;
 
 class CategoryResource extends Resource
 {
+    use Translatable;
+
     protected static ?string $model = Category::class;
 
     protected static ?string $navigationGroup = 'Catalog';
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-group';
-    protected static ?string $navigationLabel = 'Categories';
-    protected static ?string $modelLabel = 'Categories';
-    protected static ?string $pluralModelLabel = 'Category';
     protected static ?int $navigationSort = 1;
+
+    public static function getNavigationLabel(): string
+    {
+        return __('Categories');
+    }
+
+    public static function getModelLabel(): string
+    {
+        return __('Category');
+    }
+
+    public static function getPluralModelLabel(): string
+    {
+        return __('Categories');
+    }
 
     public static function form(Form $form): Form
     {
@@ -33,50 +48,32 @@ class CategoryResource extends Resource
                 ->schema([
                     TextInput::make('name')
                         ->columnSpan(8)
-                        ->formatStateUsing(function ($state) {
-                            if (is_array($state)) {
-                                return $state[app()->getLocale()] ?? '';
-                            }
-                            return $state;
-                        })
                         ->required()
                         ->live(onBlur: false),
                     TextInput::make('order')
-                        ->label('Priority')
+                        ->label(__('Priority'))
                         ->columnSpan(4)
                         ->numeric()
                         ->default(fn() => (Category::max('order') ?? 0) + 1),
                 ]),
             RichEditor::make('overview')
-                ->label('Description')
-                ->formatStateUsing(function ($state) {
-                    if (is_array($state)) {
-                        return $state[app()->getLocale()] ?? '';
-                    }
-                    return $state;
-                })
+                ->label(__('Description'))
                 ->live(onBlur: false)
                 ->columnSpanFull(),
             RichEditor::make('description')
-                ->label('Content')
+                ->label(__('Content'))
                 ->columnSpanFull()
-                ->formatStateUsing(function ($state) {
-                    if (is_array($state)) {
-                        return $state[app()->getLocale()] ?? '';
-                    }
-                    return $state;
-                })
                 ->live(onBlur: false),
             Grid::make(12)
                 ->schema([
                     CuratorPicker::make('media')
-                        ->label('Thumbnail')
+                        ->label(__('Thumbnail'))
                         ->preserveFilenames()
                         ->acceptedFileTypes(['image/*'])
                         ->columnSpan(6)
                         ->multiple(),
                     Toggle::make('show_to_home')
-                        ->label('Show To Home?')
+                        ->label(__('Show To Home?'))
                         ->inline(false)
                         ->columnSpan(6)
                         ->onColor('success')
@@ -93,21 +90,21 @@ class CategoryResource extends Resource
         return $table
             ->columns([
                 ImageColumn::make('media.0.path')
-                    ->label('Thumbnail')
+                    ->label(__('Thumbnail'))
                     ->disk('public')
                     ->size(56),
                 Tables\Columns\TextColumn::make('name')->sortable()->searchable(),
                 Tables\Columns\TextColumn::make('slug')->sortable()->searchable(),
                 Tables\Columns\TextColumn::make('show_to_home')
-                    ->label('Show To Home')
+                    ->label(__('Show To Home'))
                     ->badge()
                     ->colors([
                         'false' => 'secondary',
                         'true' => 'success',
                     ])
-                    ->formatStateUsing(fn($state) => $state ? 'Yes' : 'No'),
+                    ->formatStateUsing(fn($state) => $state ? __('Yes') : __('No')),
                 Tables\Columns\TextColumn::make('order')
-                    ->label('Priority'),
+                    ->label(__('Priority')),
             ])
             ->filters([
                 //
@@ -141,6 +138,6 @@ class CategoryResource extends Resource
 
     public static function getEloquentQuery(): \Illuminate\Database\Eloquent\Builder
     {
-        return parent::getEloquentQuery()->orderBy('order');
+        return parent::getEloquentQuery()->with('media')->orderBy('order');
     }
 }

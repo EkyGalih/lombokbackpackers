@@ -4,98 +4,100 @@
 
 <x-guest-layout>
     <x-slot name="nav">
-        <div x-data="{ scrolled: false, open: false }" @scroll.window="scrolled = window.scrollY > 50">
-
-            {{-- ✅ TOP BAR (ikut berubah saat scroll) --}}
-            <div :class="scrolled ? 'bg-white text-gray-900 border-b border-gray-200' : 'bg-transparent text-white'"
-                class="text-sm py-2 px-4 fixed top-0 left-0 right-0 z-50 transition-colors duration-300">
-                <div class="container mx-auto flex justify-between items-start">
-                    <div class="flex flex-col sm:items-start items-start text-left sm:text-left">
-                        <div>✉️ {{ app(\App\Settings\WebsiteSettings::class)->contact_email ?? 'info@travelnesia.com' }}
+        <header x-data="{ scrolled: false, open: false }" @scroll.window="scrolled = window.scrollY > 50"
+            :class="scrolled ? 'bg-white text-gray-900 shadow-md' : 'bg-transparent text-white'"
+            class="fixed top-0 left-0 right-0 z-50 transition-all duration-300">
+            
+            {{-- ✅ TOP BAR (Visible on Desktop only) --}}
+            <div :class="scrolled ? 'border-b border-gray-100' : 'border-b border-white/20'" 
+                class="hidden lg:block transition-colors duration-300">
+                <div class="container mx-auto px-6 py-2 flex justify-between items-center text-xs font-medium tracking-wide">
+                    <div class="flex items-center space-x-6">
+                        <div class="flex items-center space-x-2 hover:text-amber-500 transition cursor-pointer">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
+                            <span>{{ app(\App\Settings\WebsiteSettings::class)->contact_email ?? 'info@travelnesia.com' }}</span>
                         </div>
-                        <div>📞 {{ app(\App\Settings\WebsiteSettings::class)->contact_phone ?? '0812-3456-7890' }}</div>
+                        <div class="flex items-center space-x-2 hover:text-amber-500 transition cursor-pointer">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path></svg>
+                            <span>{{ app(\App\Settings\WebsiteSettings::class)->contact_phone ?? '0812-3456-7890' }}</span>
+                        </div>
                     </div>
-                    <div class="space-x-2">
-                        <a href="{{ route('lang.switch', 'id') }}"
-                            :class="scrolled ?
-                                'bg-gradient-to-br from-red-600 to-white bg-clip-text text-transparent font-bold underline' :
-                                'bg-gradient-to-b from-red-600 to-white bg-clip-text text-transparent font-bold underline'"
-                            class="transition-colors duration-300 {{ app()->getLocale() == 'id' ? 'font-bold underline' : '' }}">ID</a>
-                        |
-                        <a href="{{ route('lang.switch', 'en') }}"
-                            :class="scrolled ?
-                                'bg-gradient-to-br from-blue-900 via-white to-red-600 bg-clip-text text-transparent font-bold underline' :
-                                'bg-gradient-to-br from-blue-900 via-white to-red-600 bg-clip-text text-transparent font-bold underline'"
-                            class="transition-colors duration-300 {{ app()->getLocale() == 'en' ? 'font-bold underline' : '' }}">EN</a>
+                    <div class="flex items-center space-x-4">
+                        <a href="{{ route('lang.switch', 'id') }}" 
+                            class="flex items-center space-x-1.5 hover:text-amber-500 transition-colors {{ app()->getLocale() == 'id' ? 'text-amber-500 font-bold' : '' }}">
+                            <span class="text-base">🇮🇩</span> <span>ID</span>
+                        </a>
+                        <span class="opacity-30">|</span>
+                        <a href="{{ route('lang.switch', 'en') }}" 
+                            class="flex items-center space-x-1.5 hover:text-amber-500 transition-colors {{ app()->getLocale() == 'en' ? 'text-amber-500 font-bold' : '' }}">
+                            <span class="text-base">🇬🇧</span> <span>EN</span>
+                        </a>
                     </div>
                 </div>
             </div>
 
-            {{-- ✅ NAVBAR --}}
-            <header :class="scrolled ? 'bg-white text-gray-900 shadow' : 'bg-transparent text-white'"
-                class="fixed top-[44px] left-0 right-0 z-40 transition-colors duration-300">
-                <div class="container mx-auto flex justify-between items-center px-6 py-4">
-                    {{-- Logo --}}
-                    <a href="/" class="flex items-center space-x-3 text-1xl font-bold">
-                        <img src="{{ asset('storage/' . app(\App\Settings\WebsiteSettings::class)->site_logo) }}"
-                            class="h-10 w-10 object-cover rounded-full bg-white" />
-                        <span>{{ app(\App\Settings\WebsiteSettings::class)->site_name }}</span>
-                    </a>
+            {{-- ✅ MAIN NAVBAR --}}
+            <div class="container mx-auto flex justify-between items-center px-6 py-3 lg:py-4">
+                {{-- Logo --}}
+                <a href="/" class="flex items-center space-x-3 text-xl font-bold tracking-tight hover:opacity-80 transition-opacity">
+                    <img src="{{ asset('storage/' . app(\App\Settings\WebsiteSettings::class)->site_logo) }}"
+                        class="h-10 w-10 md:h-12 md:w-12 object-cover rounded-full bg-white shadow-sm" alt="Logo" />
+                    <span>{{ app(\App\Settings\WebsiteSettings::class)->site_name }}</span>
+                </a>
 
-                    {{-- Menu Desktop --}}
-                    <div class="hidden lg:flex space-x-8 items-center">
-                        @if ($menu->isNotEmpty())
-                            <ul class="flex space-x-4">
-                                @foreach ($menu as $item)
-                                    <x-menu-item :item="$item" :depth="0" :isMobile="false" />
-                                @endforeach
-                            </ul>
-                        @endif
-                        <x-booking-modal buttonClass="w-32" />
-                    </div>
-
-                    {{-- Hamburger Mobile --}}
-                    <button @click="open = !open" :class="scrolled ? 'text-gray-900' : 'text-white'"
-                        class="lg:hidden p-2 focus:outline-none transition-colors duration-300">
-                        <svg x-show="!open" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M4 6h16M4 12h16M4 18h16" />
-                        </svg>
-                        <svg x-show="open" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M6 18L18 6M6 6l12 12" />
-                        </svg>
-                    </button>
-                </div>
-
-                {{-- Mobile Menu --}}
-                <div x-show="open" x-transition @click.away="open = false"
-                    class="lg:hidden px-6 pb-4 pt-2 space-y-2 bg-white text-gray-800 rounded-b-lg shadow">
+                {{-- Menu Desktop --}}
+                <div class="hidden lg:flex space-x-8 items-center font-medium">
                     @if ($menu->isNotEmpty())
-                        <ul class="space-y-2">
+                        <ul class="flex space-x-6 items-center">
                             @foreach ($menu as $item)
-                                <x-menu-item :item="$item" :depth="0" :isMobile="true" />
+                                <x-menu-item :item="$item" :depth="0" :isMobile="false" />
                             @endforeach
                         </ul>
                     @endif
-
-                    {{-- @guest
-                            <a href="{{ route('login') }}"
-                                class="block py-2 px-3 rounded-lg hover:bg-cyan-600 hover:text-cyan-200 transition">
-                                Masuk
-                            </a> --}}
-
-                    {{-- @else
-                            <a href="{{ route('profile.edit') }}"
-                                class="block bg-cyan-300 text-orange-950 px-5 py-2 rounded-lg mt-2 hover:bg-cyan-600 text-center shadow transition">
-                                My Account
-                            </a>
-                            @endguest --}}
-                    <x-booking-modal buttonClass="w-full sm:w-32" />
+                    <x-booking-modal buttonClass="w-32" />
                 </div>
-            </header>
 
-        </div>
+                {{-- Mobile Controls (Lang Switch + Hamburger) --}}
+                <div class="flex lg:hidden items-center space-x-4">
+                    {{-- Lang Switch Mobile --}}
+                    <div class="flex items-center space-x-2 text-sm font-medium">
+                        <a href="{{ route('lang.switch', 'id') }}" class="hover:text-amber-500 transition-colors {{ app()->getLocale() == 'id' ? 'text-amber-500 font-bold' : '' }}">🇮🇩 ID</a>
+                        <span class="opacity-30">|</span>
+                        <a href="{{ route('lang.switch', 'en') }}" class="hover:text-amber-500 transition-colors {{ app()->getLocale() == 'en' ? 'text-amber-500 font-bold' : '' }}">🇬🇧 EN</a>
+                    </div>
+                    
+                    {{-- Hamburger Mobile --}}
+                    <button @click="open = !open" 
+                        class="p-2 rounded-lg hover:bg-gray-100/10 focus:outline-none transition-colors">
+                        <svg x-show="!open" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                        </svg>
+                        <svg x-show="open" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+
+            {{-- ✅ MOBILE MENU --}}
+            <div x-show="open" x-transition:enter="transition ease-out duration-200" x-transition:enter-start="opacity-0 -translate-y-2" x-transition:enter-end="opacity-100 translate-y-0" x-transition:leave="transition ease-in duration-150" x-transition:leave-start="opacity-100 translate-y-0" x-transition:leave-end="opacity-0 -translate-y-2" @click.away="open = false"
+                class="lg:hidden absolute top-full left-0 right-0 bg-white text-gray-800 rounded-b-2xl shadow-xl border-t border-gray-100 px-6 pb-6 pt-4 space-y-4">
+                @if ($menu->isNotEmpty())
+                    <ul class="space-y-3 font-medium text-lg">
+                        @foreach ($menu as $item)
+                            <x-menu-item :item="$item" :depth="0" :isMobile="true" />
+                        @endforeach
+                    </ul>
+                @endif
+                <div class="pt-4 border-t border-gray-100 mt-2">
+                    <div class="flex items-center space-x-2 mb-4 text-gray-500 text-sm">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path></svg>
+                        <span>{{ app(\App\Settings\WebsiteSettings::class)->contact_phone }}</span>
+                    </div>
+                    <x-booking-modal buttonClass="w-full" />
+                </div>
+            </div>
+        </header>
 
         {{-- SECTION HERO --}}
         <section class="pt-[160px] relative aspect-[3/4] md:aspect-[16/9] overflow-hidden">

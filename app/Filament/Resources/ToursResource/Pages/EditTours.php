@@ -10,8 +10,12 @@ use Filament\Actions\DeleteAction;
 use Filament\Resources\Pages\EditRecord;
 use Illuminate\Support\Str;
 
+use Filament\Resources\Pages\EditRecord\Concerns\Translatable;
+
 class EditTours extends EditRecord
 {
+    use Translatable;
+
     use HasPreview;
 
     protected static string $resource = ToursResource::class;

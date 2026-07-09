@@ -7,8 +7,12 @@ use App\Models\Category;
 use Filament\Resources\Pages\CreateRecord;
 use Illuminate\Support\Str;
 
+use Filament\Resources\Pages\CreateRecord\Concerns\Translatable;
+
 class CreateTours extends CreateRecord
 {
+    use Translatable;
+
     protected static string $resource = ToursResource::class;
 
     protected function mutateFormDataBeforeCreate(array $data): array

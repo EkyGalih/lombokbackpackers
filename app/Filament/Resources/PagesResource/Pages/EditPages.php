@@ -7,8 +7,12 @@ use App\Traits\HasPreview;
 use Filament\Actions;
 use Filament\Resources\Pages\EditRecord;
 
+use Filament\Resources\Pages\EditRecord\Concerns\Translatable;
+
 class EditPages extends EditRecord
 {
+    use Translatable;
+
     use HasPreview;
 
     protected static string $resource = PagesResource::class;

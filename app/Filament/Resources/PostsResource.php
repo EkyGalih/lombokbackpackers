@@ -21,17 +21,32 @@ use Filament\Resources\Resource;
 use Filament\Tables\Columns\ImageColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
+use Filament\Resources\Concerns\Translatable;
 
 class PostsResource extends Resource
 {
+    use Translatable;
+
     protected static ?string $model = Posts::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-newspaper';
     protected static ?string $navigationGroup = 'Menu';
-    protected static ?string $navigationLabel = 'Blog';
-    protected static ?string $modelLabel = 'Blog';
-    protected static ?string $pluralModelLabel = 'Blog';
     protected static ?int $navigationSort = 4;
+
+    public static function getNavigationLabel(): string
+    {
+        return __('Blog');
+    }
+
+    public static function getModelLabel(): string
+    {
+        return __('Blog');
+    }
+
+    public static function getPluralModelLabel(): string
+    {
+        return __('Blog');
+    }
 
     public static function form(Form $form): Form
     {
@@ -44,14 +59,9 @@ class PostsResource extends Resource
                             Grid::make(12)
                                 ->schema([
                                     TextInput::make('title')
+                                        ->label(__('Title'))
                                         ->required()
                                         ->live(onBlur: true)
-                                        ->formatStateUsing(function ($state) {
-                                            if (is_array($state)) {
-                                                return $state[app()->getLocale()] ?? '';
-                                            }
-                                            return $state;
-                                        })
                                         ->afterStateUpdated(function ($state, callable $set) {
                                             // Kalau SEO title masih kosong
                                             $set('seoMeta.meta_title', $state);
@@ -63,20 +73,10 @@ class PostsResource extends Resource
                                         ->columnSpan(12)
                                 ]),
                             RichEditor::make('excerpt')
-                                ->hidden()
-                                ->formatStateUsing(function ($state) {
-                                    if (is_array($state)) {
-                                        return $state[app()->getLocale()] ?? '';
-                                    }
-                                    return $state;
-                                }),
+                                ->label(__('Excerpt'))
+                                ->hidden(),
                             RichEditor::make('content')
-                                ->formatStateUsing(function ($state) {
-                                    if (is_array($state)) {
-                                        return $state[app()->getLocale()] ?? '';
-                                    }
-                                    return $state;
-                                })
+                                ->label(__('Content'))
                                 ->live(onBlur: true)
                                 ->afterStateUpdated(function ($state, callable $set) {
                                     $plainText = strip_tags($state);
@@ -105,11 +105,11 @@ class PostsResource extends Resource
                                     Grid::make(12)
                                         ->schema([
                                             TagsInput::make('tags')
-                                                ->label('Tags')
+                                                ->label(__('Tags'))
                                                 ->dehydrateStateUsing(fn($state) => $state ?? [])
                                                 ->columnSpan(6),
                                             Select::make('category')
-                                                ->label('Category')
+                                                ->label(__('Category'))
                                                 ->options([
                                                     'blog' => 'Blog',
                                                     'stories' => 'Stories',
@@ -122,7 +122,7 @@ class PostsResource extends Resource
                             Grid::make(12)
                                 ->schema([
                                     Toggle::make('status')
-                                        ->label('Published?')
+                                        ->label(__('Published?'))
                                         ->inline(false)
                                         ->onColor('success')
                                         ->offColor('danger')
@@ -131,7 +131,7 @@ class PostsResource extends Resource
                                         ->columnSpan(3)
                                         ->required(),
                                     Toggle::make('is_popular_post')
-                                        ->label('Make a Popular Content?')
+                                        ->label(__('Make a Popular Content?'))
                                         ->inline(false)
                                         ->onColor('success')
                                         ->offColor('danger')
@@ -139,7 +139,7 @@ class PostsResource extends Resource
                                         ->offIcon('heroicon-m-x-mark')
                                         ->columnSpan(3),
                                     CuratorPicker::make('media')
-                                        ->label('Thumbnail')
+                                        ->label(__('Thumbnail'))
                                         ->multiple()
                                         ->columnSpan(6),
                                 ]),
@@ -148,33 +148,15 @@ class PostsResource extends Resource
                         ]),
                         Tab::make('SEO')->schema([
                             TextInput::make('seoMeta.meta_title')
-                                ->formatStateUsing(function ($state) {
-                                    if (is_array($state)) {
-                                        return $state[app()->getLocale()] ?? '';
-                                    }
-                                    return $state;
-                                })
-                                ->label('Meta Title'),
+                                ->label(__('Meta Title')),
                             Textarea::make('seoMeta.meta_description')
-                                ->formatStateUsing(function ($state) {
-                                    if (is_array($state)) {
-                                        return $state[app()->getLocale()] ?? '';
-                                    }
-                                    return $state;
-                                })
-                                ->label('Meta Description'),
+                                ->label(__('Meta Description')),
                             TextInput::make('seoMeta.keywords')
-                                ->formatStateUsing(function ($state) {
-                                    if (is_array($state)) {
-                                        return $state[app()->getLocale()] ?? '';
-                                    }
-                                    return $state;
-                                })
-                                ->label('Keywords'),
-                            TextInput::make('seoMeta.canonical_url')->readOnly()->label('Canonical URL'),
+                                ->label(__('Keywords')),
+                            TextInput::make('seoMeta.canonical_url')->readOnly()->label(__('Canonical URL')),
                             TextInput::make('seoMeta.robots')
                                 ->readOnly()
-                                ->label('Robots')
+                                ->label(__('Robots'))
                                 ->default('index, follow')
                                 ->afterStateHydrated(function (\Filament\Forms\Components\Component $component, $state) {
                                     if (blank($state)) {
@@ -191,17 +173,17 @@ class PostsResource extends Resource
         return $table
             ->query(
                 Posts::query() // ⬅️ ini penting: ambil data dari model Post
-                    ->with(['author']) // eager load relasi
+                    ->with(['author', 'media']) // eager load relasi
             )
             ->columns([
                 ImageColumn::make('media.0.path')
-                    ->label('Thumbnail')
+                    ->label(__('Thumbnail'))
                     ->disk('public')
                     ->size(50),
-                TextColumn::make('title')->searchable(),
-                TextColumn::make('author.name')->label('Author'),
+                TextColumn::make('title')->label(__('Title'))->searchable(),
+                TextColumn::make('author.name')->label(__('Author')),
                 TextColumn::make('status')
-                    ->label('Status')
+                    ->label(__('Status'))
                     ->badge()
                     ->formatStateUsing(fn(bool $state) => $state ? 'published' : 'draft')
                     ->colors([
@@ -209,14 +191,14 @@ class PostsResource extends Resource
                         'published' => 'success',
                     ]),
                 TextColumn::make('is_popular_post')
-                    ->label('Popular Post')
+                    ->label(__('Popular Post'))
                     ->badge()
                     ->formatStateUsing(fn(bool $state) => $state ? 'Yes' : 'No')
                     ->colors([
                         'Yes' => 'success',
                         'No' => 'secondary',
                     ]),
-                TextColumn::make('created_at')->label('Published At')->dateTime(),
+                TextColumn::make('created_at')->label(__('Published At'))->dateTime(),
             ])
             ->filters([
                 //

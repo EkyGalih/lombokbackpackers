@@ -6,8 +6,12 @@ use App\Filament\Resources\PostsResource;
 use Filament\Actions;
 use Filament\Resources\Pages\CreateRecord;
 
+use Filament\Resources\Pages\CreateRecord\Concerns\Translatable;
+
 class CreatePosts extends CreateRecord
 {
+    use Translatable;
+
     protected static string $resource = PostsResource::class;
 
     protected function mutateFormDataBeforeCreate(array $data): array

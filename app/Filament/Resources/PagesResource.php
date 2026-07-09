@@ -24,15 +24,32 @@ use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Filament\Resources\Concerns\Translatable;
 
 class PagesResource extends Resource
 {
+    use Translatable;
+
     protected static ?string $model = ModelPages::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-book-open';
     protected static ?string $navigationGroup = 'Menu';
-    protected static ?string $navigationLabel = 'Pages';
     protected static ?int $navigationSort = 10;
+
+    public static function getNavigationLabel(): string
+    {
+        return __('Pages');
+    }
+
+    public static function getModelLabel(): string
+    {
+        return __('Pages');
+    }
+
+    public static function getPluralModelLabel(): string
+    {
+        return __('Pages');
+    }
 
     public static function form(Form $form): Form
     {
@@ -45,14 +62,9 @@ class PagesResource extends Resource
                             Grid::make(12)
                                 ->schema([
                                     TextInput::make('title')
+                                        ->label(__('Title'))
                                         ->required()
                                         ->live(onBlur: true)
-                                        ->formatStateUsing(function ($state) {
-                                            if (is_array($state)) {
-                                                return $state[app()->getLocale()] ?? '';
-                                            }
-                                            return $state;
-                                        })
                                         ->afterStateUpdated(function ($state, callable $set) {
                                             // Kalau SEO title masih kosong
                                             $set('seoMeta.meta_title', $state);
@@ -63,24 +75,14 @@ class PagesResource extends Resource
                                         })
                                         ->columnSpan(6),
                                     TextInput::make('slug')
+                                        ->label(__('Slug'))
                                         ->readonly()
-                                        ->formatStateUsing(function ($state) {
-                                            if (is_array($state)) {
-                                                return $state[app()->getLocale()] ?? '';
-                                            }
-                                            return $state;
-                                        })
                                         ->columnSpan(6)
                                         ->required()
                                         ->unique(ignoreRecord: true),
                                 ]),
                             RichEditor::make('content')
-                                ->formatStateUsing(function ($state) {
-                                    if (is_array($state)) {
-                                        return $state[app()->getLocale()] ?? '';
-                                    }
-                                    return $state;
-                                })
+                                ->label(__('Content'))
                                 ->live(onBlur: true)
                                 ->afterStateUpdated(function ($state, callable $set) {
                                     $plainText = strip_tags($state);
@@ -107,7 +109,7 @@ class PagesResource extends Resource
                                     Grid::make(12)
                                         ->schema([
                                             CuratorPicker::make('media')
-                                                ->label('Thumbnail')
+                                                ->label(__('Thumbnail'))
                                                 ->multiple()
                                                 ->nullable()
                                                 ->columnSpan(12),
@@ -116,31 +118,13 @@ class PagesResource extends Resource
                         ]),
                         Tab::make('SEO')->schema([
                             TextInput::make('seoMeta.meta_title')
-                                ->formatStateUsing(function ($state) {
-                                    if (is_array($state)) {
-                                        return $state[app()->getLocale()] ?? '';
-                                    }
-                                    return $state;
-                                })
-                                ->label('Meta Title'),
+                                ->label(__('Meta Title')),
                             Textarea::make('seoMeta.meta_description')
-                                ->formatStateUsing(function ($state) {
-                                    if (is_array($state)) {
-                                        return $state[app()->getLocale()] ?? '';
-                                    }
-                                    return $state;
-                                })
-                                ->label('Meta Description'),
+                                ->label(__('Meta Description')),
                             TextInput::make('seoMeta.keywords')
-                                ->formatStateUsing(function ($state) {
-                                    if (is_array($state)) {
-                                        return $state[app()->getLocale()] ?? '';
-                                    }
-                                    return $state;
-                                })
-                                ->label('Keywords'),
-                            TextInput::make('seoMeta.canonical_url')->label('Canonical URL'),
-                            TextInput::make('seoMeta.robots')->label('Robots')->default('index, follow'),
+                                ->label(__('Keywords')),
+                            TextInput::make('seoMeta.canonical_url')->label(__('Canonical URL')),
+                            TextInput::make('seoMeta.robots')->label(__('Robots'))->default('index, follow'),
                         ]),
                     ]),
             ]);
@@ -151,11 +135,11 @@ class PagesResource extends Resource
         return $table
             ->columns([
                 ImageColumn::make('media.0.path')
-                    ->label('Thumbnail')
+                    ->label(__('Thumbnail'))
                     ->disk('public')
                     ->size(50),
-                TextColumn::make('title')->searchable(),
-                TextColumn::make('slug')
+                TextColumn::make('title')->label(__('Title'))->searchable(),
+                TextColumn::make('slug')->label(__('Slug'))
             ])
             ->filters([
                 //
@@ -184,5 +168,10 @@ class PagesResource extends Resource
             'create' => Pages\CreatePages::route('/create'),
             'edit' => Pages\EditPages::route('/{record}/edit'),
         ];
+    }
+
+    public static function getEloquentQuery(): Builder
+    {
+        return parent::getEloquentQuery()->with('media');
     }
 }

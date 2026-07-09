@@ -1,7 +1,7 @@
 <?php
 
 return [
-    'book_now' => 'Pesan Sekarang',
+    'book_now' => 'Book Now',
     'explore' => 'Jelajahi lebih lanjut',
     'offering' => 'Temukan penawaran kami',
     'destination' => 'Jelajahi Semua Destinasi',

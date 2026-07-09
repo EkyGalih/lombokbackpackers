@@ -25,15 +25,32 @@ use Filament\Tables\Actions\DeleteBulkAction;
 use Filament\Tables\Actions\EditAction;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
+use Filament\Resources\Concerns\Translatable;
 
 class ToursResource extends Resource
 {
+    use Translatable;
+
     protected static ?string $model = Tour::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-globe-alt';
     protected static ?string $navigationGroup = 'Catalog';
-    protected static ?string $navigationLabel = 'Tour Packages';
     protected static ?int $navigationSort = 2;
+
+    public static function getNavigationLabel(): string
+    {
+        return __('Tour Packages');
+    }
+
+    public static function getModelLabel(): string
+    {
+        return __('Tour Package');
+    }
+
+    public static function getPluralModelLabel(): string
+    {
+        return __('Tour Packages');
+    }
 
     public static function form(Form $form): Form
     {
@@ -45,35 +62,24 @@ class ToursResource extends Resource
                         Hidden::make('user_id')->default(auth()->id()),
                         Grid::make(12)->schema([
                             TextInput::make('title')
+                                ->label(__('Title'))
                                 ->required()
                                 ->placeholder('e.g: Traveling with us 4 days, 3 nights to komodo island')
                                 ->live(onBlur: true)
                                 ->columnSpan(6)
-                                ->formatStateUsing(function ($state) {
-                                    if (is_array($state)) {
-                                        return $state[app()->getLocale()] ?? '';
-                                    }
-                                    return $state;
-                                })
                                 ->afterStateUpdated(function ($state, callable $set) {
                                     // kalau seo title masih kosong
                                     $set('seoMeta.meta_title', $state);
                                     // set rul seo
                                     $set('seoMeta.canonical_url', url(ENV('APP_URL') . '/tours/' . str($state)->slug()));
                                 }),
-                            TextInput::make('duration')->required()->label('Duration (days and nights)')
+                            TextInput::make('duration')->required()->label(__('Duration (days and nights)'))
                                 ->placeholder('e.g., 3 days 2 nights')
-                                ->formatStateUsing(function ($state) {
-                                    if (is_array($state)) {
-                                        return $state[app()->getLocale()] ?? '';
-                                    }
-                                    return $state;
-                                })
                                 ->columnSpan(6),
                         ]),
                         Grid::make(12)->schema([
                             TextInput::make('category_name')
-                                ->label('Category')
+                                ->label(__('Category'))
                                 ->placeholder('ambil berdasarkan category yang sudah ada atau buat baru')
                                 ->datalist(
                                     Category::pluck('name')->toArray()
@@ -96,7 +102,7 @@ class ToursResource extends Resource
                                     }
                                 }),
                             TextInput::make('order')
-                                ->label('Priority')
+                                ->label(__('Priority'))
                                 ->columnSpan(4)
                                 ->numeric()
                                 ->dehydrated()
@@ -104,13 +110,8 @@ class ToursResource extends Resource
                                 ->default(1)
                         ]),
                         RichEditor::make('description')
+                            ->label(__('Description'))
                             ->columnSpanFull()
-                            ->formatStateUsing(function ($state) {
-                                if (is_array($state)) {
-                                    return $state[app()->getLocale()] ?? '';
-                                }
-                                return $state;
-                            })
                             ->live(onBlur: true)
                             ->afterStateUpdated(function ($state, callable $set) {
                                 $plainText = strip_tags($state);
@@ -130,114 +131,60 @@ class ToursResource extends Resource
                                 $set('seoMeta.meta_description', $seoDesc);
                                 $set('seoMeta.keywords', $words);
                             })
-                            ->required()
-                            ->label('Description'),
+                            ->required(),
                         Grid::make(12)->schema([
                             RichEditor::make('notes')
                                 ->columnSpan(6)
-                                ->formatStateUsing(function ($state) {
-                                    if (is_array($state)) {
-                                        return $state[app()->getLocale()] ?? '';
-                                    }
-                                    return $state;
-                                })
-                                ->label('Notes'),
+                                ->label(__('Notes')),
                             RichEditor::make('itinerary')
                                 ->columnSpan(6)
-                                ->formatStateUsing(function ($state) {
-                                    if (is_array($state)) {
-                                        return $state[app()->getLocale()] ?? '';
-                                    }
-                                    return $state;
-                                })
-                                ->label('Itinerary'),
+                                ->label(__('Itinerary')),
                         ]),
                         Grid::make(12)->schema([
                             RichEditor::make('include')
-                                ->label('Include')
-                                ->formatStateUsing(function ($state) {
-                                    if (is_array($state)) {
-                                        return $state[app()->getLocale()] ?? '';
-                                    }
-                                    return $state;
-                                })
+                                ->label(__('Include'))
                                 ->columnSpan(6),
                             RichEditor::make('exclude')
-                                ->label('Exclude')
-                                ->formatStateUsing(function ($state) {
-                                    if (is_array($state)) {
-                                        return $state[app()->getLocale()] ?? '';
-                                    }
-                                    return $state;
-                                })
+                                ->label(__('Exclude'))
                                 ->columnSpan(6),
                         ]),
                         CuratorPicker::make('media')
-                            ->label('Thumbnail')
+                            ->label(__('Thumbnail'))
                             ->relationship('media', 'id')
                             ->multiple()
                     ]),
                     Tab::make('Packet')->schema([
                         Repeater::make('packet')
-                            ->label('Packets')
+                            ->label(__('Packets'))
                             ->schema([
                                 TextInput::make('value')
-                                    ->label('Packet (Price & Person)')
+                                    ->label(__('Packet (Price & Person)'))
                                     ->placeholder('e.g: 1 Person - 500.000 or 1 pack - 1.000.000')
                                     ->required(),
                             ])
-                            ->formatStateUsing(function ($state) {
-                                if (! $state || !is_array($state)) {
-                                    return [['value' => '']];
-                                }
-
-                                if (isset($state[app()->getLocale()])) {
-                                    return $state[app()->getLocale()];
-                                }
-
-                                return [['value' => '']];
-                            })
                             ->minItems(1)
                             ->defaultItems(1)
                             ->collapsible()
                             ->required(),
                         Grid::make(12)->schema([
                             TextInput::make('discount')
-                                ->numeric()->prefix('Rp')->label('Discount')
+                                ->numeric()->prefix('Rp')->label(__('Discount'))
                                 ->columnSpan(4),
                             DatePicker::make('discount_start')
-                                ->label('Start')->columnSpan(4),
+                                ->label(__('Start'))->columnSpan(4),
                             DatePicker::make('discount_end')
-                                ->label('End')->columnSpan(4),
+                                ->label(__('End'))->columnSpan(4),
                         ]),
                     ]),
                     Tab::make('SEO')->schema([
                         TextInput::make('seoMeta.meta_title')
-                            ->formatStateUsing(function ($state) {
-                                if (is_array($state)) {
-                                    return $state[app()->getLocale()] ?? '';
-                                }
-                                return $state;
-                            })
-                            ->label('Meta Title'),
+                            ->label(__('Meta Title')),
                         Textarea::make('seoMeta.meta_description')
-                            ->formatStateUsing(function ($state) {
-                                if (is_array($state)) {
-                                    return $state[app()->getLocale()] ?? '';
-                                }
-                                return $state;
-                            })
-                            ->label('Meta Description'),
+                            ->label(__('Meta Description')),
                         TextInput::make('seoMeta.keywords')
-                            ->formatStateUsing(function ($state) {
-                                if (is_array($state)) {
-                                    return $state[app()->getLocale()] ?? '';
-                                }
-                                return $state;
-                            })
-                            ->label('Keywords'),
-                        TextInput::make('seoMeta.canonical_url')->label('Canonical URL'),
-                        TextInput::make('seoMeta.robots')->label('Robots')->default('index, follow'),
+                            ->label(__('Keywords')),
+                        TextInput::make('seoMeta.canonical_url')->label(__('Canonical URL')),
+                        TextInput::make('seoMeta.robots')->label(__('Robots'))->default('index, follow'),
                     ]),
                 ]),
         ]);
@@ -247,11 +194,11 @@ class ToursResource extends Resource
     {
         return $table->columns([
             Tables\Columns\ImageColumn::make('media.0.path')
-                ->label('Thumbnail')
+                ->label(__('Thumbnail'))
                 ->disk('public')
                 ->size(60),
-            TextColumn::make('title')->sortable()->searchable(),
-            TextColumn::make('category.name')->label('Kategori')->sortable(),
+            TextColumn::make('title')->label(__('Title'))->sortable()->searchable(),
+            TextColumn::make('category.name')->label(__('Category'))->sortable(),
             // TextColumn::make('packet')
             //     ->label('Packets')
             //     ->getStateUsing(fn($record) => $record->packet)
@@ -266,8 +213,8 @@ class ToursResource extends Resource
             //     })
             //     ->wrap()
             //     ->limit(50),
-            TextColumn::make('duration')->label('Durasi (hari)'),
-            TextColumn::make('order')->label('Priority'),
+            TextColumn::make('duration')->label(__('Duration (days)')),
+            TextColumn::make('order')->label(__('Priority')),
         ])
             ->actions([
                 EditAction::make(),
@@ -302,7 +249,7 @@ class ToursResource extends Resource
     public static function getEloquentQuery(): Builder
     {
         return parent::getEloquentQuery()
-            ->with('category')
+            ->with(['category', 'media'])
             ->orderBy(Category::select('order')->whereColumn('categories.id', 'tours.category_id'))
             ->orderBy('order');
     }

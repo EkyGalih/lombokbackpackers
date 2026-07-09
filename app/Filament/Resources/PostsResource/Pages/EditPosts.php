@@ -7,8 +7,12 @@ use App\Traits\HasPreview;
 use Filament\Actions;
 use Filament\Resources\Pages\EditRecord;
 
+use Filament\Resources\Pages\EditRecord\Concerns\Translatable;
+
 class EditPosts extends EditRecord
 {
+    use Translatable;
+
 
     use HasPreview;
 

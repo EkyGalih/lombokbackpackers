@@ -16,44 +16,49 @@ use Filament\Tables\Actions\EditAction;
 use Filament\Tables\Columns\ImageColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
+use Filament\Resources\Concerns\Translatable;
 
 class SlideResource extends Resource
 {
+    use Translatable;
+
     protected static ?string $model = Slides::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
     protected static ?string $navigationGroup = 'Menu';
-    protected static ?string $navigationLabel = 'Slides';
     protected static ?int $navigationSort = 6;
+
+    public static function getNavigationLabel(): string
+    {
+        return __('Slides');
+    }
+
+    public static function getModelLabel(): string
+    {
+        return __('Slide');
+    }
+
+    public static function getPluralModelLabel(): string
+    {
+        return __('Slides');
+    }
 
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
                 TextInput::make('title')
-                    ->label('Title')
+                    ->label(__('Title'))
                     ->required()
-                    ->columnSpanFull()
-                    ->formatStateUsing(function ($state) {
-                        if (is_array($state)) {
-                            return $state[app()->getLocale()] ?? '';
-                        }
-                        return $state;
-                    }),
+                    ->columnSpanFull(),
                 Grid::make(12)
                     ->schema([
                         RichEditor::make('description')
-                            ->label('Description')
+                            ->label(__('Description'))
                             ->columnSpan(6)
-                            ->required()
-                            ->formatStateUsing(function ($state) {
-                                if (is_array($state)) {
-                                    return $state[app()->getLocale()] ?? '';
-                                }
-                                return $state;
-                            }),
+                            ->required(),
                         CuratorPicker::make('media')
-                            ->label('Slide Images')
+                            ->label(__('Slide Images'))
                             ->multiple()
                             ->required()
                             ->columnSpan(6)
@@ -66,16 +71,16 @@ class SlideResource extends Resource
         return $table
             ->columns([
                 ImageColumn::make('media.0.path')
-                    ->label('Thumbnail')
+                    ->label(__('Thumbnail'))
                     ->size(100, 100)
                     ->square()
                     ->default('https://via.placeholder.com/100'),
                 TextColumn::make('title')
-                    ->label('Title')
+                    ->label(__('Title'))
                     ->searchable()
                     ->sortable(),
                 TextColumn::make('description')
-                    ->label('Description')
+                    ->label(__('Description'))
                     ->searchable()
                     ->limit(50)
                     ->html()
@@ -109,5 +114,10 @@ class SlideResource extends Resource
             'create' => Pages\CreateSlide::route('/create'),
             'edit' => Pages\EditSlide::route('/{record}/edit'),
         ];
+    }
+
+    public static function getEloquentQuery(): \Illuminate\Database\Eloquent\Builder
+    {
+        return parent::getEloquentQuery()->with('media');
     }
 }
